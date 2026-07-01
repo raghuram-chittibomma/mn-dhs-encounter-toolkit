@@ -7,10 +7,8 @@
 > [`KNOWN_LIMITATIONS.md`](../KNOWN_LIMITATIONS.md) for every place a source
 > document was ambiguous or incomplete and how that was resolved.
 >
-> The original proposal (as presented for approval) is preserved verbatim at
-> `~/.cursor/plans/mn_dhs_encounter_edi_toolkit_c9f572c0.plan.md`; this file
-> is the version of record going forward and should be updated if the
-> architecture changes, since the plan file itself is not meant to be edited.
+> The pre-implementation architecture proposal is reflected in the initial git
+> history (from 2026-06-30). This file is the version of record going forward.
 
 ## Confirmed architecture decisions
 

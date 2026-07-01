@@ -136,17 +136,6 @@ Upload `examples/err_missing_umpi.x12` → finding `L3-BILLING-UMPI-REQUIRED` wi
 
 ## What I would do next
 
-1. **GitHub Actions** — pytest on every push; coverage badge
-2. **AK302 fidelity** — segment position in deterministic 999s
-3. **DHS accordion PDFs** — encounter-specific 999 naming and 835E remark codes (browser retrieval)
-4. **Optional FastAPI** — read-only validate endpoint for pipeline integration
-
----
-
-## Resume bullet
-
-Built a Python toolkit to accelerate Minnesota Medicaid MCO encounter EDI testing:
-four-layer 837P/837I validation with DHS-traceable rules, seeded synthetic scenario
-generation, 999/835E response preview, and a Streamlit QA UI — enabling sub-second
-local feedback loops and CI regression without MN–ITS round-trips (158 tests;
-stdlib-only core).
+1. **AK302 fidelity** — segment position in deterministic 999s
+2. **DHS accordion PDFs** — encounter-specific 999 naming and 835E remark codes (browser retrieval)
+3. **Optional FastAPI** — read-only validate endpoint for pipeline integration

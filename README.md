@@ -3,8 +3,8 @@
 **Cut encounter-file QA from days to seconds** — generate, validate, and preview DHS
 837P/837I responses locally before MN–ITS submission.
 
+[![CI](https://github.com/raghuram-chittibomma/mn-dhs-encounter-toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/raghuram-chittibomma/mn-dhs-encounter-toolkit/actions/workflows/ci.yml)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
-[![Tests](https://img.shields.io/badge/tests-158%20passing-brightgreen.svg)](tests/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 | | |
@@ -371,6 +371,8 @@ KNOWN_LIMITATIONS.md   Every source-document gap and stubbed/ambiguous rule, wit
 ```bash
 pytest
 ```
+
+CI runs on [GitHub Actions](.github/workflows/ci.yml) for Python 3.11 and 3.12 on every push and pull request to `main`.
 
 Tests build fixtures by calling the generator's own functions directly
 (never by shelling out to the CLI for fixture creation); CLI behavior
