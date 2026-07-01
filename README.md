@@ -60,11 +60,13 @@ custom, dependency-free X12 engine.
 
 ### Screenshots
 
-| Validate 837 — claim-grouped findings | Validation layers — rule catalog |
+Captured after real UI actions (see [`docs/images/README.md`](docs/images/README.md) to regenerate).
+
+| Validate 837 — error finding on upload | Validation layers — UMPI search results |
 |:---:|:---:|
 | ![Validate 837](docs/images/validate_837.png) | ![Validation layers](docs/images/validation_layers.png) |
 
-| Scenario lab | Generate 999 |
+| Scenario lab — batch generated | Generate 999 — preview after upload |
 |:---:|:---:|
 | ![Scenario lab](docs/images/scenario_lab.png) | ![Generate 999](docs/images/generate_999.png) |
 
