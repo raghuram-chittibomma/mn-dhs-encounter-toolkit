@@ -47,13 +47,19 @@ implementation began (custom X12 engine, four independent validation layers,
 reconciled against what was actually built. Update it if the architecture
 changes.
 
+## Peer review tracker
+
+[`docs/PEER_REVIEW_ACTION_PLAN.md`](docs/PEER_REVIEW_ACTION_PLAN.md) tracks
+findings from external code review and their resolution status.
+
 ## Source documents
 
 Every Layer 3 validation rule and every writer mapping comment cites the
 exact page/loop/segment of a source document in `docs/reference/` (see
-`docs/reference/DOCUMENT_INDEX.md`). Where a document gap exists (e.g. no
-confirmed UMPI format, or no DHS-specific 835E structural spec), the
-relevant code carries a `# TODO: AMBIGUOUS IN SOURCE` /
+[`docs/reference/DOCUMENT_INDEX.md`](docs/reference/DOCUMENT_INDEX.md) for the
+full audit trail, including which modules and rule IDs cite each PDF).
+Where a document gap exists (e.g. no confirmed UMPI format, or no DHS-specific
+835E structural spec), the relevant code carries a `# TODO: AMBIGUOUS IN SOURCE` /
 `# TODO: VERIFY AGAINST [doc]` comment, and the gap is tracked in
 [`KNOWN_LIMITATIONS.md`](KNOWN_LIMITATIONS.md).
 

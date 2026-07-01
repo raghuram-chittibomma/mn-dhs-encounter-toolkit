@@ -5,6 +5,7 @@ from mn_encounter_toolkit.validator.layer3_dhs_rules import (
     rule_diagnosis_principal_qualifier,
     rule_epsdt_nu_when_no_referral,
     rule_line_paid_amount_not_negative,
+    rule_line_paid_amount_required_837i,
     rule_line_paid_amount_required_837p,
     rule_member_id_eight_digits,
     rule_payer_name_fixed,
@@ -131,6 +132,24 @@ def test_rule_line_paid_amount_required_837p_passes_with_ref_9d():
         "LX*1", "SV1*HC:99213*100.00*UN*1***1", "REF*9D*80.00",
     )
     assert rule_line_paid_amount_required_837p(doc) == []
+
+
+def test_rule_line_paid_amount_required_837i_fails_without_ref_9c():
+    doc = make_doc(
+        "HL*1**20*1", "HL*2*1*22*0", "CLM*ENC1*100.00***1:B:1*Y*A*Y*Y", "HI*ABK:F1120",
+        "LX*1", "SV2*0450*HC:99223*100.00",
+    )
+    findings = rule_line_paid_amount_required_837i(doc)
+    assert len(findings) == 1
+    assert findings[0].rule_id == "L3-LINE-PAID-AMOUNT-REQUIRED-837I"
+
+
+def test_rule_line_paid_amount_required_837i_passes_with_ref_9c():
+    doc = make_doc(
+        "HL*1**20*1", "HL*2*1*22*0", "CLM*ENC1*100.00***1:B:1*Y*A*Y*Y", "HI*ABK:F1120",
+        "LX*1", "SV2*0450*HC:99223*100.00", "REF*9C*80.00",
+    )
+    assert rule_line_paid_amount_required_837i(doc) == []
 
 
 def test_rule_line_paid_amount_not_negative_fails_for_negative_value():

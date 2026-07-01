@@ -438,6 +438,13 @@ def write_batch_checked(
     requested scenario name starts with "err_".
     """
     if not allow_inconsistent:
+        err_names = [e.scenario_name for e in encounters if (e.scenario_name or "").startswith("err_")]
+        if err_names:
+            listed = ", ".join(err_names)
+            raise InconsistentEncounterError(
+                f"Refusing to write err_* scenario(s) ({listed}) without allow_inconsistent=True. "
+                "These fixtures intentionally violate validation rules."
+            )
         for encounter in encounters:
             issues = find_inconsistencies(encounter)
             if issues:

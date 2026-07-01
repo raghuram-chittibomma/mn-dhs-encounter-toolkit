@@ -358,6 +358,34 @@ def rule_line_paid_amount_required_837p(doc: ParsedDocument) -> list[Finding]:
 
 
 @LAYER3.register(
+    "L3-LINE-PAID-AMOUNT-REQUIRED-837I",
+    "837I claims must report the MCO-paid amount at the line level (REF*9C) on at least one service line.",
+    source_citation="dhs_837_encounter_companion_guide.pdf p.89-90, Appendix -- Paid Amount and "
+    "Allowed Amount Rules: '837I -- individual paid amounts are at line level.'",
+)
+def rule_line_paid_amount_required_837i(doc: ParsedDocument) -> list[Finding]:
+    findings = []
+    for block in doc.claim_blocks():
+        if _claim_type(block) != "837I":
+            continue
+        refs_9c = [r for r in block.find("REF") if r.el_str(1) == "9C"]
+        if not refs_9c:
+            clm = block.clm()
+            findings.append(
+                Finding(
+                    "error",
+                    3,
+                    "L3-LINE-PAID-AMOUNT-REQUIRED-837I",
+                    f"837I claim {clm.el_str(1) if clm else block.hl_subscriber_id!r} has no "
+                    "line-level REF*9C paid amount on any service line.",
+                    segment_id="REF",
+                    source_citation="dhs_837_encounter_companion_guide.pdf p.89-90",
+                )
+            )
+    return findings
+
+
+@LAYER3.register(
     "L3-LINE-PAID-AMOUNT-NOT-NEGATIVE",
     "Line-level paid/allowed amounts (REF*9D/9C paid, REF*9B/9A allowed) must not be negative.",
     source_citation="dhs_837_encounter_companion_guide.pdf p.89-90, Appendix -- Paid Amount and Allowed "

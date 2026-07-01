@@ -172,6 +172,7 @@ def render_999(
     isa_control_number: int = 1,
     receiver_id: str = "411674742",
     submission_date: _dt.date | None = None,
+    submission_time: str = "0800",
 ) -> str:
     """Render the 999 response text. `receiver_id` here is the *999's*
     sender -- i.e. whoever validated the original file (DHS/MN-ITS in
@@ -189,7 +190,7 @@ def render_999(
     add(
         "ISA", "00", " " * 10, "00", " " * 10, "ZZ", receiver_id.ljust(15), "ZZ",
         (original_isa.el_str(6).strip() if original_isa else "").ljust(15),
-        submission_date.strftime("%y%m%d"), _dt.datetime.now().strftime("%H%M"),
+        submission_date.strftime("%y%m%d"), submission_time,
         separators.repetition_separator, "00501", isa_cn, "0", "T", separators.sub_element_separator,
     )
 
@@ -199,8 +200,8 @@ def render_999(
         original_gs_control = original_gs.el_str(6)
         acks = acks_by_group.get(original_gs_control, [])
         add(
-            "GS", "FA", receiver_id, original_gs.el_str(2), submission_date.strftime("%Y%m%d"),
-            _dt.datetime.now().strftime("%H%M"), str(gs_cn), "X", "005010X231A1",
+            "GS", "FA", receiver_id, original_gs.el_str(2),             submission_date.strftime("%Y%m%d"),
+            submission_time, str(gs_cn), "X", "005010X231A1",
         )
         st_segments_start = len(segments)
         add("ST", "999", str(st_cn), "005010X231A1")

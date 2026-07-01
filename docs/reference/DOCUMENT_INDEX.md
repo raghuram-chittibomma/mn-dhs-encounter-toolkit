@@ -4,7 +4,11 @@ Audit trail for every source document this project's rules are derived from. Upd
 this file whenever a document is (re-)fetched or a rule module is added that cites
 one of these documents.
 
-All retrievals below were performed **2026-06-30**.
+**How to refresh "Used by" entries:** search the codebase for each PDF filename
+(e.g. `rg dhs_837_encounter_companion_guide` under `src/`) and for rule IDs in
+`validator/layer*_*.py`. Cross-check against [`docs/PEER_REVIEW_ACTION_PLAN.md`](../PEER_REVIEW_ACTION_PLAN.md).
+
+All retrievals below were performed **2026-06-30**. "Used by" last verified **2026-07-01**.
 
 ---
 
@@ -22,8 +26,28 @@ All retrievals below were performed **2026-06-30**.
   canonical URL today); treat "October 2024" as the document's own self-reported
   version marker for citation purposes. No newer version was found at this URL or
   via search as of the retrieval date.
-- Used by: *(populated as Layer 3 rule modules are written — none yet, this is the
-  document-acquisition step)*
+- Used by:
+  - **Validator Layer 3 (DHS encounter business rules)** — `src/mn_encounter_toolkit/validator/layer3_dhs_rules.py`:
+    `L3-BILLING-TIN-REQUIRED`, `L3-BILLING-UMPI-REQUIRED`, `L3-MCO-ADJUDICATION-REQUIRED`,
+    `L3-PAYER-NAME-FIXED`, `L3-RECEIVER-FIXED`, `L3-SUBMITTER-TRADING-PARTNER-QUALIFIER`,
+    `L3-MEMBER-ID-EIGHT-DIGITS`, `L3-EPSDT-NU-WHEN-NO-REFERRAL`, `L3-VOID-REF-F8-ONLY`,
+    `L3-DIAGNOSIS-PRINCIPAL-QUALIFIER`, `L3-DIAGNOSIS-SUBSEQUENT-QUALIFIER`,
+    `L3-LINE-PAID-AMOUNT-REQUIRED-837P`, `L3-LINE-PAID-AMOUNT-REQUIRED-837I`,
+    `L3-LINE-PAID-AMOUNT-NOT-NEGATIVE`, `L3-CLM05-3-FREQUENCY-CODE-DOCUMENTED`,
+    `L3-UMPI-FORMAT-STUB` (stub — zero findings by design; see `KNOWN_LIMITATIONS.md`).
+  - **Validator Layer 1 (envelope, DHS-specific elements)** — `validator/layer1_envelope.py`:
+    `L1-ONE-ISA-PER-FILE`, `L1-SEPARATORS-DISTINCT` (ISA11 repetition separator `]`).
+  - **837 writer field mappings** — `edi/writer.py` (per-segment `SOURCE:` comments for
+    loops 1000A/B, 2010AA/BB, 2320, 2400, envelope).
+  - **X12 separator defaults** — `edi/x12_core.py` (`Separators`, `detect_separators`).
+  - **Data models** — `models/core.py`, `models/encounter.py` (`FrequencyCode`, service
+    line paid-amount semantics, DHS payer constants).
+  - **Synthetic scenario builders** — `generator/scenarios/atypical.py`, `tpl.py`,
+    `void_replacement.py`, `errors.py`, `misc.py`, `common.py`; `generator/entities.py`.
+  - **Identifier generation** — `identifiers/tin.py`; `identifiers/umpi.py` (format
+    assumed — see `KNOWN_LIMITATIONS.md`).
+  - **Tests** — `tests/unit/test_layer3_dhs_rules.py` and integration scenarios that
+    assert DHS rule IDs (see `tests/integration/test_pipeline.py`).
 - Notes: This is the **sole authority** for MN encounter-specific business rules
   (Layer 3). It covers Professional, Institutional, and Dental claims in one
   document. It takes precedence over all AUC MUCGs below wherever they differ for
@@ -39,8 +63,14 @@ All retrievals below were performed **2026-06-30**.
   (revision history table in-document: v1.0 9/27/2010 → v2.0 12/27/2010 → v3.0
   12/14/2015 → v4.0 5/23/2016). Matches the version found via search-cache of the
   AUC index page — no discrepancy.
-- Used by: *(999 generator / Layer 1-2 control-number and TA1 structure rules —
-  not yet implemented)*
+- Used by:
+  - **999 generator** — `src/mn_encounter_toolkit/response/gen_999.py` (module docstring:
+    MN guide adopts base X12 005010X231 by reference; generator implements AK1/AK2/AK3/AK5/AK9
+    per base IG). Deterministic mode also runs `validator/layer1_envelope.py` and
+    `validator/layer2_syntax.py` against the input 837 (envelope/syntax scope of a 999).
+  - **Tests** — `tests/unit/test_gen_999.py`, `tests/integration/test_pipeline.py`.
+  - **Note:** This PDF covers **TA1** specifically; full 999 structure comes from the
+    incorporated base X12 005010X231 TR3, not restated in the MN one-pager.
 - Notes: Covers the **TA1** Interchange Acknowledgment segment specifically (not
   the full 999 transaction structure). Use base X12 005010X231 TR3 for general 999
   AK1/AK2/AK9 structure; this guide governs MN-specific TA1 usage. Secondary
@@ -58,8 +88,14 @@ All retrievals below were performed **2026-06-30**.
   row (table truncated in the search synthesis) — **not treated as a conflict**,
   just unconfirmed against the live index table; the in-document statement is
   authoritative and unambiguous.
-- Used by: *(835E generator's CARC/RARC pairing and CAS/SVC structure — not yet
-  implemented)*
+- Used by:
+  - **835E generator** — `src/mn_encounter_toolkit/response/gen_835e.py` (BPR/TRN/N1/CLP/SVC/CAS
+    structure; Sec 2.4 transaction table, Sec 2.1.2.3 payee = 837 billing provider, Appendix C
+    worked examples). Module docstring cites `dhs_encounter_data_landing_rendered.md` for the
+    encounter-vs-FFS authority distinction.
+  - **CARC/RARC pool** — `src/mn_encounter_toolkit/response/carc_rarc.py` (Appendix A delegates
+    to national code lists; toolkit uses a curated subset — see `KNOWN_LIMITATIONS.md`).
+  - **Tests** — `tests/unit/test_gen_835e.py`, `tests/integration/test_pipeline.py`.
 - Notes: This is a **standard 835 MUCG**, not encounter-specific. Per the DHS
   landing page, DHS's own 835 (called 835E in this project's spec) for encounters
   is a distinct variant with encounter-specific remark codes. This MUCG is the
@@ -78,8 +114,18 @@ All retrievals below were performed **2026-06-30**.
   Implementation of the X12/005010X222A1 Health Care Claim: Professional (837)").
   Internal file path breadcrumb on page 2 references "2023" drafting; AUC index
   page cache confirms **adopted 1/10/24**. Consistent — no discrepancy.
-- Used by: *(Layer 2 base TR3 syntax rules for 837P structure — not yet
-  implemented)*
+- Used by:
+  - **Validator Layer 2 (base X12/TR3 syntax)** — `src/mn_encounter_toolkit/validator/layer2_syntax.py`
+    (rules implement X12 005010X222A1 / 005010X223A2 encounter-claim syntax; **no per-rule
+    `source_citation` in code** — Layer 2 is intentionally distinguished from Layer 3 DHS rules):
+    `L2-ST01-VALUE`, `L2-BHT-PRESENT`, `L2-CLM-EXACTLY-ONE-PER-CLAIM`, `L2-CLM02-MONEY-FORMAT`,
+    `L2-AMT02-MONEY-FORMAT`, `L2-DTP-DATE8-FORMAT`, `L2-NM1-ENTITY-TYPE-QUALIFIER`,
+    `L2-HL-LEVEL-CODE-KNOWN`, `L2-CLAIM-HAS-SERVICE-LINE`, `L2-CLAIM-HAS-DIAGNOSIS`,
+    `L2-NPI-CHECK-DIGIT-VALID`, `L2-DIAGNOSIS-CODE-NO-DECIMAL`.
+  - **Tests** — `tests/unit/test_layer2_syntax.py`.
+  - **Note:** This MUCG documents **FFS** professional claims; per DHS encounter landing page
+    text it is **not** authoritative for MCO encounter submissions. It informs Layer 2 only where
+    rules match base TR3 structure not contradicted by the DHS Encounter Companion Guide.
 - Notes: This is the **general FFS provider-claim** companion guide, explicitly
   **not** the authority for encounter-specific rules (DHS's own landing page states
   AUC/MN-ITS companion guides "should not be referenced for submitting your
@@ -127,8 +173,10 @@ All retrievals below were performed **2026-06-30**.
 - Retrieved: 2026-06-30 (raw HTML: direct download, HTTP 200, 21,621 bytes; content
   capture: rendering fetch, succeeded)
 - Version/date noted in document: not stated (no revision date on page itself)
-- Used by: context/orientation only; confirms the MCO-vs-FFS distinction this
-  project's spec is built on, and the 999/835/biweekly-cycle facts noted below
+- Used by: context/orientation and authority-boundary notes in:
+  `response/gen_835e.py`, `response/carc_rarc.py`, `KNOWN_LIMITATIONS.md`, `docs/ARCHITECTURE.md`.
+  Confirms MCO-vs-FFS distinction, 999/835 biweekly cycle, and that AUC MUCGs are **not**
+  authoritative for encounter submissions.
 - Notes: **Partial retrieval** — the page is a JavaScript single-page-app shell.
   The raw HTML download contains only 2 `<a>` tags and no real content (all
   sections render client-side). A rendering-capable fetch captured the visible text

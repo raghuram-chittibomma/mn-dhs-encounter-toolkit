@@ -3,6 +3,7 @@ from decimal import Decimal
 
 import pytest
 
+from mn_encounter_toolkit.edi.writer import write_batch_checked
 from mn_encounter_toolkit.generator.consistency import (
     InconsistentEncounterError,
     ensure_consistent,
@@ -51,3 +52,9 @@ def test_ensure_consistent_raises_with_descriptive_message():
     bad = dataclasses.replace(encounter, total_charge_amount=encounter.total_charge_amount + Decimal("1.00"))
     with pytest.raises(InconsistentEncounterError, match="internally inconsistent"):
         ensure_consistent(bad)
+
+
+def test_write_batch_checked_refuses_err_scenario_without_allow_inconsistent():
+    encounter = encounter_for("err_missing_mco_paid", seed=1)
+    with pytest.raises(InconsistentEncounterError, match="err_\\* scenario"):
+        write_batch_checked([encounter])

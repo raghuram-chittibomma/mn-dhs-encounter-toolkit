@@ -1,4 +1,5 @@
 import random
+from datetime import date
 
 from mn_encounter_toolkit.edi.parser import parse_segments
 from mn_encounter_toolkit.edi.writer import write_batch_checked
@@ -37,6 +38,15 @@ def test_deterministic_999_ak1_references_original_gs():
     original_gs = original.first("GS")
     assert ak1.el_str(1) == original_gs.el_str(1)
     assert ak1.el_str(2) == original_gs.el_str(6)
+
+
+def test_deterministic_999_is_byte_identical_with_fixed_submission_time():
+    encounter = registry.build_encounter("clean_professional_original", seed=12)
+    text = write_batch_checked([encounter])
+    kwargs = dict(submission_date=date(2026, 6, 30), submission_time="1530")
+    out1 = generate_999_deterministic(text, **kwargs)
+    out2 = generate_999_deterministic(text, **kwargs)
+    assert out1 == out2
 
 
 def test_simulated_999_is_deterministic_for_same_seed():

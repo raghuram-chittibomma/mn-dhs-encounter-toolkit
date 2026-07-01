@@ -1,10 +1,12 @@
 import random
+from datetime import date
 from decimal import Decimal
 
 from mn_encounter_toolkit.edi.parser import parse_segments
 from mn_encounter_toolkit.edi.writer import write_batch_checked
+from mn_encounter_toolkit.generator.consistency import InconsistentEncounterError
 from mn_encounter_toolkit.generator.scenarios import registry
-from mn_encounter_toolkit.response.gen_835e import generate_835e_deterministic, generate_835e_simulated
+from mn_encounter_toolkit.response.gen_835e import _allocate_line_paid, generate_835e_deterministic, generate_835e_simulated
 
 
 def test_deterministic_835e_echoes_mco_paid_amount():
@@ -93,11 +95,34 @@ def test_simulated_835e_can_force_full_payment():
     assert Decimal(clp.el_str(4)) == Decimal(clp.el_str(3))
 
 
+def test_allocate_line_paid_splits_remaining_with_exact_balance():
+    lines = [
+        ("1", Decimal("33.33"), None, "HC:99213", "20260101"),
+        ("2", Decimal("33.33"), None, "HC:99214", "20260101"),
+        ("3", Decimal("33.34"), None, "HC:99215", "20260101"),
+    ]
+    remits = _allocate_line_paid(lines, Decimal("100.00"))
+    assert sum((r.paid for r in remits), Decimal("0.00")) == Decimal("100.00")
+
+
+def test_deterministic_835e_is_byte_identical_with_fixed_submission_time():
+    encounter = registry.build_encounter("clean_professional_original", seed=12)
+    text = write_batch_checked([encounter])
+    kwargs = dict(submission_date=date(2026, 6, 30), submission_time="1530")
+    out1 = generate_835e_deterministic(text, **kwargs)
+    out2 = generate_835e_deterministic(text, **kwargs)
+    assert out1 == out2
+
+
 def test_deterministic_835e_handles_claim_with_no_explicit_line_paid_gracefully():
     """err_missing_mco_paid removes line-level REF*9D entirely -- the
-    generator must fall back to proportional allocation rather than crash."""
+    generator must fall back to proportional allocation and stay balanced."""
     encounter = registry.build_encounter("err_missing_mco_paid", seed=8)
     text = write_batch_checked([encounter], allow_inconsistent=True)
     out = generate_835e_deterministic(text)
     doc = parse_segments(out)
-    assert doc.first("CLP") is not None
+    clp = doc.first("CLP")
+    assert clp is not None
+    svcs = doc.find("SVC")
+    line_paid_total = sum((Decimal(s.el_str(3)) for s in svcs), Decimal("0.00"))
+    assert line_paid_total == Decimal(clp.el_str(4))

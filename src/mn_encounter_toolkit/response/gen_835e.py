@@ -44,7 +44,7 @@ from __future__ import annotations
 import datetime as _dt
 import random
 from dataclasses import dataclass, field
-from decimal import Decimal
+from decimal import ROUND_HALF_UP, Decimal
 
 from mn_encounter_toolkit.edi.parser import ClaimBlock, ParsedDocument, parse_segments
 from mn_encounter_toolkit.edi.x12_core import DEFAULT_SEPARATORS, Separators, build_segment
@@ -169,27 +169,59 @@ def _extract_lines(block: ClaimBlock) -> list[tuple[str, Decimal, Decimal, str, 
     return out
 
 
+def _q2(amount: Decimal) -> Decimal:
+    return amount.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
+
+
+def _split_by_weight(total: Decimal, weights: list[Decimal]) -> list[Decimal]:
+    """Split `total` across buckets proportional to `weights`, with the last
+    bucket absorbing any cent rounding remainder (same pattern as
+    generator/scenarios/common.py::split_amount_by_weight)."""
+    if not weights:
+        return []
+    weight_total = sum(weights, Decimal("0.00"))
+    if weight_total == 0 or total == 0:
+        return [Decimal("0.00") for _ in weights]
+    parts: list[Decimal] = []
+    running = Decimal("0.00")
+    for w in weights[:-1]:
+        share = _q2(total * w / weight_total)
+        parts.append(share)
+        running += share
+    parts.append(_q2(total - running))
+    return parts
+
+
 def _allocate_line_paid(lines: list[tuple[str, Decimal, Decimal | None, str, str]], claim_paid: Decimal) -> list[LineRemit]:
+    if not lines:
+        return []
+
     total_charge = sum((c for _, c, _, _, _ in lines), Decimal("0.00"))
-    explicit_total = sum((p for _, _, p, _, _ in lines if p is not None), Decimal("0.00"))
-    missing = [i for i, (_, _, p, _, _) in enumerate(lines) if p is None]
-    remaining = claim_paid - explicit_total
+    line_paid_values: list[Decimal | None] = [paid for _, _, paid, _, _ in lines]
+    missing_idxs = [i for i, p in enumerate(line_paid_values) if p is None]
+
+    if missing_idxs:
+        explicit_total = sum((p for p in line_paid_values if p is not None), Decimal("0.00"))
+        remaining = claim_paid - explicit_total
+        missing_charges = [lines[i][1] for i in missing_idxs]
+        allocated = _split_by_weight(remaining, missing_charges)
+        for idx, amount in zip(missing_idxs, allocated):
+            line_paid_values[idx] = amount
+
     out: list[LineRemit] = []
-    for i, (num, charge, paid, code, date) in enumerate(lines):
-        if paid is not None:
-            line_paid = paid
-        elif missing and total_charge > 0:
-            # Proportional fallback when the line didn't carry an explicit
-            # REF*9D/9C paid amount -- distributes whatever's left of the
-            # claim-level paid amount by charge share.
-            share = (charge / total_charge) if total_charge else Decimal("0.00")
-            line_paid = (remaining * share).quantize(Decimal("0.01"))
-        else:
-            line_paid = Decimal("0.00")
+    for (num, charge, _orig_paid, code, date), line_paid in zip(lines, line_paid_values):
+        paid = line_paid if line_paid is not None else Decimal("0.00")
         adjustment = None
-        if charge > line_paid:
+        if charge > paid:
             adjustment = CarcRarcPair("CO", "45", "Charge exceeds fee schedule/contracted fee arrangement.", None, None, 1)
-        out.append(LineRemit(line_number=num, charge=charge, paid=line_paid, code_value=code, service_date=date, adjustment=adjustment))
+        out.append(LineRemit(line_number=num, charge=charge, paid=paid, code_value=code, service_date=date, adjustment=adjustment))
+
+    allocated_sum = sum((r.paid for r in out), Decimal("0.00"))
+    if allocated_sum != claim_paid:
+        raise ValueError(
+            f"internal: sum of allocated line paid amounts ({allocated_sum}) "
+            f"does not equal claim paid amount ({claim_paid})"
+        )
     return out
 
 
@@ -285,10 +317,9 @@ def build_simulated_remits(
         member_first = nm1_il.el_str(4) if nm1_il else ""
 
         total_line_charge = sum(line_charges, Decimal("0.00"))
+        line_paid_parts = _split_by_weight(paid, line_charges) if line_charges else []
         lines: list[LineRemit] = []
-        for (num, charge, _orig_paid, code, date) in raw_lines:
-            share = (charge / total_line_charge) if total_line_charge else Decimal("0.00")
-            line_paid = (paid * share).quantize(Decimal("0.01"))
+        for (num, charge, _orig_paid, code, date), line_paid in zip(raw_lines, line_paid_parts):
             line_adj = claim_adj if charge > line_paid else None
             lines.append(LineRemit(line_number=num, charge=charge, paid=line_paid, code_value=code, service_date=date, adjustment=line_adj))
 
@@ -323,6 +354,7 @@ def render_835e(
     isa_control_number: int = 1,
     receiver_trading_partner_id: str | None = None,
     submission_date: _dt.date | None = None,
+    submission_time: str = "0800",
     payment_method: str = "NON",
 ) -> str:
     """Render the 835E text. One GS/ST per payee TIN found in the source
@@ -342,7 +374,7 @@ def render_835e(
     # edi/writer.py write_batch (DHS-issued, MN repetition separator '[').
     add(
         "ISA", "00", " " * 10, "00", " " * 10, "ZZ", DHS_RECEIVER_FEIN_HYPHENATED.ljust(15), "ZZ",
-        receiver_id.ljust(15), submission_date.strftime("%y%m%d"), _dt.datetime.now().strftime("%H%M"),
+        receiver_id.ljust(15), submission_date.strftime("%y%m%d"), submission_time,
         separators.repetition_separator, "00501", isa_cn, "0", "T", separators.sub_element_separator,
     )
 
@@ -350,8 +382,8 @@ def render_835e(
     st_cn = 1
     for payee in payee_remits:
         add(
-            "GS", "HP", DHS_RECEIVER_FEIN_HYPHENATED, receiver_id, submission_date.strftime("%Y%m%d"),
-            _dt.datetime.now().strftime("%H%M"), str(gs_cn), "X", "005010X221A1",
+            "GS", "HP", DHS_RECEIVER_FEIN_HYPHENATED, receiver_id,             submission_date.strftime("%Y%m%d"),
+            submission_time, str(gs_cn), "X", "005010X221A1",
         )
         st_start = len(segments)
         add("ST", "835", str(st_cn), "005010X221A1")
