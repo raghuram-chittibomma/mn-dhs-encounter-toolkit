@@ -64,11 +64,11 @@ Captured after real UI actions (see [`docs/images/README.md`](docs/images/README
 
 | Validate 837 — error finding on upload | Validation layers — UMPI search results |
 |:---:|:---:|
-| ![Validate 837](docs/images/validate_837.png) | ![Validation layers](docs/images/validation_layers.png) |
+| ![Validate 837](docs/images/validate_837_error_finding.png) | ![Validation layers](docs/images/validation_layers_umpi_search.png) |
 
 | Scenario lab — batch generated | Generate 999 — preview after upload |
 |:---:|:---:|
-| ![Scenario lab](docs/images/scenario_lab.png) | ![Generate 999](docs/images/generate_999.png) |
+| ![Scenario lab](docs/images/scenario_lab_batch_generated.png) | ![Generate 999](docs/images/generate_999_preview.png) |
 
 ### Quick start
 

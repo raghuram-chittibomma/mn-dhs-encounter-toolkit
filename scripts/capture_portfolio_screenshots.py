@@ -45,7 +45,7 @@ def capture_validate_837(page) -> None:
     page.get_by_text("L3-BILLING-UMPI-REQUIRED", exact=False).wait_for(state="attached", timeout=15_000)
     page.get_by_text("error(s) found", exact=False).wait_for(timeout=5_000)
     page.get_by_text("Findings").scroll_into_view_if_needed()
-    _screenshot(page, "validate_837.png")
+    _screenshot(page, "validate_837_error_finding.png")
 
 
 def capture_validation_layers(page) -> None:
@@ -59,7 +59,7 @@ def capture_validation_layers(page) -> None:
     page.wait_for_timeout(2500)
     page.get_by_text("L3-REFERRING-UMPI-REQUIRED").first.wait_for(state="attached", timeout=15_000)
     page.locator('[data-testid="stMain"]').get_by_text("Search rules").scroll_into_view_if_needed()
-    _screenshot(page, "validation_layers.png")
+    _screenshot(page, "validation_layers_umpi_search.png")
 
 
 def capture_scenario_lab(page) -> None:
@@ -73,7 +73,7 @@ def capture_scenario_lab(page) -> None:
     page.get_by_role("button", name="Generate 837 batch").click()
     page.get_by_text("Generated", exact=False).wait_for(timeout=15_000)
     page.get_by_role("button", name="Download 837 file").wait_for(timeout=5_000)
-    _screenshot(page, "scenario_lab.png")
+    _screenshot(page, "scenario_lab_batch_generated.png")
 
 
 def capture_generate_999(page) -> None:
@@ -84,7 +84,7 @@ def capture_generate_999(page) -> None:
     page.get_by_role("button", name="Download 999 file").wait_for(timeout=5_000)
     page.get_by_text("Preview first 40 lines").click()
     page.wait_for_timeout(500)
-    _screenshot(page, "generate_999.png")
+    _screenshot(page, "generate_999_preview.png")
 
 
 def main() -> int:
