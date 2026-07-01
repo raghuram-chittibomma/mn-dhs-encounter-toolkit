@@ -1,24 +1,98 @@
 # MN DHS Encounter EDI Toolkit
 
-A Python 3.11+ command-line toolkit for the Minnesota Department of Human
-Services (DHS) MCO encounter-submission workflow. It generates synthetic
-encounter data, writes it as X12 837P/837I files, validates those files
-against four independent rule layers, and generates X12 999
-(Implementation Acknowledgment) and 835E (encounter remittance) response
-files -- all on a custom, dependency-free X12 engine.
+**Cut encounter-file QA from days to seconds** — generate, validate, and preview DHS
+837P/837I responses locally before MN–ITS submission.
 
-**No real PII is generated or used anywhere in this project.** All
-provider/member identifiers are synthetic; only DHS's own public,
-already-published EDI receiver identity (payer name/id) is a real-world
-constant.
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![Tests](https://img.shields.io/badge/tests-158%20passing-brightgreen.svg)](tests/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## Why this exists
+| | |
+|---|---|
+| **Portfolio case study** | [`docs/CASE_STUDY.md`](docs/CASE_STUDY.md) |
+| **Web UI (local)** | `pip install -e ".[ui]"` then `mn-encounter-ui` → http://localhost:8501 |
+| **Try in 30 seconds** | [`examples/clean_batch.x12`](examples/clean_batch.x12) + [`examples/README.md`](examples/README.md) |
 
-MCOs (Managed Care Organizations) submit "encounters" -- records of
+> **Independent project.** Not affiliated with Minnesota DHS. Synthetic data only —
+> not for production submission.
+
+---
+
+## The problem
+
+MCOs must report capitated member encounters to Minnesota DHS as **837P/837I**
+files and wait for **999** acknowledgments and **835E** remittances. In practice,
+QA and integration work is slowed by:
+
+- **Long feedback loops** — MN–ITS test submissions run on batch schedules and
+  processing windows, not on every save.
+- **Hard iteration** — each fix means re-upload, re-wait, then parse X12 responses
+  to find the next error.
+- **Access friction** — trading-partner enrollment, test member IDs, and VPN
+  requirements block developers and QA who only need rule-level confidence.
+- **Weak reproducibility** — ad hoc test files are hard to recreate for regression
+  or bug reports.
+
+**Productivity impact:** a single rule violation can cost **hours or days** of
+calendar time per MN–ITS cycle. Most of that wait is unnecessary for envelope,
+syntax, and companion-guide checks that can run locally.
+
+## What this toolkit does
+
+| Capability | Speed / productivity benefit |
+|------------|------------------------------|
+| **Validate 837** (4 layers, 49 rules) | Sub-second feedback; JSON/CSV for CI |
+| **Generate scenarios** (20+, seeded) | Realistic batches in ~1 s; repeatable `err_*` fixtures |
+| **Preview 999 / 835E** | Skip waiting for DHS to see likely ack/remit shape |
+| **Streamlit UI** | QA testers validate and look up rules without CLI |
+| **Stdlib-only core** | `pip install -e .` — no runtime deps, runs offline |
+
+```
+Traditional:  edit → MN–ITS upload → wait → parse 999 → repeat     (hours–days)
+This tool:    edit → validate → fix → gen999 preview → repeat     (seconds)
+```
+
+A Python 3.11+ toolkit for the Minnesota DHS **MCO encounter** workflow: synthetic
+encounter data, X12 837P/837I validation, and 999/835E response generation — on a
+custom, dependency-free X12 engine.
+
+**No real PII is generated or used.** All provider/member identifiers are synthetic.
+
+### Screenshots
+
+| Validate 837 — claim-grouped findings | Validation layers — rule catalog |
+|:---:|:---:|
+| ![Validate 837](docs/images/validate_837.png) | ![Validation layers](docs/images/validation_layers.png) |
+
+| Scenario lab | Generate 999 |
+|:---:|:---:|
+| ![Scenario lab](docs/images/scenario_lab.png) | ![Generate 999](docs/images/generate_999.png) |
+
+### Quick start
+
+```bash
+python -m venv .venv && source .venv/Scripts/activate   # Windows: .venv\Scripts\Activate.ps1
+pip install -e ".[dev,ui]"
+
+# Zero-setup: validate committed examples
+mn-encounter validate --in examples/clean_batch.x12
+mn-encounter validate --in examples/err_missing_umpi.x12   # exits 1 — expected
+
+# Full loop
+mn-encounter generate --scenario clean_professional_original --seed 42 --out batch.x12
+mn-encounter validate --in batch.x12 --format json
+mn-encounter gen999 --in batch.x12 --out batch_999.x12
+mn-encounter-ui   # browser UI at http://localhost:8501
+```
+
+---
+
+## Why this exists (capabilities)
+
+MCOs (Managed Care Organizations) submit "encounters" — records of
 services rendered to MHCP members, even though DHS doesn't pay for them
-directly (the MCO already did, under capitation) -- to DHS as 837P/837I
+directly (the MCO already did, under capitation) — to DHS as 837P/837I
 files. This toolkit lets you:
-
 1. Generate realistic, deterministic (seeded) synthetic encounter batches
    covering common and edge-case scenarios (TPL/COB, void/replacement,
    EPSDT, atypical providers, multiple MN public health programs, and a
@@ -89,7 +163,7 @@ mn-encounter-ui
 # or: streamlit run ui/app.py
 ```
 
-Opens `http://localhost:8501` with four pages:
+Opens `http://localhost:8501` with five pages:
 
 | Page | Purpose |
 |------|---------|

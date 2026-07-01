@@ -1,0 +1,3 @@
+# Local UI: pip install -e ".[ui]" and streamlit
+-e .
+streamlit>=1.32

@@ -1,0 +1,17 @@
+{
+  "file": "examples/err_missing_umpi.x12",
+  "finding_count": 1,
+  "error_count": 1,
+  "warning_count": 0,
+  "findings": [
+    {
+      "severity": "error",
+      "layer": 3,
+      "rule_id": "L3-BILLING-UMPI-REQUIRED",
+      "message": "Billing provider for claim under subscriber HL 2 is missing a REF*G2 (UMPI) secondary identifier.",
+      "segment_id": "REF",
+      "line_number": null,
+      "source_citation": "dhs_837_encounter_companion_guide.pdf p.16/p.40"
+    }
+  ]
+}
