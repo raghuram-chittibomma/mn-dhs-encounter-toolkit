@@ -5,6 +5,12 @@ from __future__ import annotations
 import streamlit as st
 
 from mn_encounter_toolkit.web.enrich import EnrichedFinding
+from mn_encounter_toolkit.web.layer_reference import (
+    LAYER_INFO,
+    LAYER_SUMMARIES,
+    VALIDATION_LAYERS_DOC,
+    find_rules,
+)
 from mn_encounter_toolkit.web.validate_service import (
     ALL_LAYER_NUMBERS,
     ValidationReport,
@@ -113,6 +119,106 @@ def render_validation_results(report: ValidationReport, uploaded_name: str) -> N
             render_finding(item)
 
 
+def render_layer_reference_sidebar() -> None:
+    st.sidebar.caption("Open **Validation layers** in the menu for the full searchable rule catalog.")
+
+
+def _severity_label(severity: str) -> str:
+    return {
+        "error": "Error",
+        "warning": "Warning",
+        "info": "Info",
+        "stub": "Stub (no findings)",
+    }.get(severity, severity)
+
+
+def page_validation_layers() -> None:
+    st.header("Validation layers reference")
+    st.caption(
+        "What each layer checks when you validate an 837 file. "
+        "Use this page to look up rule IDs from validation findings."
+    )
+
+    st.info(
+        "**999 deterministic** responses use **Layers 1 and 2 only** (envelope + syntax). "
+        "Layers **3 and 4** apply to full 837 validation."
+    )
+
+    overview = [
+        {
+            "Layer": layer.number,
+            "Title": layer.title,
+            "Rules": len(layer.rules),
+            "Authority": layer.authority,
+        }
+        for layer in LAYER_INFO
+    ]
+    st.subheader("Overview")
+    st.dataframe(overview, use_container_width=True, hide_index=True)
+
+    st.subheader("Search rules")
+    query = st.text_input(
+        "Search by rule ID or keyword",
+        placeholder="e.g. UMPI, L3-BILLING, charge, ISA",
+        key="layer_ref_search",
+    )
+    if query.strip():
+        matches = find_rules(query)
+        if not matches:
+            st.warning("No rules matched your search.")
+        else:
+            st.dataframe(
+                [
+                    {
+                        "Layer": layer.number,
+                        "Rule ID": rule.rule_id,
+                        "Severity": _severity_label(rule.severity),
+                        "Description": rule.description,
+                        "Notes": rule.notes,
+                    }
+                    for layer, rule in matches
+                ],
+                use_container_width=True,
+                hide_index=True,
+            )
+
+    st.subheader("Rules by layer")
+    tabs = st.tabs([f"Layer {layer.number}" for layer in LAYER_INFO])
+    for tab, layer in zip(tabs, LAYER_INFO):
+        with tab:
+            st.markdown(f"**{layer.title}**")
+            st.write(layer.scope)
+            st.caption(f"**Authority:** {layer.authority}")
+            st.caption(f"**Code module:** `{layer.module_path}`")
+            st.dataframe(
+                [
+                    {
+                        "Rule ID": rule.rule_id,
+                        "Severity": _severity_label(rule.severity),
+                        "What it checks": rule.description,
+                        "Notes": rule.notes,
+                    }
+                    for rule in layer.rules
+                ],
+                use_container_width=True,
+                hide_index=True,
+            )
+
+    with st.expander("Severity and exit codes"):
+        st.markdown(
+            """
+| Severity | Meaning | Fails validation? |
+|----------|---------|-------------------|
+| **Error** | Must be corrected for a clean file | Yes — exit code `1` |
+| **Warning** | Advisory / documented ambiguity | No — exit code stays `0` |
+| **Stub** | Registered but produces no findings | No |
+
+Parse failures return exit code `2`.
+            """
+        )
+    st.caption(f"Repository copy: `{VALIDATION_LAYERS_DOC}`")
+
+
 def page_validate() -> None:
     st.header("Validate 837")
     st.caption("Upload an 837P/837I file to run compliance validation.")
@@ -120,10 +226,14 @@ def page_validate() -> None:
     with st.sidebar:
         st.subheader("Validation layers")
         layer_selection = {
-            number: st.checkbox(f"Layer {number}", value=True, key=f"val_layer_{number}")
+            number: st.checkbox(
+                f"Layer {number} — {LAYER_SUMMARIES[number]['title']}",
+                value=True,
+                key=f"val_layer_{number}",
+            )
             for number in ALL_LAYER_NUMBERS
         }
-        st.caption("**Layer 1:** Envelope · **2:** X12 syntax · **3:** DHS rules · **4:** Consistency")
+        render_layer_reference_sidebar()
 
     uploaded = st.file_uploader("837 file (.x12)", type=["x12", "txt", "edi"], key="validate_upload")
     if uploaded is None:

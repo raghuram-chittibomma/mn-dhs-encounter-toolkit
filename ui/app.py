@@ -10,7 +10,13 @@ from __future__ import annotations
 
 import streamlit as st
 
-from mn_encounter_toolkit.web.views import page_gen835e, page_gen999, page_scenario_lab, page_validate
+from mn_encounter_toolkit.web.views import (
+    page_gen835e,
+    page_gen999,
+    page_scenario_lab,
+    page_validate,
+    page_validation_layers,
+)
 
 st.set_page_config(
     page_title="MN DHS Encounter Toolkit",
@@ -20,6 +26,7 @@ st.set_page_config(
 
 PAGES = {
     "Validate 837": page_validate,
+    "Validation layers": page_validation_layers,
     "Generate 999": page_gen999,
     "Generate 835E": page_gen835e,
     "Scenario lab": page_scenario_lab,

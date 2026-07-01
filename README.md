@@ -94,9 +94,12 @@ Opens `http://localhost:8501` with four pages:
 | Page | Purpose |
 |------|---------|
 | **Validate 837** | Upload and validate with claim-grouped findings, filters, JSON/CSV export |
+| **Validation layers** | Searchable catalog of all Layer 1–4 rules (for QA reference) |
 | **Generate 999** | Upload 837 → download 999 (deterministic or simulation) |
 | **Generate 835E** | Upload 837 → download 835E (deterministic or simulation) |
 | **Scenario lab** | Build sample 837 files from registered scenarios (demos/training) |
+
+Layer-by-layer rule reference: [`docs/VALIDATION_LAYERS.md`](docs/VALIDATION_LAYERS.md).
 
 **Note:** Files are processed in memory only and are not saved to disk by default.
 
@@ -193,14 +196,14 @@ is fully deterministic -- no seed, no randomness.
 | `--layers` | No | `1,2,3,4` | Comma-separated subset of layers to run (see table below). |
 | `--out` | No | stdout | Write the report to this file instead of printing it. |
 
-**Validation layers:**
+**Validation layers:** see [`docs/VALIDATION_LAYERS.md`](docs/VALIDATION_LAYERS.md) for the full rule-by-rule reference.
 
 | Layer | What it checks |
 |-------|----------------|
-| **1** | Envelope integrity (ISA/GS/ST/SE/GE/IEA control numbers, segment counts) |
-| **2** | Base X12 TR3 syntax (money/date formats, NPI check digit, required segments) |
-| **3** | DHS encounter business rules (UMPI, MCO-paid amount, TPL, etc.; cited to the companion guide) |
-| **4** | Cross-field consistency (charge balance, diagnosis pointers, void/replacement ICN) |
+| **1** | Envelope integrity (ISA/GS/ST/SE/GE/IEA control numbers, segment counts) — 11 rules |
+| **2** | Base X12 TR3 syntax (money/date formats, NPI check digit, required segments) — 12 rules |
+| **3** | DHS encounter business rules (UMPI, MCO-paid amount, payer/receiver, etc.; cited to the companion guide) — 20 rules |
+| **4** | Cross-field consistency (charge balance, diagnosis pointers, void/replacement ICN) — 6 rules |
 
 Exit codes (CI-friendly):
 
