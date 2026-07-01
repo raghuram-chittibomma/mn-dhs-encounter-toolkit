@@ -25,8 +25,8 @@
 
 | ID | Severity | Item | Status | Notes |
 |----|----------|------|--------|-------|
-| P2-1 | Risk | `DOCUMENT_INDEX.md` "Used by" fields stale | [ ] | All four PDFs cite active code |
-| P2-2 | — | Link this plan from `README.md` | [ ] | Optional |
+| P2-1 | Risk | `DOCUMENT_INDEX.md` "Used by" fields stale | [x] | All four PDFs cite active code |
+| P2-2 | — | Link this plan from `README.md` | [x] | Optional |
 
 ---
 
@@ -52,10 +52,12 @@
 
 | ID | Severity | Item | Status | Notes |
 |----|----------|------|--------|-------|
-| P5-1 | Gap | Non-default separators through full validator pipeline | [ ] | Highest-risk edge case |
-| P5-2 | Gap | Batch mixing void + original + replacement | [ ] | |
-| P5-3 | Gap | Mixed 837P + 837I in one ISA | [ ] | |
-| P5-4 | Gap | Empty file / max loop repetitions | [ ] | Lower priority |
+| P5-1 | Gap | Non-default separators through full validator pipeline | [x] | Highest-risk edge case |
+| P5-2 | Gap | Batch mixing void + original + replacement | [x] | |
+| P5-3 | Gap | Mixed 837P + 837I in one ISA | [x] | |
+| P5-4 | Gap | Empty file / max loop repetitions | [x] | Lower priority |
+
+**All actionable peer-review items are complete.** Only P3-3 (atypical provider inverse validation) remains deferred by design.
 
 ---
 

@@ -8,7 +8,7 @@ one of these documents.
 (e.g. `rg dhs_837_encounter_companion_guide` under `src/`) and for rule IDs in
 `validator/layer*_*.py`. Cross-check against [`docs/PEER_REVIEW_ACTION_PLAN.md`](../PEER_REVIEW_ACTION_PLAN.md).
 
-All retrievals below were performed **2026-06-30**. "Used by" last verified **2026-07-01**.
+All retrievals below were performed **2026-06-30**. "Used by" last verified **2026-07-01** (peer review Phases 1–5 complete).
 
 ---
 
@@ -48,7 +48,7 @@ All retrievals below were performed **2026-06-30**. "Used by" last verified **20
   - **Identifier generation** — `identifiers/tin.py`; `identifiers/umpi.py` (format
     assumed — see `KNOWN_LIMITATIONS.md`).
   - **Tests** — `tests/unit/test_layer3_dhs_rules.py` and integration scenarios that
-    assert DHS rule IDs (see `tests/integration/test_pipeline.py`).
+    assert DHS rule IDs and edge-case pipelines (see `tests/integration/test_pipeline.py`).
 - Notes: This is the **sole authority** for MN encounter-specific business rules
   (Layer 3). It covers Professional, Institutional, and Dental claims in one
   document. It takes precedence over all AUC MUCGs below wherever they differ for
@@ -70,7 +70,8 @@ All retrievals below were performed **2026-06-30**. "Used by" last verified **20
     per base IG). Deterministic mode runs `validator/layer1_envelope.py` and
     `validator/layer2_syntax.py` against the input 837 and maps findings to AK304 segment
     syntax codes via `ak304_for_finding()` (X12 005010X231 Appendix C, Table 1).
-  - **Tests** — `tests/unit/test_gen_999.py`, `tests/integration/test_pipeline.py`.
+  - **Tests** — `tests/unit/test_gen_999.py`, `tests/integration/test_pipeline.py`
+    (non-default separators, mixed claim types, void/replacement batches).
   - **Note:** This PDF covers **TA1** specifically; full 999 structure comes from the
     incorporated base X12 005010X231 TR3, not restated in the MN one-pager.
 - Notes: Covers the **TA1** Interchange Acknowledgment segment specifically (not

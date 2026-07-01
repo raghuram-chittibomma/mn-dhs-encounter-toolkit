@@ -6,15 +6,34 @@ behavior itself is covered separately in tests/integration/test_cli.py).
 
 from __future__ import annotations
 
+import dataclasses
 import random
+from decimal import Decimal
 
+import pytest
+
+from mn_encounter_toolkit.edi.parser import parse_segments
 from mn_encounter_toolkit.edi.writer import write_batch_checked
+from mn_encounter_toolkit.edi.x12_core import Separators, detect_separators
 from mn_encounter_toolkit.generator.scenarios import registry
+from mn_encounter_toolkit.generator.scenarios.common import (
+    allocate_mco_paid,
+    build_diagnoses,
+    build_mco_adjudication,
+    build_professional_service_lines,
+)
 from mn_encounter_toolkit.response.gen_835e import generate_835e_deterministic
 from mn_encounter_toolkit.response.gen_999 import generate_999_deterministic
 from mn_encounter_toolkit.validator.findings import exit_code_for
 from mn_encounter_toolkit.validator.layer1_envelope import LAYER1
 from mn_encounter_toolkit.validator.run import validate_text
+
+_CUSTOM_SEPARATORS = Separators(
+    segment_terminator="|",
+    element_separator="^",
+    sub_element_separator="&",
+    repetition_separator="!",
+)
 
 _CLEAN_SCENARIOS = [
     info.name for info in registry.list_scenarios() if not info.is_error_scenario
@@ -108,3 +127,73 @@ def test_validating_a_999_or_835e_file_itself_does_not_crash_layer1():
     doc = parse_segments(ack_999)
     findings = LAYER1.run(doc)
     assert all(f.severity != "error" for f in findings)
+
+
+def test_non_default_separators_through_full_validator_pipeline():
+    rng = random.Random(101)
+    encounter = registry.get_scenario("clean_professional_original").func(rng)
+    text = write_batch_checked([encounter], separators=_CUSTOM_SEPARATORS)
+    assert detect_separators(text) == _CUSTOM_SEPARATORS
+    findings = validate_text(text)
+    assert exit_code_for(findings) == 0
+    ack_999 = generate_999_deterministic(text)
+    remit_835e = generate_835e_deterministic(text)
+    assert exit_code_for(validate_text(ack_999, layers=(LAYER1,))) == 0
+    assert exit_code_for(validate_text(remit_835e, layers=(LAYER1,))) == 0
+
+
+def test_batch_mixing_void_original_and_replacement_validates_clean():
+    rng = random.Random(102)
+    encounters = [
+        registry.get_scenario("clean_professional_original").func(rng),
+        registry.get_scenario("void_encounter").func(rng),
+        registry.get_scenario("replacement_encounter").func(rng),
+    ]
+    text = write_batch_checked(encounters)
+    findings = validate_text(text)
+    assert exit_code_for(findings) == 0
+    blocks = parse_segments(text).claim_blocks()
+    assert len(blocks) == 3
+    frequency_codes = {b.clm().composite(5)[2] for b in blocks}
+    assert frequency_codes == {"1", "7", "8"}
+
+
+def test_mixed_837p_and_837i_share_one_isa_with_separate_gs_groups():
+    rng = random.Random(103)
+    encounters = [
+        registry.get_scenario("clean_professional_original").func(rng),
+        registry.get_scenario("clean_institutional_original").func(rng),
+    ]
+    text = write_batch_checked(encounters)
+    doc = parse_segments(text)
+    assert len(doc.find("ISA")) == 1
+    assert len(doc.find("GS")) == 2
+    assert {st.el_str(3) for st in doc.find("ST")} == {"005010X222A1", "005010X223A2"}
+    assert exit_code_for(validate_text(text)) == 0
+
+
+def test_empty_file_raises_clear_parse_error():
+    with pytest.raises(ValueError, match="ISA segment"):
+        validate_text("")
+
+
+def test_many_service_lines_in_one_claim_validates_clean():
+    rng = random.Random(104)
+    base = registry.get_scenario("clean_professional_original").func(rng)
+    diagnoses = build_diagnoses(rng, n=4)
+    lines = build_professional_service_lines(rng, diagnoses, n=12)
+    total_charge = sum((line.charge_amount for line in lines), Decimal("0.00"))
+    mco_paid = (total_charge * Decimal("0.80")).quantize(Decimal("0.01"))
+    lines = allocate_mco_paid(lines, mco_paid)
+    heavy = dataclasses.replace(
+        base,
+        diagnoses=diagnoses,
+        service_lines=lines,
+        total_charge_amount=total_charge,
+        mco_paid_amount=mco_paid,
+        mco_adjudication=build_mco_adjudication(paid_amount=mco_paid),
+    )
+    text = write_batch_checked([heavy])
+    doc = parse_segments(text)
+    assert len(doc.find("LX")) == 12
+    assert exit_code_for(validate_text(text)) == 0
