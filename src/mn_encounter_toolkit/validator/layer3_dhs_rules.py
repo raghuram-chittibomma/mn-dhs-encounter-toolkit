@@ -12,8 +12,8 @@ from __future__ import annotations
 
 from decimal import Decimal, InvalidOperation
 
-from mn_encounter_toolkit.edi.parser import ClaimBlock, ParsedDocument
-from mn_encounter_toolkit.models.core import DHS_PAYER_ID, DHS_PAYER_NAME
+from mn_encounter_toolkit.edi.parser import ClaimBlock, ParsedDocument, ParsedSegment
+from mn_encounter_toolkit.models.core import DHS_PAYER_ID, DHS_PAYER_NAME, DHS_RECEIVER_FEIN_HYPHENATED
 from mn_encounter_toolkit.validator.findings import Finding
 from mn_encounter_toolkit.validator.rule_registry import RuleRegistry
 
@@ -305,6 +305,64 @@ def rule_sender_id_matches_submitter(doc: ParsedDocument) -> list[Finding]:
                     f"ISA06 ({isa06!r}) does not match Loop 1000A submitter NM109 ({nm109!r}).",
                     segment_id="NM1",
                     line_number=submitter.line_number,
+                    source_citation=citation,
+                )
+            )
+    return findings
+
+
+@LAYER3.register(
+    "L3-ISA-RECEIVER-FIXED",
+    "Interchange receiver (ISA07/ISA08) must use qualifier 30 and the DHS hyphenated FEIN; GS03 must match ISA08 without padding.",
+    source_citation="dhs_837_encounter_companion_guide.pdf p.35-36, Envelope Information -- "
+    "'ISA07 ... 30 US FEDERAL TAX IDENTIFICATION NUMBER' and "
+    "'ISA08 ... 41-1674742 ... FOLLOWED BY 5 TRAILING SPACES'; GS03 must match ISA08 without padding.",
+)
+def rule_isa_receiver_fixed(doc: ParsedDocument) -> list[Finding]:
+    findings: list[Finding] = []
+    isa = doc.first("ISA")
+    if isa is None:
+        return findings
+    citation = "dhs_837_encounter_companion_guide.pdf p.35-36"
+    isa07 = isa.el_str(7)
+    isa08 = isa.el_str(8).rstrip()
+
+    if isa07 != "30":
+        findings.append(
+            Finding(
+                "error",
+                3,
+                "L3-ISA-RECEIVER-FIXED",
+                f"ISA07 must be '30' (US Federal Tax Identification Number qualifier), got {isa07!r}.",
+                segment_id="ISA",
+                line_number=isa.line_number,
+                source_citation=citation,
+            )
+        )
+    if isa08 != DHS_RECEIVER_FEIN_HYPHENATED:
+        findings.append(
+            Finding(
+                "error",
+                3,
+                "L3-ISA-RECEIVER-FIXED",
+                f"ISA08 ({isa08!r}) must be {DHS_RECEIVER_FEIN_HYPHENATED!r} (trailing spaces stripped).",
+                segment_id="ISA",
+                line_number=isa.line_number,
+                source_citation=citation,
+            )
+        )
+
+    for gs in doc.find("GS"):
+        gs03 = gs.el_str(3).rstrip()
+        if isa08 and gs03 != isa08:
+            findings.append(
+                Finding(
+                    "error",
+                    3,
+                    "L3-ISA-RECEIVER-FIXED",
+                    f"ISA08 ({isa08!r}) does not match GS03 ({gs03!r}).",
+                    segment_id="GS",
+                    line_number=gs.line_number,
                     source_citation=citation,
                 )
             )

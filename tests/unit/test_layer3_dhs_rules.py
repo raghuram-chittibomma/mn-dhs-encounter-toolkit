@@ -4,6 +4,7 @@ from mn_encounter_toolkit.validator.layer3_dhs_rules import (
     rule_clm05_3_frequency_code_documented,
     rule_diagnosis_principal_qualifier,
     rule_epsdt_nu_when_no_referral,
+    rule_isa_receiver_fixed,
     rule_line_paid_amount_not_negative,
     rule_line_paid_amount_required_837i,
     rule_line_paid_amount_required_837p,
@@ -189,6 +190,10 @@ _ISA = (
     "ISA*00*          *00*          *ZZ*1234567890     *ZZ*411674742      *240101*0800*^*00501*000000001*0*T*:"
 )
 
+_ISA_DHS_RECEIVER = (
+    "ISA*00*          *00*          *ZZ*1234567890     *30*41-1674742     *240101*0800*^*00501*000000001*0*T*:"
+)
+
 
 def test_rule_sender_id_matches_submitter_passes_when_isa_gs_align():
     doc = make_doc(_ISA, "GS*HC*1234567890*411674742*20240101*0800*1*X*005010X222A1")
@@ -211,6 +216,41 @@ def test_rule_sender_id_matches_submitter_fails_when_nm1_41_differs():
     findings = rule_sender_id_matches_submitter(doc)
     assert len(findings) == 1
     assert "NM109" in findings[0].message
+
+
+def test_rule_isa_receiver_fixed_passes_for_dhs_envelope():
+    doc = make_doc(_ISA_DHS_RECEIVER, "GS*HC*1234567890*41-1674742*20240101*0800*1*X*005010X222A1")
+    assert rule_isa_receiver_fixed(doc) == []
+
+
+def test_rule_isa_receiver_fixed_fails_when_isa07_not_30():
+    bad_isa = (
+        "ISA*00*          *00*          *ZZ*1234567890     *ZZ*41-1674742     *240101*0800*^*00501*000000001*0*T*:"
+    )
+    doc = make_doc(bad_isa)
+    findings = rule_isa_receiver_fixed(doc)
+    assert len(findings) == 1
+    assert findings[0].rule_id == "L3-ISA-RECEIVER-FIXED"
+    assert "ISA07" in findings[0].message
+
+
+def test_rule_isa_receiver_fixed_fails_when_isa08_wrong():
+    bad_isa = (
+        "ISA*00*          *00*          *ZZ*1234567890     *30*9999999999     *240101*0800*^*00501*000000001*0*T*:"
+    )
+    doc = make_doc(bad_isa)
+    findings = rule_isa_receiver_fixed(doc)
+    assert any(f.rule_id == "L3-ISA-RECEIVER-FIXED" and "ISA08" in f.message for f in findings)
+
+
+def test_rule_isa_receiver_fixed_fails_when_gs03_differs_from_isa08():
+    doc = make_doc(
+        _ISA_DHS_RECEIVER,
+        "GS*HC*1234567890*WRONGRECEIVER*20240101*0800*1*X*005010X222A1",
+    )
+    findings = rule_isa_receiver_fixed(doc)
+    assert len(findings) == 1
+    assert "GS03" in findings[0].message
 
 
 def test_rule_referring_umpi_required_fails_when_dn_missing_ref_g2():

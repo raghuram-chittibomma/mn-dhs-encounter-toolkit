@@ -1,5 +1,7 @@
+import pytest
+
 from mn_encounter_toolkit.edi.writer import write_batch_checked
-from mn_encounter_toolkit.generator.consistency import find_inconsistencies
+from mn_encounter_toolkit.generator.consistency import InconsistentEncounterError, find_inconsistencies
 from mn_encounter_toolkit.generator.scenarios import registry
 
 
@@ -61,3 +63,12 @@ def test_every_error_scenario_requires_allow_inconsistent_or_raises_or_writes_a_
         encounter = registry.build_encounter(info.name, seed=13)
         text = write_batch_checked([encounter], allow_inconsistent=True)
         assert text.startswith("ISA")
+
+
+def test_write_batch_checked_refuses_err_bad_envelope_without_allow_inconsistent():
+    """err_bad_envelope passes find_inconsistencies (envelope flaw is file-level);
+    the scenario_name guard must still block writing without the flag."""
+    encounter = registry.build_encounter("err_bad_envelope", seed=14)
+    assert find_inconsistencies(encounter) == []
+    with pytest.raises(InconsistentEncounterError, match="err_\\* scenario"):
+        write_batch_checked([encounter])

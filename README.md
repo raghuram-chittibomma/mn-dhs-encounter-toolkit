@@ -50,7 +50,8 @@ changes.
 ## Peer review tracker
 
 [`docs/PEER_REVIEW_ACTION_PLAN.md`](docs/PEER_REVIEW_ACTION_PLAN.md) tracks
-findings from external code review and their resolution status.
+findings from external code review and their resolution status. Round 2 items
+are in [`docs/PEER_REVIEW_ROUND2_ACTION_PLAN.md`](docs/PEER_REVIEW_ROUND2_ACTION_PLAN.md).
 
 ## Source documents
 
