@@ -89,9 +89,14 @@ mn-encounter-ui
 # or: streamlit run ui/app.py
 ```
 
-Opens `http://localhost:8501`. Upload a `.x12` file, choose validation layers,
-and review findings grouped by claim (claim ID, subscriber HL, member, segment
-context). Download JSON or CSV reports from the results page.
+Opens `http://localhost:8501` with four pages:
+
+| Page | Purpose |
+|------|---------|
+| **Validate 837** | Upload and validate with claim-grouped findings, filters, JSON/CSV export |
+| **Generate 999** | Upload 837 → download 999 (deterministic or simulation) |
+| **Generate 835E** | Upload 837 → download 835E (deterministic or simulation) |
+| **Scenario lab** | Build sample 837 files from registered scenarios (demos/training) |
 
 **Note:** Files are processed in memory only and are not saved to disk by default.
 

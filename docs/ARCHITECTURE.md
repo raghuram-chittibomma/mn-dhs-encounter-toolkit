@@ -95,6 +95,15 @@ mn-dhs-encounter-toolkit/
       carc_rarc.py                          # CARC/RARC pairs, sourced from mucg_835.pdf Appendix A
     cli/
       main.py                                # argparse subcommands: generate, validate, gen999, gen835e, list-scenarios
+    web/
+      enrich.py                              # Finding -> claim-level context for UI display
+      validate_service.py                    # upload validation + JSON/CSV export
+      response_service.py                    # 999/835E generation from uploaded 837 text
+      generate_service.py                    # scenario-lab batch generation
+      views.py                               # Streamlit page renderers
+      entry.py                               # mn-encounter-ui launcher
+  ui/
+    app.py                                   # Streamlit shell (sidebar navigation)
   tests/
     unit/                                      # one test module per source module above
     integration/                                # full generate -> validate -> gen999/gen835e pipeline, CLI-level tests
@@ -207,6 +216,14 @@ This mirrors the "traceability" requirement in the other direction: instead
 of citing a source document, these generators cite *this project's own
 validator* or *the original submitted 837* as their input, which is called
 out explicitly in each module's docstring.
+
+## Web UI (optional `[ui]` extra)
+
+A Streamlit front end (`ui/app.py`, launched via `mn-encounter-ui`) wraps the
+same library functions as the CLI — it does not duplicate validator or response
+logic. Pages: **Validate 837**, **Generate 999**, **Generate 835E**, and
+**Scenario lab**. Uploads are processed in memory; the core package remains
+installable without Streamlit (`pip install -e .`).
 
 ## Build order (matches the spec's "working process")
 
