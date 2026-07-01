@@ -8,6 +8,9 @@ and (when available) line number and source citation.
 In the **web UI**, open **Validation layers** in the sidebar menu for a searchable
 rule catalog (same content as this document).
 
+**QA scope:** see [`QA_VS_DHS_TEST.md`](QA_VS_DHS_TEST.md) for what this toolkit
+can prove vs. submitting to DHS MN–ITS test.
+
 | Layer | Scope | Authority | Typical examples |
 |-------|--------|-----------|------------------|
 | **1** | Interchange / functional-group / transaction-set **envelope** | Base X12 + one DHS rule | ISA/IEA control numbers, GS/GE pairing, SE segment counts |

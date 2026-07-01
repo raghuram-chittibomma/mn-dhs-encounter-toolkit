@@ -101,6 +101,9 @@ Opens `http://localhost:8501` with four pages:
 
 Layer-by-layer rule reference: [`docs/VALIDATION_LAYERS.md`](docs/VALIDATION_LAYERS.md).
 
+**Toolkit vs. DHS test:** when local validation is enough and when you still
+need MN–ITS — [`docs/QA_VS_DHS_TEST.md`](docs/QA_VS_DHS_TEST.md).
+
 **Note:** Files are processed in memory only and are not saved to disk by default.
 
 ## CLI usage
