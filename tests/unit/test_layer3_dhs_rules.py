@@ -9,6 +9,9 @@ from mn_encounter_toolkit.validator.layer3_dhs_rules import (
     rule_line_paid_amount_required_837p,
     rule_member_id_eight_digits,
     rule_payer_name_fixed,
+    rule_referring_umpi_required,
+    rule_rendering_umpi_required,
+    rule_sender_id_matches_submitter,
     rule_umpi_format_stub,
     rule_void_ref_f8_only,
 )
@@ -180,3 +183,63 @@ def test_rule_umpi_format_stub_always_returns_no_findings():
     KNOWN_LIMITATIONS.md) -- not a silently-broken check."""
     doc = make_doc("REF*G2*12345678")
     assert rule_umpi_format_stub(doc) == []
+
+
+_ISA = (
+    "ISA*00*          *00*          *ZZ*1234567890     *ZZ*411674742      *240101*0800*^*00501*000000001*0*T*:"
+)
+
+
+def test_rule_sender_id_matches_submitter_passes_when_isa_gs_align():
+    doc = make_doc(_ISA, "GS*HC*1234567890*411674742*20240101*0800*1*X*005010X222A1")
+    assert rule_sender_id_matches_submitter(doc) == []
+
+
+def test_rule_sender_id_matches_submitter_fails_when_gs02_differs():
+    doc = make_doc(_ISA, "GS*HC*WRONGSUBMIT*411674742*20240101*0800*1*X*005010X222A1")
+    findings = rule_sender_id_matches_submitter(doc)
+    assert len(findings) == 1
+    assert findings[0].rule_id == "L3-SENDER-ID-MATCHES-SUBMITTER"
+
+
+def test_rule_sender_id_matches_submitter_fails_when_nm1_41_differs():
+    doc = make_doc(
+        _ISA,
+        "GS*HC*1234567890*411674742*20240101*0800*1*X*005010X222A1",
+        "NM1*41*2*MCO NAME*****46*9999999999",
+    )
+    findings = rule_sender_id_matches_submitter(doc)
+    assert len(findings) == 1
+    assert "NM109" in findings[0].message
+
+
+def test_rule_referring_umpi_required_fails_when_dn_missing_ref_g2():
+    doc = make_doc(*_claim_with_billing(claim_extra=("NM1*DN*1*Smith*Refer****XX*1234567890",)))
+    findings = rule_referring_umpi_required(doc)
+    assert len(findings) == 1
+    assert findings[0].rule_id == "L3-REFERRING-UMPI-REQUIRED"
+
+
+def test_rule_referring_umpi_required_passes_when_ref_g2_present():
+    doc = make_doc(
+        *_claim_with_billing(
+            claim_extra=("NM1*DN*1*Smith*Refer****XX*1234567890", "REF*G2*12345678")
+        )
+    )
+    assert rule_referring_umpi_required(doc) == []
+
+
+def test_rule_rendering_umpi_required_fails_when_82_missing_ref_g2():
+    doc = make_doc(*_claim_with_billing(claim_extra=("NM1*82*1*Jones*Render****XX*9876543210",)))
+    findings = rule_rendering_umpi_required(doc)
+    assert len(findings) == 1
+    assert findings[0].rule_id == "L3-RENDERING-UMPI-REQUIRED"
+
+
+def test_rule_rendering_umpi_required_passes_when_ref_g2_present():
+    doc = make_doc(
+        *_claim_with_billing(
+            claim_extra=("NM1*82*1*Jones*Render****XX*9876543210", "REF*G2*87654321")
+        )
+    )
+    assert rule_rendering_umpi_required(doc) == []

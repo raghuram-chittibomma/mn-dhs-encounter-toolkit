@@ -31,6 +31,26 @@ def _to_decimal(value: str) -> Decimal | None:
         return None
 
 
+def _nm1_loops_missing_ref_g2(block: ClaimBlock, entity_code: str) -> list[ParsedSegment]:
+    """Return NM1 segments in the claim loop whose immediate following
+    segments (until the next NM1/LX/CLM/HL) lack a populated REF*G2."""
+    missing: list[ParsedSegment] = []
+    claim_segs = block.claim_segments
+    for i, seg in enumerate(claim_segs):
+        if seg.seg_id != "NM1" or seg.el_str(1) != entity_code:
+            continue
+        has_g2 = False
+        for follow in claim_segs[i + 1 :]:
+            if follow.seg_id in ("NM1", "LX", "CLM", "HL"):
+                break
+            if follow.seg_id == "REF" and follow.el_str(1) == "G2" and follow.el_str(2).strip():
+                has_g2 = True
+                break
+        if not has_g2:
+            missing.append(seg)
+    return missing
+
+
 @LAYER3.register(
     "L3-BILLING-TIN-REQUIRED",
     "Billing provider (Loop 2010AA) must carry a tax id via REF*EI, regardless of NPI presence.",
@@ -76,6 +96,56 @@ def rule_billing_umpi_required(doc: ParsedDocument) -> list[Finding]:
                     "missing a REF*G2 (UMPI) secondary identifier.",
                     segment_id="REF",
                     source_citation="dhs_837_encounter_companion_guide.pdf p.16/p.40",
+                )
+            )
+    return findings
+
+
+@LAYER3.register(
+    "L3-REFERRING-UMPI-REQUIRED",
+    "When a referring provider loop (NM1*DN) is present, it must carry REF*G2 (UMPI) as a secondary identifier.",
+    source_citation="dhs_837_encounter_companion_guide.pdf p.21 (837P) -- Loop 2310A REF: "
+    "'REF01=G2 ... REF02 = REFERRING PROVIDER SECONDARY IDENTIFIER (DHS UMPI NUMBER)'.",
+)
+def rule_referring_umpi_required(doc: ParsedDocument) -> list[Finding]:
+    findings = []
+    for block in doc.claim_blocks():
+        for nm1 in _nm1_loops_missing_ref_g2(block, "DN"):
+            findings.append(
+                Finding(
+                    "error",
+                    3,
+                    "L3-REFERRING-UMPI-REQUIRED",
+                    f"Referring provider (NM1*DN) for claim under subscriber HL {block.hl_subscriber_id} "
+                    "is missing a REF*G2 (UMPI) secondary identifier.",
+                    segment_id="NM1",
+                    line_number=nm1.line_number,
+                    source_citation="dhs_837_encounter_companion_guide.pdf p.21",
+                )
+            )
+    return findings
+
+
+@LAYER3.register(
+    "L3-RENDERING-UMPI-REQUIRED",
+    "When a distinct rendering provider loop (NM1*82) is present, it must carry REF*G2 (UMPI) as a secondary identifier.",
+    source_citation="dhs_837_encounter_companion_guide.pdf p.22 (837P) -- Loop 2310B REF: "
+    "'REF01=G2 ... REF02 = RENDERING PROVIDER SECONDARY IDENTIFIER (DHS UMPI NUMBER)'.",
+)
+def rule_rendering_umpi_required(doc: ParsedDocument) -> list[Finding]:
+    findings = []
+    for block in doc.claim_blocks():
+        for nm1 in _nm1_loops_missing_ref_g2(block, "82"):
+            findings.append(
+                Finding(
+                    "error",
+                    3,
+                    "L3-RENDERING-UMPI-REQUIRED",
+                    f"Rendering provider (NM1*82) for claim under subscriber HL {block.hl_subscriber_id} "
+                    "is missing a REF*G2 (UMPI) secondary identifier.",
+                    segment_id="NM1",
+                    line_number=nm1.line_number,
+                    source_citation="dhs_837_encounter_companion_guide.pdf p.22",
                 )
             )
     return findings
@@ -188,6 +258,54 @@ def rule_submitter_trading_partner_qualifier(doc: ParsedDocument) -> list[Findin
                     segment_id="NM1",
                     line_number=nm1.line_number,
                     source_citation="dhs_837_encounter_companion_guide.pdf p.13/p.37",
+                )
+            )
+    return findings
+
+
+@LAYER3.register(
+    "L3-SENDER-ID-MATCHES-SUBMITTER",
+    "ISA06 (interchange sender id, trailing spaces stripped) must equal GS02 and the Loop 1000A submitter id (NM1*41 NM109).",
+    source_citation="dhs_837_encounter_companion_guide.pdf p.35-36, Envelope Information -- "
+    "'ISA06 ... MUST CHANGE TO THE 10-DIGIT ... NPI OR ... UMPI FOLLOWED BY 5 TRAILING SPACES' and "
+    "'GS02 ... MUST MATCH THE NUMBER IN ISA06 WITHOUT THE TRAILING SPACES.'",
+)
+def rule_sender_id_matches_submitter(doc: ParsedDocument) -> list[Finding]:
+    findings: list[Finding] = []
+    isa = doc.first("ISA")
+    if isa is None:
+        return findings
+    isa06 = isa.el_str(6).rstrip()
+    citation = "dhs_837_encounter_companion_guide.pdf p.35-36"
+
+    for gs in doc.find("GS"):
+        gs02 = gs.el_str(2).rstrip()
+        if isa06 != gs02:
+            findings.append(
+                Finding(
+                    "error",
+                    3,
+                    "L3-SENDER-ID-MATCHES-SUBMITTER",
+                    f"ISA06 ({isa06!r}) does not match GS02 ({gs02!r}).",
+                    segment_id="GS",
+                    line_number=gs.line_number,
+                    source_citation=citation,
+                )
+            )
+
+    submitter = next((n for n in doc.find("NM1") if n.el_str(1) == "41"), None)
+    if submitter is not None:
+        nm109 = submitter.el_str(9).strip()
+        if nm109 and isa06 != nm109:
+            findings.append(
+                Finding(
+                    "error",
+                    3,
+                    "L3-SENDER-ID-MATCHES-SUBMITTER",
+                    f"ISA06 ({isa06!r}) does not match Loop 1000A submitter NM109 ({nm109!r}).",
+                    segment_id="NM1",
+                    line_number=submitter.line_number,
+                    source_citation=citation,
                 )
             )
     return findings

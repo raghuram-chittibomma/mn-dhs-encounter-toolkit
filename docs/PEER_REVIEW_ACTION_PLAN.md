@@ -34,8 +34,8 @@
 
 | ID | Severity | Item | Status | Notes |
 |----|----------|------|--------|-------|
-| P3-1 | Gap | `L3-SENDER-ID-MATCHES-SUBMITTER` (ISA06 vs GS02) | [ ] | Companion guide p.35 |
-| P3-2 | Gap | `L3-REFERRING-UMPI-REQUIRED` / `L3-RENDERING-UMPI-REQUIRED` | [ ] | Loops 2310A/2310B |
+| P3-1 | Gap | `L3-SENDER-ID-MATCHES-SUBMITTER` (ISA06 vs GS02) | [x] | Companion guide p.35 |
+| P3-2 | Gap | `L3-REFERRING-UMPI-REQUIRED` / `L3-RENDERING-UMPI-REQUIRED` | [x] | Loops 2310A/2310B |
 | P3-3 | Gap | Atypical provider inverse validation | [~] | Deferred — synthetic toolkit scope |
 
 ---
