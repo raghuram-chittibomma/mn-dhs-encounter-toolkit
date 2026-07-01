@@ -73,8 +73,27 @@ source .venv/Scripts/activate   # Windows Git Bash / PowerShell
 pip install -e ".[dev]"
 ```
 
-No runtime dependencies beyond the Python 3.11+ standard library. `pytest`
-is the only dev dependency.
+No runtime dependencies beyond the Python 3.11+ standard library for the **CLI
+and validator**. `pytest` is the only dev dependency. The **web UI** is
+optional — see [Web UI](#web-ui) below.
+
+## Web UI
+
+Functional testers can validate 837 files in a browser without using the CLI.
+The UI calls the same validator library as `mn-encounter validate`; the CLI
+is unchanged.
+
+```bash
+pip install -e ".[ui]"
+mn-encounter-ui
+# or: streamlit run ui/app.py
+```
+
+Opens `http://localhost:8501`. Upload a `.x12` file, choose validation layers,
+and review findings grouped by claim (claim ID, subscriber HL, member, segment
+context). Download JSON or CSV reports from the results page.
+
+**Note:** Files are processed in memory only and are not saved to disk by default.
 
 ## CLI usage
 
