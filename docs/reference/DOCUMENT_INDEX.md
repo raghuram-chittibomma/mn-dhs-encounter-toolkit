@@ -67,8 +67,9 @@ All retrievals below were performed **2026-06-30**. "Used by" last verified **20
 - Used by:
   - **999 generator** — `src/mn_encounter_toolkit/response/gen_999.py` (module docstring:
     MN guide adopts base X12 005010X231 by reference; generator implements AK1/AK2/AK3/AK5/AK9
-    per base IG). Deterministic mode also runs `validator/layer1_envelope.py` and
-    `validator/layer2_syntax.py` against the input 837 (envelope/syntax scope of a 999).
+    per base IG). Deterministic mode runs `validator/layer1_envelope.py` and
+    `validator/layer2_syntax.py` against the input 837 and maps findings to AK304 segment
+    syntax codes via `ak304_for_finding()` (X12 005010X231 Appendix C, Table 1).
   - **Tests** — `tests/unit/test_gen_999.py`, `tests/integration/test_pipeline.py`.
   - **Note:** This PDF covers **TA1** specifically; full 999 structure comes from the
     incorporated base X12 005010X231 TR3, not restated in the MN one-pager.

@@ -36,7 +36,66 @@ _SIMULATED_SEGMENT_ERROR_POOL = (
     ("NM1", "8"),
     ("REF", "1"),  # 1 = Unrecognized Segment ID (simulated, not necessarily realistic)
     ("DTP", "8"),
+    ("LX", "I6"),  # I6 = Implementation Dependent Segment Missing
+    ("BHT", "3"),  # 3 = Required Segment Missing
 )
+
+
+# SOURCE: X12 005010X231 Implementation Acknowledgment, AK3-04 (IK304) --
+# Implementation Segment Syntax Error Codes (Appendix C, Table 1).
+_AK304_BY_RULE_ID: dict[str, str] = {
+    "L1-ISA-PRESENT": "3",
+    "L1-IEA-PRESENT": "3",
+    "L1-ONE-ISA-PER-FILE": "5",
+    "L2-BHT-PRESENT": "3",
+    "L2-CLAIM-HAS-SERVICE-LINE": "I6",
+    "L2-CLAIM-HAS-DIAGNOSIS": "I6",
+}
+
+# When a finding has no segment_id, infer the AK301 segment id from the rule.
+_AK3_SEGMENT_BY_RULE_ID: dict[str, str] = {
+    "L1-ISA-PRESENT": "ISA",
+    "L1-IEA-PRESENT": "IEA",
+    "L1-SEPARATORS-DISTINCT": "ISA",
+    "L1-GS-GE-CONTROL-MATCH": "GS",
+    "L1-ST-SE-CONTROL-MATCH": "ST",
+    "L2-BHT-PRESENT": "BHT",
+    "L2-CLAIM-HAS-SERVICE-LINE": "LX",
+    "L2-CLAIM-HAS-DIAGNOSIS": "HI",
+}
+
+
+def ak304_for_finding(finding: Finding) -> str:
+    """Map a Layer 1/2 validator finding to an AK304 segment syntax error code."""
+    if finding.rule_id == "L2-CLM-EXACTLY-ONE-PER-CLAIM":
+        if "has 0 CLM" in finding.message:
+            return "I6"
+        return "5"
+    return _AK304_BY_RULE_ID.get(finding.rule_id, "8")
+
+
+def ak3_segment_id_for_finding(finding: Finding) -> str | None:
+    if finding.segment_id:
+        return finding.segment_id
+    return _AK3_SEGMENT_BY_RULE_ID.get(finding.rule_id)
+
+
+def _segment_errors_from_findings(findings: list[Finding]) -> list[tuple[str, str]]:
+    segment_errors: list[tuple[str, str]] = []
+    seen: set[tuple[str, str]] = set()
+    for finding in findings:
+        if finding.severity != "error":
+            continue
+        seg_id = ak3_segment_id_for_finding(finding)
+        if not seg_id:
+            continue
+        code = ak304_for_finding(finding)
+        key = (seg_id, code)
+        if key in seen:
+            continue
+        seen.add(key)
+        segment_errors.append(key)
+    return segment_errors
 
 
 @dataclass(frozen=True)
@@ -111,9 +170,7 @@ def build_deterministic_acks(original_text: str) -> tuple[ParsedDocument, dict[s
             ]
             findings_for_st = global_findings + scoped_findings
             ack_code = _ack_code_for(findings_for_st)
-            segment_errors = [
-                (f.segment_id, "8") for f in findings_for_st if f.severity == "error" and f.segment_id
-            ]
+            segment_errors = _segment_errors_from_findings(findings_for_st)
             acks.append(
                 TransactionAck(
                     st_control_number=st.el_str(2),

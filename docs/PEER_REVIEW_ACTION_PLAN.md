@@ -44,7 +44,7 @@
 
 | ID | Severity | Item | Status | Notes |
 |----|----------|------|--------|-------|
-| P4-1 | Gap | Map validator findings → AK304 codes (not always `"8"`) | [ ] | `gen_999.py` |
+| P4-1 | Gap | Map validator findings → AK304 codes (not always `"8"`) | [x] | `gen_999.py` |
 
 ---
 
