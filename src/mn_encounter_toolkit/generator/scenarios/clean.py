@@ -6,7 +6,7 @@ import dataclasses
 import random
 from decimal import Decimal
 
-from mn_encounter_toolkit.generator.entities import generate_encounter_id
+from mn_encounter_toolkit.generator.entities import generate_encounter_id, generate_provider
 from mn_encounter_toolkit.generator.scenarios.common import (
     allocate_mco_paid,
     base_actors,
@@ -55,6 +55,8 @@ def clean_professional_original(rng: random.Random) -> Encounter:
 )
 def clean_institutional_original(rng: random.Random) -> Encounter:
     mco, billing, rendering, member = base_actors(rng)
+    attending = generate_provider(rng, is_organization=False)
+    service_facility = generate_provider(rng, is_organization=True)
     diagnoses = build_diagnoses(rng, n=3, institutional=True)
     lines = build_institutional_service_lines(rng, diagnoses, n=3)
     total_charge = sum((l.charge_amount for l in lines), Decimal("0.00"))
@@ -75,6 +77,8 @@ def clean_institutional_original(rng: random.Random) -> Encounter:
         diagnoses=diagnoses,
         service_lines=lines,
         institutional=institutional_detail(rng),
+        attending_provider=attending,
+        service_facility_provider=service_facility,
         scenario_name="clean_institutional_original",
     )
 

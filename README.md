@@ -41,7 +41,7 @@ syntax, and companion-guide checks that can run locally.
 
 | Capability | Speed / productivity benefit |
 |------------|------------------------------|
-| **Validate 837** (4 layers, 52 rules) | Sub-second feedback; JSON/CSV for CI |
+| **Validate 837** (4 layers, 56 rules) | Sub-second feedback; JSON/CSV for CI |
 | **Generate scenarios** (20+, seeded) | Realistic batches in ~1 s; repeatable `err_*` fixtures |
 | **Preview 999 / 835E** | Skip waiting for DHS to see likely ack/remit shape |
 | **Streamlit UI** | QA testers validate and look up rules without CLI |

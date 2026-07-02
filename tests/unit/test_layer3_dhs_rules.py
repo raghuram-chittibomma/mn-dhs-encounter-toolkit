@@ -1,6 +1,8 @@
 from mn_encounter_toolkit.validator.layer3_dhs_rules import (
     rule_837i_amount_ref_placement,
+    rule_837i_attending_umpi_required,
     rule_837i_cl1_required,
+    rule_837i_nte_patient_account_required,
     rule_837i_statement_dates_required,
     rule_billing_tin_required,
     rule_billing_umpi_required,
@@ -16,6 +18,8 @@ from mn_encounter_toolkit.validator.layer3_dhs_rules import (
     rule_referring_umpi_required,
     rule_rendering_umpi_required,
     rule_sender_id_matches_submitter,
+    rule_service_facility_umpi_required,
+    rule_subscriber_dmg_required,
     rule_umpi_format_stub,
     rule_void_ref_f8_only,
 )
@@ -184,6 +188,157 @@ def test_rule_837i_statement_dates_required_fails_when_missing():
 def test_rule_837i_statement_dates_required_passes_when_present():
     doc = make_doc(*_claim_837i("DTP*434*RD8*20240101-20240105", "CL1*1*7*01"))
     assert rule_837i_statement_dates_required(doc) == []
+
+
+def _claim_with_subscriber_dmg(*claim_extra: str) -> tuple[str, ...]:
+    return (
+        "HL*1**20*1",
+        "HL*2*1*22*0",
+        "SBR*U*18*********MC",
+        "NM1*IL*1*Doe*Jane****MI*12345678",
+        "N3*N/A",
+        "N4*N/A*N/A*00000",
+        "DMG*D8*19900101*F",
+        "REF*Y4*123456789",
+        "NM1*PR*2*MN DEPT OF HUMAN SERVICES*****PI*411674742",
+        *claim_extra,
+    )
+
+
+def test_rule_subscriber_dmg_required_fails_when_missing():
+    doc = make_doc(
+        "HL*1**20*1",
+        "HL*2*1*22*0",
+        "SBR*U*18*********MC",
+        "NM1*IL*1*Doe*Jane****MI*12345678",
+        "N3*N/A",
+        "N4*N/A*N/A*00000",
+        "REF*Y4*123456789",
+        "NM1*PR*2*MN DEPT OF HUMAN SERVICES*****PI*411674742",
+        "CLM*ENC1*100.00***1:B:1*Y*A*Y*Y",
+        "HI*ABK:F1120",
+        "LX*1",
+        "SV1*HC:99213*100.00*UN*1***1",
+        "REF*9D*80.00",
+    )
+    findings = rule_subscriber_dmg_required(doc)
+    assert len(findings) == 1
+    assert findings[0].rule_id == "L3-SUBSCRIBER-DMG-REQUIRED"
+
+
+def test_rule_subscriber_dmg_required_fails_for_invalid_gender():
+    doc = make_doc(
+        "HL*1**20*1",
+        "HL*2*1*22*0",
+        "SBR*U*18*********MC",
+        "NM1*IL*1*Doe*Jane****MI*12345678",
+        "N3*N/A",
+        "N4*N/A*N/A*00000",
+        "DMG*D8*19900101*X",
+        "REF*Y4*123456789",
+        "NM1*PR*2*MN DEPT OF HUMAN SERVICES*****PI*411674742",
+        "CLM*ENC1*100.00***1:B:1*Y*A*Y*Y",
+        "HI*ABK:F1120",
+        "LX*1",
+        "SV1*HC:99213*100.00*UN*1***1",
+        "REF*9D*80.00",
+    )
+    findings = rule_subscriber_dmg_required(doc)
+    assert any(f.rule_id == "L3-SUBSCRIBER-DMG-REQUIRED" and "DMG03" in f.message for f in findings)
+
+
+def test_rule_subscriber_dmg_required_passes_when_valid():
+    doc = make_doc(
+        *_claim_with_subscriber_dmg(
+            "CLM*ENC1*100.00***1:B:1*Y*A*Y*Y",
+            "HI*ABK:F1120",
+            "LX*1",
+            "SV1*HC:99213*100.00*UN*1***1",
+            "REF*9D*80.00",
+        )
+    )
+    assert rule_subscriber_dmg_required(doc) == []
+
+
+def test_rule_837i_attending_umpi_required_fails_when_71_missing_ref_g2():
+    doc = make_doc(
+        *_claim_837i("NTE*UPI*PAC=12345678", "NM1*71*1*Adams*Attend****XX*1234567890")
+    )
+    findings = rule_837i_attending_umpi_required(doc)
+    assert len(findings) == 1
+    assert findings[0].rule_id == "L3-837I-ATTENDING-UMPI-REQUIRED"
+
+
+def test_rule_837i_attending_umpi_required_passes_with_ref_g2():
+    doc = make_doc(
+        *_claim_837i(
+            "NTE*UPI*PAC=12345678",
+            "NM1*71*1*Adams*Attend****XX*1234567890",
+            "REF*G2*87654321",
+        )
+    )
+    assert rule_837i_attending_umpi_required(doc) == []
+
+
+def test_rule_service_facility_umpi_required_fails_when_77_missing_ref_g2():
+    doc = make_doc(
+        "HL*1**20*1",
+        "HL*2*1*22*0",
+        "CLM*ENC1*100.00***1:B:1*Y*A*Y*Y",
+        "HI*ABK:F1120",
+        "NM1*77*2*Facility Name*****XX*1234567890",
+        "LX*1",
+        "SV1*HC:99213*100.00*UN*1***1",
+        "REF*9D*80.00",
+    )
+    findings = rule_service_facility_umpi_required(doc)
+    assert len(findings) == 1
+    assert findings[0].rule_id == "L3-SERVICE-FACILITY-UMPI-REQUIRED"
+
+
+def test_rule_service_facility_umpi_required_passes_with_ref_g2():
+    doc = make_doc(
+        "HL*1**20*1",
+        "HL*2*1*22*0",
+        "CLM*ENC1*100.00***1:B:1*Y*A*Y*Y",
+        "HI*ABK:F1120",
+        "NM1*77*2*Facility Name*****XX*1234567890",
+        "REF*G2*12345678",
+        "LX*1",
+        "SV1*HC:99213*100.00*UN*1***1",
+        "REF*9D*80.00",
+    )
+    assert rule_service_facility_umpi_required(doc) == []
+
+
+def test_rule_837i_nte_patient_account_required_fails_when_missing():
+    doc = make_doc(*_claim_837i("CL1*1*7*01", "DTP*434*RD8*20240101-20240105"))
+    # _claim_837i without NTE - remove default if we add NTE to helper
+    doc = make_doc(
+        "HL*1**20*1",
+        "HL*2*1*22*0",
+        "CLM*ENC1*100.00***11:A:1*Y*A*Y*Y",
+        "HI*ABK:F1120",
+        "DTP*434*RD8*20240101-20240105",
+        "CL1*1*7*01",
+        "LX*1",
+        "SV2*0450*HC:99223*100.00",
+        "REF*9D*80.00",
+    )
+    findings = rule_837i_nte_patient_account_required(doc)
+    assert len(findings) == 1
+
+
+def test_rule_837i_nte_patient_account_required_fails_without_pac_prefix():
+    doc = make_doc(*_claim_837i("NTE*UPI*12345678", "DTP*434*RD8*20240101-20240105", "CL1*1*7*01"))
+    findings = rule_837i_nte_patient_account_required(doc)
+    assert len(findings) == 1
+    assert "PAC=" in findings[0].message
+
+
+def test_rule_837i_nte_patient_account_required_passes_with_upi():
+    doc = make_doc(*_claim_837i("NTE*UPI*PAC=12345678", "DTP*434*RD8*20240101-20240105", "CL1*1*7*01"))
+    assert rule_837i_nte_patient_account_required(doc) == []
 
 
 def test_rule_line_paid_amount_required_837i_fails_without_ref_9d_or_claim_9c():

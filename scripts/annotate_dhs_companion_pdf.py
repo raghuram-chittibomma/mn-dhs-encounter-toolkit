@@ -89,7 +89,8 @@ def _search_terms(citation: str, rule_id: str) -> list[str]:
         terms.extend(_tokens_from_quote(citation.split("--", 1)[1]))
     fallback = {
         "L3-BILLING-TIN-REQUIRED": ["EMPLOYER IDENTIFICATION", "REF01", "EI"],
-        "L3-BILLING-UMPI-REQUIRED": ["REF01=G2", "UMPI", "G2"],
+        "L3-BILLING-UMPI-REQUIRED": ["REF01=G2", "UMPI", "G2", "BILLING PROVIDER"],
+        "L3-SERVICE-FACILITY-UMPI-REQUIRED": ["NM1", "77", "service facility", "G2"],
         "L3-MCO-ADJUDICATION-REQUIRED": ["2320", "FIRST OCCURRENCE", "MCO"],
         "L3-PAYER-NAME-FIXED": ["MN DEPT OF HUMAN SERVICES", "411674742"],
         "L3-LINE-PAID-AMOUNT-REQUIRED-837P": ["837P", "line level", "paid amounts"],
@@ -97,6 +98,9 @@ def _search_terms(citation: str, rule_id: str) -> list[str]:
         "L3-837I-AMOUNT-REF-PLACEMENT": ["9A", "9B", "9C", "9D", "line level"],
         "L3-837I-CL1-REQUIRED": ["CL1", "CL101", "admission type"],
         "L3-837I-STATEMENT-DATES-REQUIRED": ["DTP", "434", "statement"],
+        "L3-SUBSCRIBER-DMG-REQUIRED": ["DMG", "D8", "gender"],
+        "L3-837I-ATTENDING-UMPI-REQUIRED": ["NM1", "71", "REF01=G2", "attending"],
+        "L3-837I-NTE-PATIENT-ACCOUNT-REQUIRED": ["NTE", "UPI", "PAC"],
         "L1-ONE-ISA-PER-FILE": ["ONE INTERCHANGE PER FILE"],
         "L3-SENDER-ID-MATCHES-SUBMITTER": ["ISA06", "GS02", "TRAILING SPACES"],
         "L3-ISA-RECEIVER-FIXED": ["ISA07", "ISA08", "41-1674742", "GS03"],

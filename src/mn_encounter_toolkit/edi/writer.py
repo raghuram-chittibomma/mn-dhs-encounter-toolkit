@@ -27,6 +27,10 @@ _ST03_BY_CLAIM_TYPE = {"837P": "005010X222A1", "837I": "005010X223A2"}
 ERR_BAD_ENVELOPE_SCENARIO = "err_bad_envelope"
 ERR_MISSING_CL1_837I_SCENARIO = "err_missing_cl1_837i"
 ERR_MISSING_STATEMENT_DATES_837I_SCENARIO = "err_missing_statement_dates_837i"
+ERR_MISSING_DMG_SCENARIO = "err_missing_dmg"
+ERR_MISSING_NTE_UPI_837I_SCENARIO = "err_missing_nte_upi_837i"
+ERR_MISSING_ATTENDING_UMPI_837I_SCENARIO = "err_missing_attending_umpi_837i"
+ERR_MISSING_SERVICE_FACILITY_UMPI_SCENARIO = "err_missing_service_facility_umpi"
 
 
 class EnvelopeBuilder:
@@ -81,8 +85,7 @@ def write_billing_provider_loop(env: EnvelopeBuilder, billing: Provider) -> None
     env.add("N4", billing.address.city, billing.address.state, billing.address.zip5)
     env.add("REF", "EI", billing.tin)
     if billing.umpi:
-        # SOURCE: p.16 (837P) / p.40 (837I) -- REF*G2 "(REPLACES 2010AA PAY
-        # TO PROVIDER UMPI) PROVIDER COMMERCIAL NUMBER" / "BILLING PROVIDER
+        # SOURCE: p.17 (837P) / p.40 (837I) -- REF*G2 "BILLING PROVIDER
         # SECONDARY IDENTIFIER (DHS UMPI NUMBER)".
         env.add("REF", "G2", billing.umpi)
     # else: deliberately omitted -- see generator/scenarios/errors.py err_missing_umpi.
@@ -110,6 +113,48 @@ def write_referring_rendering_loops(
             env.add("REF", "G2", rendering.umpi)
 
 
+def write_attending_provider_loop(env: EnvelopeBuilder, attending: Provider | None) -> None:
+    # SOURCE: p.51 (837I) -- Loop 2310A attending physician (NM1*71, C2);
+    # REF*G2 carries UMPI when the loop is present.
+    if attending is None:
+        return
+    q, last, first = _provider_name_elements(attending)
+    if attending.npi:
+        env.add("NM1", "71", q, last, first, "", "", "", "XX", attending.npi)
+    else:
+        env.add("NM1", "71", q, last, first)
+    if attending.umpi:
+        env.add("REF", "G2", attending.umpi)
+
+
+def write_service_facility_loop(
+    env: EnvelopeBuilder, facility: Provider | None, *, scenario_name: str
+) -> None:
+    # SOURCE: p.22 (837P) / p.52 (837I) -- service facility location loop
+    # (NM1*77, C1); REF*G2 carries UMPI when the loop is present.
+    if facility is None:
+        return
+    if scenario_name == ERR_MISSING_SERVICE_FACILITY_UMPI_SCENARIO:
+        facility = Provider(
+            name_last=facility.name_last,
+            name_first=facility.name_first,
+            is_organization=facility.is_organization,
+            npi=facility.npi,
+            umpi="",
+            tin=facility.tin,
+            taxonomy_code=facility.taxonomy_code,
+            is_atypical=facility.is_atypical,
+            address=facility.address,
+        )
+    q, last, first = _provider_name_elements(facility)
+    if facility.npi:
+        env.add("NM1", "77", q, last, first, "", "", "", "XX", facility.npi)
+    else:
+        env.add("NM1", "77", q, last, first)
+    if facility.umpi:
+        env.add("REF", "G2", facility.umpi)
+
+
 def write_subscriber_loop(env: EnvelopeBuilder, encounter: Encounter) -> None:
     member = encounter.member
     # SOURCE: p.14-15 (837P) / p.39 (837I) -- SBR01=U, SBR02=18 (Self,
@@ -120,7 +165,9 @@ def write_subscriber_loop(env: EnvelopeBuilder, encounter: Encounter) -> None:
     )
     env.add("N3", "N/A")
     env.add("N4", "N/A", "N/A", "00000")
-    env.add("DMG", "D8", _fmt_date(member.dob), member.gender)
+    # SOURCE: p.16 (837P, C2) / p.40 (837I, Y) -- DMG demographics in 2010BA.
+    if encounter.scenario_name != ERR_MISSING_DMG_SCENARIO:
+        env.add("DMG", "D8", _fmt_date(member.dob), member.gender)
     env.add("REF", "Y4", member.mco_member_id)
     # SOURCE: p.15-16 (837P) / p.40 (837I), Loop 2010BB -- payer is always
     # DHS itself; NM108=PI, NM109=411674742 (DHS_PAYER_ID).
@@ -166,6 +213,14 @@ def write_claim_segments(env: EnvelopeBuilder, encounter: Encounter) -> None:
         # source, CL103 patient status.
         if encounter.scenario_name != ERR_MISSING_CL1_837I_SCENARIO:
             env.add("CL1", inst.admission_type_code, inst.admission_source_code, inst.patient_status_code)
+        if (
+            encounter.scenario_name != ERR_MISSING_NTE_UPI_837I_SCENARIO
+            and inst.patient_account_number
+        ):
+            # SOURCE: p.44 (837I) -- NTE*UPI patient account (PAC=...).
+            pac = inst.patient_account_number
+            nte02 = pac if pac.startswith("PAC=") else f"PAC={pac}"
+            env.add("NTE", "UPI", nte02)
 
     if encounter.frequency_code == "8" and encounter.original_icn:
         # SOURCE: p.19/p.43 -- REF*F8, void-only usage.
@@ -203,6 +258,26 @@ def write_claim_segments(env: EnvelopeBuilder, encounter: Encounter) -> None:
         billing=encounter.billing_provider,
         referring=encounter.referring_provider,
     )
+
+    write_service_facility_loop(
+        env, encounter.service_facility_provider, scenario_name=encounter.scenario_name
+    )
+
+    if encounter.claim_type == "837I":
+        attending = encounter.attending_provider
+        if encounter.scenario_name == ERR_MISSING_ATTENDING_UMPI_837I_SCENARIO and attending is not None:
+            attending = Provider(
+                name_last=attending.name_last,
+                name_first=attending.name_first,
+                is_organization=attending.is_organization,
+                npi=attending.npi,
+                umpi="",
+                tin=attending.tin,
+                taxonomy_code=attending.taxonomy_code,
+                is_atypical=attending.is_atypical,
+                address=attending.address,
+            )
+        write_attending_provider_loop(env, attending)
 
     write_mco_adjudication_loop(env, encounter)
 

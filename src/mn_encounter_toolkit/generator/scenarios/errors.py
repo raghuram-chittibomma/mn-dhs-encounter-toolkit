@@ -93,6 +93,36 @@ def err_missing_statement_dates_837i(rng: random.Random) -> Encounter:
     return dataclasses.replace(base, scenario_name="err_missing_statement_dates_837i")
 
 
+@register_scenario("err_missing_dmg", "Subscriber loop missing required DMG demographics segment")
+def err_missing_dmg(rng: random.Random) -> Encounter:
+    base = clean_professional_original(rng)
+    return dataclasses.replace(base, scenario_name="err_missing_dmg")
+
+
+@register_scenario("err_missing_nte_upi_837i", "837I missing required NTE*UPI patient account number")
+def err_missing_nte_upi_837i(rng: random.Random) -> Encounter:
+    base = clean_institutional_original(rng)
+    return dataclasses.replace(base, scenario_name="err_missing_nte_upi_837i")
+
+
+@register_scenario(
+    "err_missing_attending_umpi_837i",
+    "837I attending physician (NM1*71) present without REF*G2 UMPI",
+)
+def err_missing_attending_umpi_837i(rng: random.Random) -> Encounter:
+    base = clean_institutional_original(rng)
+    return dataclasses.replace(base, scenario_name="err_missing_attending_umpi_837i")
+
+
+@register_scenario(
+    "err_missing_service_facility_umpi",
+    "Service facility (NM1*77) present without REF*G2 UMPI",
+)
+def err_missing_service_facility_umpi(rng: random.Random) -> Encounter:
+    base = clean_institutional_original(rng)
+    return dataclasses.replace(base, scenario_name="err_missing_service_facility_umpi")
+
+
 @register_scenario("err_void_no_icn", "Void encounter missing original ICN")
 def err_void_no_icn(rng: random.Random) -> Encounter:
     base = clean_professional_original(rng)

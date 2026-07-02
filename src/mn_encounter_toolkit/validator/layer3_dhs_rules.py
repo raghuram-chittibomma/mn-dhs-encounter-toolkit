@@ -115,7 +115,7 @@ def rule_billing_tin_required(doc: ParsedDocument) -> list[Finding]:
 @LAYER3.register(
     "L3-BILLING-UMPI-REQUIRED",
     "Billing provider (Loop 2010AA) must carry the DHS UMPI as a secondary identifier via REF*G2.",
-    source_citation="dhs_837_encounter_companion_guide.pdf p.16 (837P) / p.40 (837I) -- "
+    source_citation="dhs_837_encounter_companion_guide.pdf p.17 (837P) / p.40 (837I) -- "
     "Loop 2010AA REF, 'REF01=G2 ... REF02 = BILLING PROVIDER SECONDARY IDENTIFIER (DHS UMPI NUMBER)'.",
 )
 def rule_billing_umpi_required(doc: ParsedDocument) -> list[Finding]:
@@ -131,7 +131,32 @@ def rule_billing_umpi_required(doc: ParsedDocument) -> list[Finding]:
                     f"Billing provider for claim under subscriber HL {block.hl_subscriber_id} is "
                     "missing a REF*G2 (UMPI) secondary identifier.",
                     segment_id="REF",
-                    source_citation="dhs_837_encounter_companion_guide.pdf p.16/p.40",
+                    source_citation="dhs_837_encounter_companion_guide.pdf p.17/p.40",
+                )
+            )
+    return findings
+
+
+@LAYER3.register(
+    "L3-SERVICE-FACILITY-UMPI-REQUIRED",
+    "When a service facility location loop (NM1*77) is present, it must carry REF*G2 (UMPI).",
+    source_citation="dhs_837_encounter_companion_guide.pdf p.22 (837P) / p.52 (837I) -- "
+    "service facility loop REF*G2 (C1).",
+)
+def rule_service_facility_umpi_required(doc: ParsedDocument) -> list[Finding]:
+    findings = []
+    for block in doc.claim_blocks():
+        for nm1 in _nm1_loops_missing_ref_g2(block, "77"):
+            findings.append(
+                Finding(
+                    "error",
+                    3,
+                    "L3-SERVICE-FACILITY-UMPI-REQUIRED",
+                    f"Service facility (NM1*77) for claim under subscriber HL "
+                    f"{block.hl_subscriber_id} is missing a REF*G2 (UMPI) secondary identifier.",
+                    segment_id="NM1",
+                    line_number=nm1.line_number,
+                    source_citation="dhs_837_encounter_companion_guide.pdf p.22/p.52",
                 )
             )
     return findings
@@ -590,6 +615,150 @@ def rule_837i_statement_dates_required(doc: ParsedDocument) -> list[Finding]:
                     "required DTP*434 statement from/through dates segment.",
                     segment_id="DTP",
                     source_citation="dhs_837_encounter_companion_guide.pdf p.42",
+                )
+            )
+    return findings
+
+
+def _subscriber_dmg(block: ClaimBlock) -> ParsedSegment | None:
+    """DMG in loop 2010BA (between NM1*IL and NM1*PR)."""
+    in_subscriber = False
+    for seg in block.claim_segments:
+        if seg.seg_id == "NM1" and seg.el_str(1) == "IL":
+            in_subscriber = True
+            continue
+        if in_subscriber and seg.seg_id == "NM1" and seg.el_str(1) == "PR":
+            break
+        if in_subscriber and seg.seg_id == "DMG":
+            return seg
+    return None
+
+
+_VALID_DMG_GENDERS = frozenset({"M", "F", "U"})
+
+
+@LAYER3.register(
+    "L3-SUBSCRIBER-DMG-REQUIRED",
+    "Subscriber loop (2010BA) must include DMG with D8 date format and gender M, F, or U.",
+    source_citation="dhs_837_encounter_companion_guide.pdf p.16 (837P, C2) / p.40 (837I, Y) -- "
+    "Loop 2010BA DMG demographics.",
+)
+def rule_subscriber_dmg_required(doc: ParsedDocument) -> list[Finding]:
+    findings = []
+    citation = "dhs_837_encounter_companion_guide.pdf p.16/p.40"
+    for block in doc.claim_blocks():
+        dmg = _subscriber_dmg(block)
+        clm = block.clm()
+        icn = clm.el_str(1) if clm else block.hl_subscriber_id
+        if dmg is None:
+            findings.append(
+                Finding(
+                    "error",
+                    3,
+                    "L3-SUBSCRIBER-DMG-REQUIRED",
+                    f"Claim {icn!r} is missing the required subscriber DMG segment in loop 2010BA.",
+                    segment_id="DMG",
+                    source_citation=citation,
+                )
+            )
+            continue
+        if dmg.el_str(1) != "D8":
+            findings.append(
+                Finding(
+                    "error",
+                    3,
+                    "L3-SUBSCRIBER-DMG-REQUIRED",
+                    f"Subscriber DMG01 must be 'D8', got {dmg.el_str(1)!r}.",
+                    segment_id="DMG",
+                    line_number=dmg.line_number,
+                    source_citation=citation,
+                )
+            )
+        gender = dmg.el_str(3)
+        if gender not in _VALID_DMG_GENDERS:
+            findings.append(
+                Finding(
+                    "error",
+                    3,
+                    "L3-SUBSCRIBER-DMG-REQUIRED",
+                    f"Subscriber DMG03 must be one of M/F/U, got {gender!r}.",
+                    segment_id="DMG",
+                    line_number=dmg.line_number,
+                    source_citation=citation,
+                )
+            )
+    return findings
+
+
+@LAYER3.register(
+    "L3-837I-ATTENDING-UMPI-REQUIRED",
+    "When an attending physician loop (NM1*71) is present on 837I, it must carry REF*G2 (UMPI).",
+    source_citation="dhs_837_encounter_companion_guide.pdf p.51 (837I) -- Loop 2310A attending "
+    "physician REF*G2 (C2).",
+)
+def rule_837i_attending_umpi_required(doc: ParsedDocument) -> list[Finding]:
+    findings = []
+    for block in doc.claim_blocks():
+        if _claim_type(block) != "837I":
+            continue
+        for nm1 in _nm1_loops_missing_ref_g2(block, "71"):
+            findings.append(
+                Finding(
+                    "error",
+                    3,
+                    "L3-837I-ATTENDING-UMPI-REQUIRED",
+                    f"Attending physician (NM1*71) for claim under subscriber HL "
+                    f"{block.hl_subscriber_id} is missing a REF*G2 (UMPI) secondary identifier.",
+                    segment_id="NM1",
+                    line_number=nm1.line_number,
+                    source_citation="dhs_837_encounter_companion_guide.pdf p.51",
+                )
+            )
+    return findings
+
+
+@LAYER3.register(
+    "L3-837I-NTE-PATIENT-ACCOUNT-REQUIRED",
+    "837I claims must include NTE*UPI with patient account number (PAC= format) in loop 2300.",
+    source_citation="dhs_837_encounter_companion_guide.pdf p.44 (837I) -- "
+    "'THE PATIENT ACCOUNT NUMBER IS NOW REQUIRED TO BE SENT ON ALL 837I CLAIMS' via NTE*UPI.",
+)
+def rule_837i_nte_patient_account_required(doc: ParsedDocument) -> list[Finding]:
+    findings = []
+    citation = "dhs_837_encounter_companion_guide.pdf p.44"
+    for block in doc.claim_blocks():
+        if _claim_type(block) != "837I":
+            continue
+        nte_upi = [
+            n
+            for n in _claim_header_segments(block)
+            if n.seg_id == "NTE" and n.el_str(1) == "UPI" and n.el_str(2).strip()
+        ]
+        clm = block.clm()
+        icn = clm.el_str(1) if clm else block.hl_subscriber_id
+        if not nte_upi:
+            findings.append(
+                Finding(
+                    "error",
+                    3,
+                    "L3-837I-NTE-PATIENT-ACCOUNT-REQUIRED",
+                    f"837I claim {icn!r} is missing required NTE*UPI patient account number in loop 2300.",
+                    segment_id="NTE",
+                    source_citation=citation,
+                )
+            )
+            continue
+        nte02 = nte_upi[0].el_str(2).strip()
+        if not nte02.upper().startswith("PAC="):
+            findings.append(
+                Finding(
+                    "error",
+                    3,
+                    "L3-837I-NTE-PATIENT-ACCOUNT-REQUIRED",
+                    f"837I NTE*UPI value must use PAC= prefix, got {nte02!r}.",
+                    segment_id="NTE",
+                    line_number=nte_upi[0].line_number,
+                    source_citation=citation,
                 )
             )
     return findings

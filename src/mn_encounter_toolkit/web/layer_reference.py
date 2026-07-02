@@ -74,6 +74,10 @@ LAYER_INFO: tuple[LayerInfo, ...] = (
         rules=(
             LayerRule("L3-BILLING-TIN-REQUIRED", "Billing provider REF*EI (TIN) in Loop 2010AA"),
             LayerRule("L3-BILLING-UMPI-REQUIRED", "Billing provider REF*G2 (UMPI) in Loop 2010AA"),
+            LayerRule(
+                "L3-SERVICE-FACILITY-UMPI-REQUIRED",
+                "Service facility NM1*77 carries REF*G2 when present",
+            ),
             LayerRule("L3-REFERRING-UMPI-REQUIRED", "REF*G2 when NM1*DN referring provider is present"),
             LayerRule("L3-RENDERING-UMPI-REQUIRED", "REF*G2 when NM1*82 rendering provider is present"),
             LayerRule("L3-MCO-ADJUDICATION-REQUIRED", "Loop 2320 first occurrence reports MCO adjudication (AMT*D)"),
@@ -89,6 +93,12 @@ LAYER_INFO: tuple[LayerInfo, ...] = (
             LayerRule("L3-DIAGNOSIS-SUBSEQUENT-QUALIFIER", "Subsequent HI segments use ABF"),
             LayerRule("L3-837I-CL1-REQUIRED", "837I claims include CL1 institutional claim codes"),
             LayerRule("L3-837I-STATEMENT-DATES-REQUIRED", "837I claims include DTP*434 statement dates"),
+            LayerRule("L3-SUBSCRIBER-DMG-REQUIRED", "Subscriber loop includes DMG with D8 date and M/F/U gender"),
+            LayerRule("L3-837I-ATTENDING-UMPI-REQUIRED", "Attending physician NM1*71 carries REF*G2 when present"),
+            LayerRule(
+                "L3-837I-NTE-PATIENT-ACCOUNT-REQUIRED",
+                "837I includes NTE*UPI patient account (PAC= format)",
+            ),
             LayerRule("L3-LINE-PAID-AMOUNT-REQUIRED-837P", "At least one line-level REF*9D on 837P claims"),
             LayerRule(
                 "L3-LINE-PAID-AMOUNT-REQUIRED-837I",

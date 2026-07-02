@@ -103,6 +103,15 @@ def test_writer_err_missing_statement_dates_837i_omits_dtp_434():
     assert "CL1*" in text
 
 
+def test_writer_837i_emits_nte_upi_and_attending():
+    encounter = registry.build_encounter("clean_institutional_original", seed=14)
+    text = write_batch_checked([encounter])
+    assert "NTE*UPI*PAC=" in text
+    assert "NM1*71*" in text
+    assert "NM1*77*" in text
+    assert "REF*G2*" in text
+
+
 def test_parser_rejects_trailing_unterminated_content():
     import pytest
 

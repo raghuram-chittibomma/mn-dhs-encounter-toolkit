@@ -127,6 +127,9 @@ class InstitutionalDetail:
     # Omit when paid amounts are reported only at the 2400 line level (REF*9B/9D).
     mco_paid_amount_claim: Decimal | None = None  # REF*9C at 2300
     allowed_amount_claim: Decimal | None = None  # REF*9A at 2300
+    # SOURCE: dhs_837_encounter_companion_guide.pdf p.44 (837I loop 2300) --
+    # NTE*UPI patient account number, format PAC=XXXXXXXX (C2).
+    patient_account_number: str | None = None
     # SOURCE: dhs_837_encounter_companion_guide.pdf p.47-48 -- HI segment,
     # HI01-1="BBR" principal procedure (ICD-10-PCS) / "BBQ" other procedure.
     # DRG itself was not found in the 837I encounter section of the
@@ -195,6 +198,8 @@ class Encounter:
     epsdt: EPSDTInfo | None = None
     institutional: InstitutionalDetail | None = None
     referring_provider: Provider | None = None
+    attending_provider: Provider | None = None  # 837I loop 2310A (NM1*71), optional
+    service_facility_provider: Provider | None = None  # loop 2310C/E (NM1*77), optional
     scenario_name: str = ""
 
     def __post_init__(self) -> None:

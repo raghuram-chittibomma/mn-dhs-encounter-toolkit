@@ -19,6 +19,7 @@ from mn_encounter_toolkit.generator.entities import (
     generate_icn,
     generate_mco,
     generate_member,
+    generate_patient_account_number,
     generate_provider,
 )
 from mn_encounter_toolkit.models.core import MCO, Member, Provider
@@ -233,6 +234,7 @@ def institutional_detail(
         statement_through=discharge_date,
         drg_code=f"{rng.randint(1, 999):03d}",
         principal_procedure_code=pcs,
+        patient_account_number=generate_patient_account_number(rng),
     )
 
 

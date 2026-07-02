@@ -78,6 +78,7 @@ can prove vs. submitting to DHS MN–ITS test.
 |---------|----------------|
 | `L3-BILLING-TIN-REQUIRED` | Billing provider REF*EI (TIN) in Loop 2010AA |
 | `L3-BILLING-UMPI-REQUIRED` | Billing provider REF*G2 (UMPI) in Loop 2010AA |
+| `L3-SERVICE-FACILITY-UMPI-REQUIRED` | Service facility `NM1*77` carries `REF*G2` when present |
 | `L3-REFERRING-UMPI-REQUIRED` | REF*G2 when NM1*DN (referring) is present |
 | `L3-RENDERING-UMPI-REQUIRED` | REF*G2 when NM1*82 (rendering) is present |
 | `L3-MCO-ADJUDICATION-REQUIRED` | Loop 2320 first occurrence with MCO adjudication (AMT*D) |
@@ -93,6 +94,9 @@ can prove vs. submitting to DHS MN–ITS test.
 | `L3-DIAGNOSIS-SUBSEQUENT-QUALIFIER` | Subsequent HI uses ABF |
 | `L3-837I-CL1-REQUIRED` | 837I includes `CL1` institutional claim code segment |
 | `L3-837I-STATEMENT-DATES-REQUIRED` | 837I includes `DTP*434` statement dates |
+| `L3-SUBSCRIBER-DMG-REQUIRED` | Subscriber loop includes `DMG` (D8 date, gender M/F/U) |
+| `L3-837I-ATTENDING-UMPI-REQUIRED` | Attending `NM1*71` carries `REF*G2` when present |
+| `L3-837I-NTE-PATIENT-ACCOUNT-REQUIRED` | 837I includes `NTE*UPI` with `PAC=` patient account |
 | `L3-LINE-PAID-AMOUNT-REQUIRED-837P` | At least one line-level REF*9D (837P) |
 | `L3-LINE-PAID-AMOUNT-REQUIRED-837I` | REF*9D on a service line **or** REF*9C at claim level (837I) |
 | `L3-837I-AMOUNT-REF-PLACEMENT` | 837I: 9A/9C in loop 2300 only; 9B/9D in loop 2400 only |

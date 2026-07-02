@@ -15,7 +15,7 @@ Layer 2 rules follow base X12 TR3 (`mucg_837p.pdf` as secondary, not encounter a
 |-------|------:|-----------:|
 | 1 Envelope | 11 | 1 |
 | 2 Syntax | 12 | 0 |
-| 3 DHS business | 23 | 22 |
+| 3 DHS business | 27 | 26 |
 | 4 Consistency | 6 | 0 |
 
 ---
@@ -74,10 +74,12 @@ Layer 2 rules follow base X12 TR3 (`mucg_837p.pdf` as secondary, not encounter a
 | Rule ID | PDF pages | Has source citation |
 |---------|-----------|---------------------|
 | `L3-837I-AMOUNT-REF-PLACEMENT` | p.43, p.44, p.59 | Yes |
+| `L3-837I-ATTENDING-UMPI-REQUIRED` | p.51 | Yes |
 | `L3-837I-CL1-REQUIRED` | p.43 | Yes |
+| `L3-837I-NTE-PATIENT-ACCOUNT-REQUIRED` | p.44 | Yes |
 | `L3-837I-STATEMENT-DATES-REQUIRED` | p.42 | Yes |
 | `L3-BILLING-TIN-REQUIRED` | p.14, p.38 | Yes |
-| `L3-BILLING-UMPI-REQUIRED` | p.16, p.40 | Yes |
+| `L3-BILLING-UMPI-REQUIRED` | p.17, p.40 | Yes |
 | `L3-CLM05-3-FREQUENCY-CODE-DOCUMENTED` | p.17, p.41 | Yes |
 | `L3-DIAGNOSIS-PRINCIPAL-QUALIFIER` | p.20, p.45 | Yes |
 | `L3-DIAGNOSIS-SUBSEQUENT-QUALIFIER` | p.20, p.47 | Yes |
@@ -93,7 +95,9 @@ Layer 2 rules follow base X12 TR3 (`mucg_837p.pdf` as secondary, not encounter a
 | `L3-REFERRING-UMPI-REQUIRED` | p.21 | Yes |
 | `L3-RENDERING-UMPI-REQUIRED` | p.22 | Yes |
 | `L3-SENDER-ID-MATCHES-SUBMITTER` | p.35, p.36 | Yes |
+| `L3-SERVICE-FACILITY-UMPI-REQUIRED` | p.22, p.52 | Yes |
 | `L3-SUBMITTER-TRADING-PARTNER-QUALIFIER` | p.13, p.37 | Yes |
+| `L3-SUBSCRIBER-DMG-REQUIRED` | p.16, p.40 | Yes |
 | `L3-UMPI-FORMAT-STUB` | — | No |
 | `L3-VOID-REF-F8-ONLY` | p.19, p.43 | Yes |
 
@@ -105,6 +109,14 @@ Layer 2 rules follow base X12 TR3 (`mucg_837p.pdf` as secondary, not encounter a
 - **Source citation:** dhs_837_encounter_companion_guide.pdf p.43-44 (837I REF*9A/9C at claim level) / p.59 (837I REF*9B/9D at line level).
 - **PDF pages (cited):** p.43, p.44, p.59
 
+#### `L3-837I-ATTENDING-UMPI-REQUIRED`
+
+- **Layer:** 3
+- **Description:** When an attending physician loop (NM1*71) is present on 837I, it must carry REF*G2 (UMPI).
+- **Code:** `src/mn_encounter_toolkit/validator/layer3_dhs_rules.py` → `rule_837i_attending_umpi_required`
+- **Source citation:** dhs_837_encounter_companion_guide.pdf p.51 (837I) -- Loop 2310A attending physician REF*G2 (C2).
+- **PDF pages (cited):** p.51
+
 #### `L3-837I-CL1-REQUIRED`
 
 - **Layer:** 3
@@ -112,6 +124,14 @@ Layer 2 rules follow base X12 TR3 (`mucg_837p.pdf` as secondary, not encounter a
 - **Code:** `src/mn_encounter_toolkit/validator/layer3_dhs_rules.py` → `rule_837i_cl1_required`
 - **Source citation:** dhs_837_encounter_companion_guide.pdf p.43 (837I) -- CL1 segment REQ=Y (CL101 admission type, CL103 patient status; CL102 admission source is C1).
 - **PDF pages (cited):** p.43
+
+#### `L3-837I-NTE-PATIENT-ACCOUNT-REQUIRED`
+
+- **Layer:** 3
+- **Description:** 837I claims must include NTE*UPI with patient account number (PAC= format) in loop 2300.
+- **Code:** `src/mn_encounter_toolkit/validator/layer3_dhs_rules.py` → `rule_837i_nte_patient_account_required`
+- **Source citation:** dhs_837_encounter_companion_guide.pdf p.44 (837I) -- 'THE PATIENT ACCOUNT NUMBER IS NOW REQUIRED TO BE SENT ON ALL 837I CLAIMS' via NTE*UPI.
+- **PDF pages (cited):** p.44
 
 #### `L3-837I-STATEMENT-DATES-REQUIRED`
 
@@ -134,8 +154,8 @@ Layer 2 rules follow base X12 TR3 (`mucg_837p.pdf` as secondary, not encounter a
 - **Layer:** 3
 - **Description:** Billing provider (Loop 2010AA) must carry the DHS UMPI as a secondary identifier via REF*G2.
 - **Code:** `src/mn_encounter_toolkit/validator/layer3_dhs_rules.py` → `rule_billing_umpi_required`
-- **Source citation:** dhs_837_encounter_companion_guide.pdf p.16 (837P) / p.40 (837I) -- Loop 2010AA REF, 'REF01=G2 ... REF02 = BILLING PROVIDER SECONDARY IDENTIFIER (DHS UMPI NUMBER)'.
-- **PDF pages (cited):** p.16, p.40
+- **Source citation:** dhs_837_encounter_companion_guide.pdf p.17 (837P) / p.40 (837I) -- Loop 2010AA REF, 'REF01=G2 ... REF02 = BILLING PROVIDER SECONDARY IDENTIFIER (DHS UMPI NUMBER)'.
+- **PDF pages (cited):** p.17, p.40
 
 #### `L3-CLM05-3-FREQUENCY-CODE-DOCUMENTED`
 
@@ -257,6 +277,14 @@ Layer 2 rules follow base X12 TR3 (`mucg_837p.pdf` as secondary, not encounter a
 - **Source citation:** dhs_837_encounter_companion_guide.pdf p.35-36, Envelope Information -- 'ISA06 ... MUST CHANGE TO THE 10-DIGIT ... NPI OR ... UMPI FOLLOWED BY 5 TRAILING SPACES' and 'GS02 ... MUST MATCH THE NUMBER IN ISA06 WITHOUT THE TRAILING SPACES.'
 - **PDF pages (cited):** p.35, p.36
 
+#### `L3-SERVICE-FACILITY-UMPI-REQUIRED`
+
+- **Layer:** 3
+- **Description:** When a service facility location loop (NM1*77) is present, it must carry REF*G2 (UMPI).
+- **Code:** `src/mn_encounter_toolkit/validator/layer3_dhs_rules.py` → `rule_service_facility_umpi_required`
+- **Source citation:** dhs_837_encounter_companion_guide.pdf p.22 (837P) / p.52 (837I) -- service facility loop REF*G2 (C1).
+- **PDF pages (cited):** p.22, p.52
+
 #### `L3-SUBMITTER-TRADING-PARTNER-QUALIFIER`
 
 - **Layer:** 3
@@ -264,6 +292,14 @@ Layer 2 rules follow base X12 TR3 (`mucg_837p.pdf` as secondary, not encounter a
 - **Code:** `src/mn_encounter_toolkit/validator/layer3_dhs_rules.py` → `rule_submitter_trading_partner_qualifier`
 - **Source citation:** dhs_837_encounter_companion_guide.pdf p.13 (837P) / p.37 (837I) -- Loop 1000A NM1: 'NM108 ... 46 TRADING PARTNER ID'.
 - **PDF pages (cited):** p.13, p.37
+
+#### `L3-SUBSCRIBER-DMG-REQUIRED`
+
+- **Layer:** 3
+- **Description:** Subscriber loop (2010BA) must include DMG with D8 date format and gender M, F, or U.
+- **Code:** `src/mn_encounter_toolkit/validator/layer3_dhs_rules.py` → `rule_subscriber_dmg_required`
+- **Source citation:** dhs_837_encounter_companion_guide.pdf p.16 (837P, C2) / p.40 (837I, Y) -- Loop 2010BA DMG demographics.
+- **PDF pages (cited):** p.16, p.40
 
 #### `L3-UMPI-FORMAT-STUB`
 

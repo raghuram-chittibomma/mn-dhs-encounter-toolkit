@@ -154,3 +154,12 @@ def generate_encounter_id(rng: random.Random, *, prefix: str = "ENC") -> str:
     """A seeded, reproducible internal encounter id (distinct from the
     X12 ICN, though both are derived from the same seeded rng stream)."""
     return f"{prefix}{''.join(str(rng.randint(0, 9)) for _ in range(8))}"
+
+
+def generate_patient_account_number(rng: random.Random) -> str:
+    """837I NTE*UPI value: PAC= plus eight digits.
+
+    SOURCE: dhs_837_encounter_companion_guide.pdf p.44 (837I) -- patient
+    account number required on all 837I claims via NTE01=UPI.
+    """
+    return f"PAC={''.join(str(rng.randint(0, 9)) for _ in range(8))}"

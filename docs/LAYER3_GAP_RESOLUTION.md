@@ -34,4 +34,23 @@ REF qualifiers at claim level (loop 2300) vs service-line level (loop 2400).
 CL102 (admission source) is C1 in the guide — presence of the CL1 segment is
 validated; individual CL1 element values are not enforced beyond writer defaults.
 
-Remaining cross-check gaps (DMG, NTE*UPI, attending UMPI, etc.) are Phase 3+.
+## Phase 3 — Demographics, attending UMPI, patient account (2026-07)
+
+| Rule | Guide requirement |
+|------|-------------------|
+| `L3-SUBSCRIBER-DMG-REQUIRED` | DMG in 2010BA; DMG01=D8; DMG03 ∈ {M,F,U} (p.16/p.40) |
+| `L3-837I-ATTENDING-UMPI-REQUIRED` | NM1*71 loop requires REF*G2 when present (p.51, C2) |
+| `L3-837I-NTE-PATIENT-ACCOUNT-REQUIRED` | NTE*UPI with PAC= on all 837I (p.44, C2) |
+
+Writer/generator emit attending physician (NM1*71), NTE*UPI, and patient account
+on institutional scenarios.
+
+## Phase 4 — Service facility UMPI + citation hygiene (2026-07)
+
+| Item | Resolution |
+|------|------------|
+| `L3-SERVICE-FACILITY-UMPI-REQUIRED` | NM1*77 requires REF*G2 when loop present (p.22/p.52, C1) |
+| `L3-BILLING-UMPI-REQUIRED` citation | 837P page corrected to p.17 (was p.16) |
+
+Companion-guide cross-check gaps from the original report are addressed through
+Phase 4. Institutional scenarios also emit service facility (NM1*77).
