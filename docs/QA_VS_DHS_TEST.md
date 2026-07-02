@@ -109,7 +109,7 @@ segment mix, remark codes, payee grouping, or denial reasons.
 ### 4. Validation rules are not DHS's full edit engine
 
 The toolkit implements a **curated subset** of rules traceable to retrieved
-source documents (~50 rules across four layers). DHS likely runs additional
+source documents (~52 rules across four layers). DHS likely runs additional
 checks this project cannot model:
 
 | Area | Toolkit | Likely at DHS |

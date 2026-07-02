@@ -15,7 +15,7 @@ Layer 2 rules follow base X12 TR3 (`mucg_837p.pdf` as secondary, not encounter a
 |-------|------:|-----------:|
 | 1 Envelope | 11 | 1 |
 | 2 Syntax | 12 | 0 |
-| 3 DHS business | 21 | 20 |
+| 3 DHS business | 23 | 22 |
 | 4 Consistency | 6 | 0 |
 
 ---
@@ -74,6 +74,8 @@ Layer 2 rules follow base X12 TR3 (`mucg_837p.pdf` as secondary, not encounter a
 | Rule ID | PDF pages | Has source citation |
 |---------|-----------|---------------------|
 | `L3-837I-AMOUNT-REF-PLACEMENT` | p.43, p.44, p.59 | Yes |
+| `L3-837I-CL1-REQUIRED` | p.43 | Yes |
+| `L3-837I-STATEMENT-DATES-REQUIRED` | p.42 | Yes |
 | `L3-BILLING-TIN-REQUIRED` | p.14, p.38 | Yes |
 | `L3-BILLING-UMPI-REQUIRED` | p.16, p.40 | Yes |
 | `L3-CLM05-3-FREQUENCY-CODE-DOCUMENTED` | p.17, p.41 | Yes |
@@ -102,6 +104,22 @@ Layer 2 rules follow base X12 TR3 (`mucg_837p.pdf` as secondary, not encounter a
 - **Code:** `src/mn_encounter_toolkit/validator/layer3_dhs_rules.py` → `rule_837i_amount_ref_placement`
 - **Source citation:** dhs_837_encounter_companion_guide.pdf p.43-44 (837I REF*9A/9C at claim level) / p.59 (837I REF*9B/9D at line level).
 - **PDF pages (cited):** p.43, p.44, p.59
+
+#### `L3-837I-CL1-REQUIRED`
+
+- **Layer:** 3
+- **Description:** 837I claims must include a CL1 institutional claim code segment in loop 2300.
+- **Code:** `src/mn_encounter_toolkit/validator/layer3_dhs_rules.py` → `rule_837i_cl1_required`
+- **Source citation:** dhs_837_encounter_companion_guide.pdf p.43 (837I) -- CL1 segment REQ=Y (CL101 admission type, CL103 patient status; CL102 admission source is C1).
+- **PDF pages (cited):** p.43
+
+#### `L3-837I-STATEMENT-DATES-REQUIRED`
+
+- **Layer:** 3
+- **Description:** 837I claims must include DTP*434 statement from/through dates in loop 2300.
+- **Code:** `src/mn_encounter_toolkit/validator/layer3_dhs_rules.py` → `rule_837i_statement_dates_required`
+- **Source citation:** dhs_837_encounter_companion_guide.pdf p.42 (837I) -- DTP*434 statement dates REQ=Y.
+- **PDF pages (cited):** p.42
 
 #### `L3-BILLING-TIN-REQUIRED`
 

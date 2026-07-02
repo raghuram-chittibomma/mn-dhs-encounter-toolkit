@@ -542,6 +542,60 @@ def rule_diagnosis_subsequent_qualifier(doc: ParsedDocument) -> list[Finding]:
 
 
 @LAYER3.register(
+    "L3-837I-CL1-REQUIRED",
+    "837I claims must include a CL1 institutional claim code segment in loop 2300.",
+    source_citation="dhs_837_encounter_companion_guide.pdf p.43 (837I) -- CL1 segment REQ=Y "
+    "(CL101 admission type, CL103 patient status; CL102 admission source is C1).",
+)
+def rule_837i_cl1_required(doc: ParsedDocument) -> list[Finding]:
+    findings = []
+    for block in doc.claim_blocks():
+        if _claim_type(block) != "837I":
+            continue
+        if not block.find("CL1"):
+            clm = block.clm()
+            findings.append(
+                Finding(
+                    "error",
+                    3,
+                    "L3-837I-CL1-REQUIRED",
+                    f"837I claim {clm.el_str(1) if clm else block.hl_subscriber_id!r} is missing the "
+                    "required CL1 institutional claim code segment.",
+                    segment_id="CL1",
+                    source_citation="dhs_837_encounter_companion_guide.pdf p.43",
+                )
+            )
+    return findings
+
+
+@LAYER3.register(
+    "L3-837I-STATEMENT-DATES-REQUIRED",
+    "837I claims must include DTP*434 statement from/through dates in loop 2300.",
+    source_citation="dhs_837_encounter_companion_guide.pdf p.42 (837I) -- DTP*434 statement dates REQ=Y.",
+)
+def rule_837i_statement_dates_required(doc: ParsedDocument) -> list[Finding]:
+    findings = []
+    for block in doc.claim_blocks():
+        if _claim_type(block) != "837I":
+            continue
+        dtp_434 = [d for d in block.find("DTP") if d.el_str(1) == "434"]
+        if not dtp_434:
+            clm = block.clm()
+            findings.append(
+                Finding(
+                    "error",
+                    3,
+                    "L3-837I-STATEMENT-DATES-REQUIRED",
+                    f"837I claim {clm.el_str(1) if clm else block.hl_subscriber_id!r} is missing the "
+                    "required DTP*434 statement from/through dates segment.",
+                    segment_id="DTP",
+                    source_citation="dhs_837_encounter_companion_guide.pdf p.42",
+                )
+            )
+    return findings
+
+
+@LAYER3.register(
     "L3-LINE-PAID-AMOUNT-REQUIRED-837P",
     "837P claims must report the MCO-paid amount at the line level (REF*9D) on at least one service line.",
     source_citation="dhs_837_encounter_companion_guide.pdf p.89-90, Appendix -- Paid Amount and "

@@ -89,6 +89,20 @@ def test_writer_837i_claim_level_emits_ref_9c_when_configured():
     assert "REF*9D*" not in text
 
 
+def test_writer_err_missing_cl1_837i_omits_cl1_segment():
+    encounter = registry.build_encounter("err_missing_cl1_837i", seed=12)
+    text = write_batch_checked([encounter], allow_inconsistent=True)
+    assert "CL1*" not in text
+    assert "DTP*434*" in text
+
+
+def test_writer_err_missing_statement_dates_837i_omits_dtp_434():
+    encounter = registry.build_encounter("err_missing_statement_dates_837i", seed=13)
+    text = write_batch_checked([encounter], allow_inconsistent=True)
+    assert "DTP*434*" not in text
+    assert "CL1*" in text
+
+
 def test_parser_rejects_trailing_unterminated_content():
     import pytest
 

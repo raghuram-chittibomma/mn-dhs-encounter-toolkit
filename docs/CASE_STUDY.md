@@ -38,7 +38,7 @@ that submission.
 A Python toolkit that covers the MCO encounter **dev/QA loop** end to end:
 
 1. **Generate** synthetic 837P/837I batches (20+ scenarios, including intentional `err_*` fixtures)
-2. **Validate** against four independent layers (50 rules), with DHS companion-guide citations on Layer 3
+2. **Validate** against four independent layers (52 rules), with DHS companion-guide citations on Layer 3
 3. **Preview** 999 and 835E responses (deterministic or simulation)
 4. **Explore** rules in a browser UI (validate, layer catalog, scenario lab)
 
@@ -113,7 +113,7 @@ Details: [`ARCHITECTURE.md`](ARCHITECTURE.md)
 ## Proof points (for reviewers)
 
 - **158 tests** — unit per module + integration pipeline + CLI
-- **50 validation rules** — searchable in UI and [`VALIDATION_LAYERS.md`](VALIDATION_LAYERS.md)
+- **52 validation rules** — searchable in UI and [`VALIDATION_LAYERS.md`](VALIDATION_LAYERS.md)
 - **Source traceability** — Layer 3 findings cite `dhs_837_encounter_companion_guide.pdf` page/loop
 - **Honest scope** — [`KNOWN_LIMITATIONS.md`](../KNOWN_LIMITATIONS.md) documents document gaps (UMPI format, 835E spec)
 - **Examples** — [`examples/`](../examples/) includes clean and error fixtures with JSON reports

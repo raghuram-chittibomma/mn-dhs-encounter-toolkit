@@ -87,6 +87,8 @@ LAYER_INFO: tuple[LayerInfo, ...] = (
             LayerRule("L3-VOID-REF-F8-ONLY", "REF*F8 appears only on void claims (CLM05-3=8)"),
             LayerRule("L3-DIAGNOSIS-PRINCIPAL-QUALIFIER", "First HI uses ABK principal qualifier"),
             LayerRule("L3-DIAGNOSIS-SUBSEQUENT-QUALIFIER", "Subsequent HI segments use ABF"),
+            LayerRule("L3-837I-CL1-REQUIRED", "837I claims include CL1 institutional claim codes"),
+            LayerRule("L3-837I-STATEMENT-DATES-REQUIRED", "837I claims include DTP*434 statement dates"),
             LayerRule("L3-LINE-PAID-AMOUNT-REQUIRED-837P", "At least one line-level REF*9D on 837P claims"),
             LayerRule(
                 "L3-LINE-PAID-AMOUNT-REQUIRED-837I",

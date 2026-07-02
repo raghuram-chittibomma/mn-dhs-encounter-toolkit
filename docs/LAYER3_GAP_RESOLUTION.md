@@ -24,4 +24,14 @@ REF qualifiers at claim level (loop 2300) vs service-line level (loop 2400).
 3. **Validator** — `L3-837I-AMOUNT-REF-PLACEMENT` errors when `9A`/`9C`
    appear inside an `LX` group or `9B`/`9D` appear in the claim header.
 
-Remaining cross-check gaps (CL1, DMG, NTE*UPI, etc.) are tracked for Phase 2+.
+## Phase 2 — 837I structural presence (2026-07)
+
+| Rule | Guide requirement |
+|------|-------------------|
+| `L3-837I-CL1-REQUIRED` | CL1 segment present (p.43, REQ=Y) |
+| `L3-837I-STATEMENT-DATES-REQUIRED` | DTP*434 present (p.42, REQ=Y) |
+
+CL102 (admission source) is C1 in the guide — presence of the CL1 segment is
+validated; individual CL1 element values are not enforced beyond writer defaults.
+
+Remaining cross-check gaps (DMG, NTE*UPI, attending UMPI, etc.) are Phase 3+.

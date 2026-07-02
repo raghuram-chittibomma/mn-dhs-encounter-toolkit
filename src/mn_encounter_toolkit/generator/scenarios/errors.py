@@ -81,6 +81,18 @@ def err_missing_mco_paid_837i(rng: random.Random) -> Encounter:
     )
 
 
+@register_scenario("err_missing_cl1_837i", "837I missing required CL1 institutional claim code segment")
+def err_missing_cl1_837i(rng: random.Random) -> Encounter:
+    base = clean_institutional_original(rng)
+    return dataclasses.replace(base, scenario_name="err_missing_cl1_837i")
+
+
+@register_scenario("err_missing_statement_dates_837i", "837I missing required DTP*434 statement dates")
+def err_missing_statement_dates_837i(rng: random.Random) -> Encounter:
+    base = clean_institutional_original(rng)
+    return dataclasses.replace(base, scenario_name="err_missing_statement_dates_837i")
+
+
 @register_scenario("err_void_no_icn", "Void encounter missing original ICN")
 def err_void_no_icn(rng: random.Random) -> Encounter:
     base = clean_professional_original(rng)

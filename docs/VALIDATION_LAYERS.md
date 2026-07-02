@@ -91,6 +91,8 @@ can prove vs. submitting to DHS MN–ITS test.
 | `L3-VOID-REF-F8-ONLY` | REF*F8 only on void claims (CLM05-3=`8`) |
 | `L3-DIAGNOSIS-PRINCIPAL-QUALIFIER` | First HI uses ABK |
 | `L3-DIAGNOSIS-SUBSEQUENT-QUALIFIER` | Subsequent HI uses ABF |
+| `L3-837I-CL1-REQUIRED` | 837I includes `CL1` institutional claim code segment |
+| `L3-837I-STATEMENT-DATES-REQUIRED` | 837I includes `DTP*434` statement dates |
 | `L3-LINE-PAID-AMOUNT-REQUIRED-837P` | At least one line-level REF*9D (837P) |
 | `L3-LINE-PAID-AMOUNT-REQUIRED-837I` | REF*9D on a service line **or** REF*9C at claim level (837I) |
 | `L3-837I-AMOUNT-REF-PLACEMENT` | 837I: 9A/9C in loop 2300 only; 9B/9D in loop 2400 only |

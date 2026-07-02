@@ -25,6 +25,8 @@ _ST03_BY_CLAIM_TYPE = {"837P": "005010X222A1", "837I": "005010X223A2"}
 # A scenario carrying this name signals the writer to deliberately corrupt
 # IEA02 so it no longer matches ISA13 -- see generator/scenarios/errors.py.
 ERR_BAD_ENVELOPE_SCENARIO = "err_bad_envelope"
+ERR_MISSING_CL1_837I_SCENARIO = "err_missing_cl1_837i"
+ERR_MISSING_STATEMENT_DATES_837I_SCENARIO = "err_missing_statement_dates_837i"
 
 
 class EnvelopeBuilder:
@@ -154,14 +156,16 @@ def write_claim_segments(env: EnvelopeBuilder, encounter: Encounter) -> None:
 
     if encounter.institutional is not None:
         inst = encounter.institutional
-        env.add("DTP", "434", "RD8", f"{_fmt_date(inst.statement_from)}-{_fmt_date(inst.statement_through)}")
+        if encounter.scenario_name != ERR_MISSING_STATEMENT_DATES_837I_SCENARIO:
+            env.add("DTP", "434", "RD8", f"{_fmt_date(inst.statement_from)}-{_fmt_date(inst.statement_through)}")
         env.add(
             "DTP", "435", "DT", f"{_fmt_date(inst.admission_date)}{inst.admission_hour}"
         )
         env.add("DTP", "096", "TM", inst.discharge_hour)
         # SOURCE: p.42-43 -- CL1: CL101 admission type, CL102 admission
         # source, CL103 patient status.
-        env.add("CL1", inst.admission_type_code, inst.admission_source_code, inst.patient_status_code)
+        if encounter.scenario_name != ERR_MISSING_CL1_837I_SCENARIO:
+            env.add("CL1", inst.admission_type_code, inst.admission_source_code, inst.patient_status_code)
 
     if encounter.frequency_code == "8" and encounter.original_icn:
         # SOURCE: p.19/p.43 -- REF*F8, void-only usage.

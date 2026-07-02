@@ -1,5 +1,7 @@
 from mn_encounter_toolkit.validator.layer3_dhs_rules import (
     rule_837i_amount_ref_placement,
+    rule_837i_cl1_required,
+    rule_837i_statement_dates_required,
     rule_billing_tin_required,
     rule_billing_umpi_required,
     rule_clm05_3_frequency_code_documented,
@@ -137,6 +139,51 @@ def test_rule_line_paid_amount_required_837p_passes_with_ref_9d():
         "LX*1", "SV1*HC:99213*100.00*UN*1***1", "REF*9D*80.00",
     )
     assert rule_line_paid_amount_required_837p(doc) == []
+
+
+def _claim_837i(*claim_extra: str) -> tuple[str, ...]:
+    return (
+        "HL*1**20*1",
+        "HL*2*1*22*0",
+        "CLM*ENC1*100.00***11:A:1*Y*A*Y*Y",
+        "HI*ABK:F1120",
+        *claim_extra,
+        "LX*1",
+        "SV2*0450*HC:99223*100.00",
+        "REF*9D*80.00",
+    )
+
+
+def test_rule_837i_cl1_required_fails_when_missing():
+    doc = make_doc(*_claim_837i("DTP*434*RD8*20240101-20240105"))
+    findings = rule_837i_cl1_required(doc)
+    assert len(findings) == 1
+    assert findings[0].rule_id == "L3-837I-CL1-REQUIRED"
+
+
+def test_rule_837i_cl1_required_passes_when_present():
+    doc = make_doc(*_claim_837i("DTP*434*RD8*20240101-20240105", "CL1*1*7*01"))
+    assert rule_837i_cl1_required(doc) == []
+
+
+def test_rule_837i_cl1_required_ignores_837p():
+    doc = make_doc(
+        "HL*1**20*1", "HL*2*1*22*0", "CLM*ENC1*100.00***1:B:1*Y*A*Y*Y", "HI*ABK:F1120",
+        "LX*1", "SV1*HC:99213*100.00*UN*1***1", "REF*9D*80.00",
+    )
+    assert rule_837i_cl1_required(doc) == []
+
+
+def test_rule_837i_statement_dates_required_fails_when_missing():
+    doc = make_doc(*_claim_837i("CL1*1*7*01"))
+    findings = rule_837i_statement_dates_required(doc)
+    assert len(findings) == 1
+    assert findings[0].rule_id == "L3-837I-STATEMENT-DATES-REQUIRED"
+
+
+def test_rule_837i_statement_dates_required_passes_when_present():
+    doc = make_doc(*_claim_837i("DTP*434*RD8*20240101-20240105", "CL1*1*7*01"))
+    assert rule_837i_statement_dates_required(doc) == []
 
 
 def test_rule_line_paid_amount_required_837i_fails_without_ref_9d_or_claim_9c():
