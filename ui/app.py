@@ -35,7 +35,10 @@ PAGES = {
 
 def main() -> None:
     st.sidebar.title("MN DHS Encounter")
-    st.sidebar.caption("Files are processed in memory and are not stored on disk.")
+    st.sidebar.caption(
+        "Runs locally on your machine. Files are processed in memory only—"
+        "nothing is stored on disk or sent over the internet."
+    )
     choice = st.sidebar.radio("Go to", list(PAGES.keys()))
     PAGES[choice]()
 
