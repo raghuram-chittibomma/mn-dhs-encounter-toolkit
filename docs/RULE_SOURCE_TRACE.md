@@ -15,7 +15,7 @@ Layer 2 rules follow base X12 TR3 (`mucg_837p.pdf` as secondary, not encounter a
 |-------|------:|-----------:|
 | 1 Envelope | 11 | 1 |
 | 2 Syntax | 12 | 0 |
-| 3 DHS business | 20 | 19 |
+| 3 DHS business | 21 | 20 |
 | 4 Consistency | 6 | 0 |
 
 ---
@@ -73,6 +73,7 @@ Layer 2 rules follow base X12 TR3 (`mucg_837p.pdf` as secondary, not encounter a
 
 | Rule ID | PDF pages | Has source citation |
 |---------|-----------|---------------------|
+| `L3-837I-AMOUNT-REF-PLACEMENT` | p.43, p.44, p.59 | Yes |
 | `L3-BILLING-TIN-REQUIRED` | p.14, p.38 | Yes |
 | `L3-BILLING-UMPI-REQUIRED` | p.16, p.40 | Yes |
 | `L3-CLM05-3-FREQUENCY-CODE-DOCUMENTED` | p.17, p.41 | Yes |
@@ -81,7 +82,7 @@ Layer 2 rules follow base X12 TR3 (`mucg_837p.pdf` as secondary, not encounter a
 | `L3-EPSDT-NU-WHEN-NO-REFERRAL` | p.19, p.45 | Yes |
 | `L3-ISA-RECEIVER-FIXED` | p.35, p.36 | Yes |
 | `L3-LINE-PAID-AMOUNT-NOT-NEGATIVE` | p.89, p.90 | Yes |
-| `L3-LINE-PAID-AMOUNT-REQUIRED-837I` | p.89, p.90 | Yes |
+| `L3-LINE-PAID-AMOUNT-REQUIRED-837I` | p.43, p.44, p.59, p.89, p.90 | Yes |
 | `L3-LINE-PAID-AMOUNT-REQUIRED-837P` | p.89, p.90 | Yes |
 | `L3-MCO-ADJUDICATION-REQUIRED` | p.23 | Yes |
 | `L3-MEMBER-ID-EIGHT-DIGITS` | p.15, p.39 | Yes |
@@ -93,6 +94,14 @@ Layer 2 rules follow base X12 TR3 (`mucg_837p.pdf` as secondary, not encounter a
 | `L3-SUBMITTER-TRADING-PARTNER-QUALIFIER` | p.13, p.37 | Yes |
 | `L3-UMPI-FORMAT-STUB` | — | No |
 | `L3-VOID-REF-F8-ONLY` | p.19, p.43 | Yes |
+
+#### `L3-837I-AMOUNT-REF-PLACEMENT`
+
+- **Layer:** 3
+- **Description:** 837I paid/allowed REF qualifiers must appear at the correct loop level: 9A/9C in loop 2300 only; 9B/9D in loop 2400 only.
+- **Code:** `src/mn_encounter_toolkit/validator/layer3_dhs_rules.py` → `rule_837i_amount_ref_placement`
+- **Source citation:** dhs_837_encounter_companion_guide.pdf p.43-44 (837I REF*9A/9C at claim level) / p.59 (837I REF*9B/9D at line level).
+- **PDF pages (cited):** p.43, p.44, p.59
 
 #### `L3-BILLING-TIN-REQUIRED`
 
@@ -153,7 +162,7 @@ Layer 2 rules follow base X12 TR3 (`mucg_837p.pdf` as secondary, not encounter a
 #### `L3-LINE-PAID-AMOUNT-NOT-NEGATIVE`
 
 - **Layer:** 3
-- **Description:** Line-level paid/allowed amounts (REF*9D/9C paid, REF*9B/9A allowed) must not be negative.
+- **Description:** Paid/allowed amount REF segments (9A/9B/9C/9D) must not be negative.
 - **Code:** `src/mn_encounter_toolkit/validator/layer3_dhs_rules.py` → `rule_line_paid_amount_not_negative`
 - **Source citation:** dhs_837_encounter_companion_guide.pdf p.89-90, Appendix -- Paid Amount and Allowed Amount Rules: '0.00 is valid, but a negative number is not.'
 - **PDF pages (cited):** p.89, p.90
@@ -161,10 +170,10 @@ Layer 2 rules follow base X12 TR3 (`mucg_837p.pdf` as secondary, not encounter a
 #### `L3-LINE-PAID-AMOUNT-REQUIRED-837I`
 
 - **Layer:** 3
-- **Description:** 837I claims must report the MCO-paid amount at the line level (REF*9C) on at least one service line.
+- **Description:** 837I claims must report MCO-paid amount via REF*9D on at least one service line (loop 2400) or REF*9C in loop 2300 (inpatient claim total).
 - **Code:** `src/mn_encounter_toolkit/validator/layer3_dhs_rules.py` → `rule_line_paid_amount_required_837i`
-- **Source citation:** dhs_837_encounter_companion_guide.pdf p.89-90, Appendix -- Paid Amount and Allowed Amount Rules: '837I -- individual paid amounts are at line level.'
-- **PDF pages (cited):** p.89, p.90
+- **Source citation:** dhs_837_encounter_companion_guide.pdf p.43-44 (837I REF*9C claim level) / p.59 (837I REF*9D line level); Appendix p.89-90.
+- **PDF pages (cited):** p.43, p.44, p.59, p.89, p.90
 
 #### `L3-LINE-PAID-AMOUNT-REQUIRED-837P`
 

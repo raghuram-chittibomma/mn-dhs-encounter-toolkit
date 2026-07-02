@@ -45,6 +45,7 @@ _ERROR_SCENARIOS = [
 _EXPECTED_ERRORS: dict[str, str] = {
     "err_missing_umpi": "L3-BILLING-UMPI-REQUIRED",
     "err_missing_mco_paid": "L3-LINE-PAID-AMOUNT-REQUIRED-837P",
+    "err_missing_mco_paid_837i": "L3-LINE-PAID-AMOUNT-REQUIRED-837I",
     "err_void_no_icn": "L4-VOID-REPLACEMENT-HAS-ICN",
     "err_replacement_no_icn": "L4-VOID-REPLACEMENT-HAS-ICN",
     "err_charge_mismatch": "L4-CHARGE-BALANCE",

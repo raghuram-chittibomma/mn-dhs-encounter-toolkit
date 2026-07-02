@@ -92,8 +92,9 @@ can prove vs. submitting to DHS MN–ITS test.
 | `L3-DIAGNOSIS-PRINCIPAL-QUALIFIER` | First HI uses ABK |
 | `L3-DIAGNOSIS-SUBSEQUENT-QUALIFIER` | Subsequent HI uses ABF |
 | `L3-LINE-PAID-AMOUNT-REQUIRED-837P` | At least one line-level REF*9D (837P) |
-| `L3-LINE-PAID-AMOUNT-REQUIRED-837I` | At least one line-level REF*9C (837I) |
-| `L3-LINE-PAID-AMOUNT-NOT-NEGATIVE` | Line paid/allowed amounts not negative |
+| `L3-LINE-PAID-AMOUNT-REQUIRED-837I` | REF*9D on a service line **or** REF*9C at claim level (837I) |
+| `L3-837I-AMOUNT-REF-PLACEMENT` | 837I: 9A/9C in loop 2300 only; 9B/9D in loop 2400 only |
+| `L3-LINE-PAID-AMOUNT-NOT-NEGATIVE` | Paid/allowed amount REFs (9A–9D) not negative |
 | `L3-CLM05-3-FREQUENCY-CODE-DOCUMENTED` | **Warning** when CLM05-3=`7` (replacement) — guide tables vs spec |
 | `L3-UMPI-FORMAT-STUB` | **Stub** — produces no findings (see `KNOWN_LIMITATIONS.md`) |
 

@@ -63,6 +63,15 @@ def test_deterministic_835e_lines_sum_to_claim_paid_amount():
     assert line_paid_total == Decimal(clp.el_str(4))
 
 
+def test_deterministic_835e_inpatient_claim_total_path():
+    encounter = registry.build_encounter("clean_institutional_inpatient_claim_total", seed=12)
+    text = write_batch_checked([encounter])
+    out = generate_835e_deterministic(text)
+    doc = parse_segments(out)
+    clp = doc.first("CLP")
+    assert Decimal(clp.el_str(4)) == encounter.mco_adjudication.paid_amount
+
+
 def test_simulated_835e_is_deterministic_for_same_seed():
     encounter = registry.build_encounter("clean_professional_original", seed=5)
     text = write_batch_checked([encounter])

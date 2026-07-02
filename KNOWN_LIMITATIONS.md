@@ -46,6 +46,11 @@ for the original project requirements this is tracked against.
 Per the working process, every `# TODO: VERIFY AGAINST [doc]` / `# TODO: AMBIGUOUS
 IN SOURCE` stub added to the codebase is listed here with its file location.
 
+- **837I paid/allowed REF qualifier placement (fixed 2026-07).** Prior versions
+  wrote and validated `REF*9A`/`REF*9C` at the 2400 line level; the companion
+  guide assigns those qualifiers to loop 2300 (claim total) and `REF*9B`/`REF*9D`
+  to loop 2400. See `docs/LAYER3_GAP_RESOLUTION.md`.
+
 - **UMPI format/length unconfirmed.** `identifiers/umpi.py` and
   `validator/layer3_dhs_rules.py` (`rule_umpi_format_documented` stub area, ~line
   421) — the companion guide references REF*G2 as "the DHS UMPI number" wherever

@@ -32,7 +32,7 @@
 # Two modes, mirroring gen_999.py:
 #   - Deterministic: parses the original 837 text and echoes back exactly
 #     the charge/paid/patient-liability amounts already present in it
-#     (Loop 2320 AMT*D/AMT*EAF, line REF*9D/9C or REF*9C/9A), computing a
+#     (Loop 2320 AMT*D/AMT*EAF, line REF*9D or claim-level REF*9C on 837I), computing a
 #     CO-45 contractual write-off for any charge-paid-liability gap.
 #   - Simulation: ignores the original amounts and draws a randomized
 #     adjudication outcome (paid in full / contractual reduction / denied)
@@ -144,7 +144,7 @@ def _line_groups(block: ClaimBlock) -> list[list]:
 
 def _extract_lines(block: ClaimBlock) -> list[tuple[str, Decimal, Decimal, str, str]]:
     """Returns (line_number, charge, paid, code_value, service_date) per
-    service line, reading SV1 (837P) or SV2 (837I), REF*9D/9C (line paid),
+    service line, reading SV1 (837P) or SV2 (837I), REF*9D (line paid),
     and DTP*472 (service date)."""
     out = []
     for group in _line_groups(block):
@@ -161,7 +161,7 @@ def _extract_lines(block: ClaimBlock) -> list[tuple[str, Decimal, Decimal, str, 
         else:
             charge = Decimal("0.00")
             code = ""
-        ref_paid = next((s for s in group if s.seg_id == "REF" and s.el_str(1) in ("9D", "9C")), None)
+        ref_paid = next((s for s in group if s.seg_id == "REF" and s.el_str(1) == "9D"), None)
         paid = _money(ref_paid.el_str(2)) if ref_paid else None
         dtp = next((s for s in group if s.seg_id == "DTP" and s.el_str(1) == "472"), None)
         service_date = dtp.el_str(3) if dtp else ""

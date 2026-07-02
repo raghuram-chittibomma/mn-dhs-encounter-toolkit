@@ -60,6 +60,27 @@ def err_missing_mco_paid(rng: random.Random) -> Encounter:
     )
 
 
+@register_scenario("err_missing_mco_paid_837i", "837I MCO-paid amount absent (no REF*9D or REF*9C)")
+def err_missing_mco_paid_837i(rng: random.Random) -> Encounter:
+    base = clean_institutional_original(rng)
+    stripped_lines = tuple(
+        dataclasses.replace(line, mco_paid_amount_line=None, allowed_amount_line=None)
+        for line in base.service_lines
+    )
+    inst = dataclasses.replace(
+        base.institutional,
+        mco_paid_amount_claim=None,
+        allowed_amount_claim=None,
+    )
+    return dataclasses.replace(
+        base,
+        mco_paid_amount=None,
+        service_lines=stripped_lines,
+        institutional=inst,
+        scenario_name="err_missing_mco_paid_837i",
+    )
+
+
 @register_scenario("err_void_no_icn", "Void encounter missing original ICN")
 def err_void_no_icn(rng: random.Random) -> Encounter:
     base = clean_professional_original(rng)

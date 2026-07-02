@@ -1,4 +1,5 @@
 from mn_encounter_toolkit.validator.layer3_dhs_rules import (
+    rule_837i_amount_ref_placement,
     rule_billing_tin_required,
     rule_billing_umpi_required,
     rule_clm05_3_frequency_code_documented,
@@ -138,9 +139,9 @@ def test_rule_line_paid_amount_required_837p_passes_with_ref_9d():
     assert rule_line_paid_amount_required_837p(doc) == []
 
 
-def test_rule_line_paid_amount_required_837i_fails_without_ref_9c():
+def test_rule_line_paid_amount_required_837i_fails_without_ref_9d_or_claim_9c():
     doc = make_doc(
-        "HL*1**20*1", "HL*2*1*22*0", "CLM*ENC1*100.00***1:B:1*Y*A*Y*Y", "HI*ABK:F1120",
+        "HL*1**20*1", "HL*2*1*22*0", "CLM*ENC1*100.00***1:A:1*Y*A*Y*Y", "HI*ABK:F1120",
         "LX*1", "SV2*0450*HC:99223*100.00",
     )
     findings = rule_line_paid_amount_required_837i(doc)
@@ -148,12 +149,50 @@ def test_rule_line_paid_amount_required_837i_fails_without_ref_9c():
     assert findings[0].rule_id == "L3-LINE-PAID-AMOUNT-REQUIRED-837I"
 
 
-def test_rule_line_paid_amount_required_837i_passes_with_ref_9c():
+def test_rule_line_paid_amount_required_837i_passes_with_line_ref_9d():
     doc = make_doc(
-        "HL*1**20*1", "HL*2*1*22*0", "CLM*ENC1*100.00***1:B:1*Y*A*Y*Y", "HI*ABK:F1120",
-        "LX*1", "SV2*0450*HC:99223*100.00", "REF*9C*80.00",
+        "HL*1**20*1", "HL*2*1*22*0", "CLM*ENC1*100.00***1:A:1*Y*A*Y*Y", "HI*ABK:F1120",
+        "LX*1", "SV2*0450*HC:99223*100.00", "REF*9D*80.00",
     )
     assert rule_line_paid_amount_required_837i(doc) == []
+
+
+def test_rule_line_paid_amount_required_837i_passes_with_claim_ref_9c():
+    doc = make_doc(
+        "HL*1**20*1", "HL*2*1*22*0", "CLM*ENC1*100.00***1:A:1*Y*A*Y*Y", "HI*ABK:F1120",
+        "REF*9C*80.00",
+        "LX*1", "SV2*0450*HC:99223*100.00",
+    )
+    assert rule_line_paid_amount_required_837i(doc) == []
+
+
+def test_rule_837i_amount_ref_placement_fails_for_9c_on_line():
+    doc = make_doc(
+        "HL*1**20*1", "HL*2*1*22*0", "CLM*ENC1*100.00***1:A:1*Y*A*Y*Y", "HI*ABK:F1120",
+        "LX*1", "SV2*0450*HC:99223*100.00", "REF*9C*80.00",
+    )
+    findings = rule_837i_amount_ref_placement(doc)
+    assert len(findings) == 1
+    assert findings[0].rule_id == "L3-837I-AMOUNT-REF-PLACEMENT"
+
+
+def test_rule_837i_amount_ref_placement_fails_for_9d_in_claim_header():
+    doc = make_doc(
+        "HL*1**20*1", "HL*2*1*22*0", "CLM*ENC1*100.00***1:A:1*Y*A*Y*Y", "HI*ABK:F1120",
+        "REF*9D*80.00",
+        "LX*1", "SV2*0450*HC:99223*100.00",
+    )
+    findings = rule_837i_amount_ref_placement(doc)
+    assert len(findings) == 1
+
+
+def test_rule_837i_amount_ref_placement_passes_for_dual_path_valid():
+    doc = make_doc(
+        "HL*1**20*1", "HL*2*1*22*0", "CLM*ENC1*100.00***1:A:1*Y*A*Y*Y", "HI*ABK:F1120",
+        "REF*9C*80.00",
+        "LX*1", "SV2*0450*HC:99223*100.00", "REF*9D*40.00",
+    )
+    assert rule_837i_amount_ref_placement(doc) == []
 
 
 def test_rule_line_paid_amount_not_negative_fails_for_negative_value():

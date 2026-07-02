@@ -73,6 +73,22 @@ def test_writer_emits_newline_after_every_segment_for_line_tracking():
     assert len(set(line_numbers)) > 1
 
 
+def test_writer_837i_line_level_uses_ref_9d_not_9c():
+    encounter = registry.build_encounter("clean_institutional_original", seed=10)
+    text = write_batch_checked([encounter])
+    assert "REF*9D*" in text
+    after_first_lx = text.split("LX*", 1)[1]
+    assert "REF*9C*" not in after_first_lx
+
+
+def test_writer_837i_claim_level_emits_ref_9c_when_configured():
+    encounter = registry.build_encounter("clean_institutional_inpatient_claim_total", seed=11)
+    text = write_batch_checked([encounter])
+    before_lx, _after = text.split("LX*", 1)
+    assert "REF*9C*" in before_lx
+    assert "REF*9D*" not in text
+
+
 def test_parser_rejects_trailing_unterminated_content():
     import pytest
 

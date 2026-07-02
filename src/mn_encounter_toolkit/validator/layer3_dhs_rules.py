@@ -51,6 +51,42 @@ def _nm1_loops_missing_ref_g2(block: ClaimBlock, entity_code: str) -> list[Parse
     return missing
 
 
+def _first_lx_index(block: ClaimBlock) -> int | None:
+    for i, seg in enumerate(block.claim_segments):
+        if seg.seg_id == "LX":
+            return i
+    return None
+
+
+def _claim_header_segments(block: ClaimBlock) -> list[ParsedSegment]:
+    idx = _first_lx_index(block)
+    if idx is None:
+        return block.claim_segments
+    return block.claim_segments[:idx]
+
+
+def _line_groups(block: ClaimBlock) -> list[list[ParsedSegment]]:
+    groups: list[list[ParsedSegment]] = []
+    current: list[ParsedSegment] = []
+    for seg in block.claim_segments:
+        if seg.seg_id == "LX":
+            if current:
+                groups.append(current)
+            current = [seg]
+        elif current:
+            current.append(seg)
+    if current:
+        groups.append(current)
+    return groups
+
+
+def _refs_in_line_groups(block: ClaimBlock, qualifier: str) -> list[ParsedSegment]:
+    out: list[ParsedSegment] = []
+    for group in _line_groups(block):
+        out.extend(s for s in group if s.seg_id == "REF" and s.el_str(1) == qualifier)
+    return out
+
+
 @LAYER3.register(
     "L3-BILLING-TIN-REQUIRED",
     "Billing provider (Loop 2010AA) must carry a tax id via REF*EI, regardless of NPI presence.",
@@ -516,8 +552,7 @@ def rule_line_paid_amount_required_837p(doc: ParsedDocument) -> list[Finding]:
     for block in doc.claim_blocks():
         if _claim_type(block) != "837P":
             continue
-        refs_9d = [r for r in block.find("REF") if r.el_str(1) == "9D"]
-        if not refs_9d:
+        if not _refs_in_line_groups(block, "9D"):
             clm = block.clm()
             findings.append(
                 Finding(
@@ -535,17 +570,21 @@ def rule_line_paid_amount_required_837p(doc: ParsedDocument) -> list[Finding]:
 
 @LAYER3.register(
     "L3-LINE-PAID-AMOUNT-REQUIRED-837I",
-    "837I claims must report the MCO-paid amount at the line level (REF*9C) on at least one service line.",
-    source_citation="dhs_837_encounter_companion_guide.pdf p.89-90, Appendix -- Paid Amount and "
-    "Allowed Amount Rules: '837I -- individual paid amounts are at line level.'",
+    "837I claims must report MCO-paid amount via REF*9D on at least one service line "
+    "(loop 2400) or REF*9C in loop 2300 (inpatient claim total).",
+    source_citation="dhs_837_encounter_companion_guide.pdf p.43-44 (837I REF*9C claim level) / "
+    "p.59 (837I REF*9D line level); Appendix p.89-90.",
 )
 def rule_line_paid_amount_required_837i(doc: ParsedDocument) -> list[Finding]:
     findings = []
     for block in doc.claim_blocks():
         if _claim_type(block) != "837I":
             continue
-        refs_9c = [r for r in block.find("REF") if r.el_str(1) == "9C"]
-        if not refs_9c:
+        has_line_9d = bool(_refs_in_line_groups(block, "9D"))
+        has_claim_9c = any(
+            s.seg_id == "REF" and s.el_str(1) == "9C" for s in _claim_header_segments(block)
+        )
+        if not has_line_9d and not has_claim_9c:
             clm = block.clm()
             findings.append(
                 Finding(
@@ -553,9 +592,52 @@ def rule_line_paid_amount_required_837i(doc: ParsedDocument) -> list[Finding]:
                     3,
                     "L3-LINE-PAID-AMOUNT-REQUIRED-837I",
                     f"837I claim {clm.el_str(1) if clm else block.hl_subscriber_id!r} has no "
-                    "line-level REF*9C paid amount on any service line.",
+                    "REF*9D on any service line and no claim-level REF*9C in loop 2300.",
                     segment_id="REF",
-                    source_citation="dhs_837_encounter_companion_guide.pdf p.89-90",
+                    source_citation="dhs_837_encounter_companion_guide.pdf p.43-44/p.59",
+                )
+            )
+    return findings
+
+
+@LAYER3.register(
+    "L3-837I-AMOUNT-REF-PLACEMENT",
+    "837I paid/allowed REF qualifiers must appear at the correct loop level: "
+    "9A/9C in loop 2300 only; 9B/9D in loop 2400 only.",
+    source_citation="dhs_837_encounter_companion_guide.pdf p.43-44 (837I REF*9A/9C at claim level) / "
+    "p.59 (837I REF*9B/9D at line level).",
+)
+def rule_837i_amount_ref_placement(doc: ParsedDocument) -> list[Finding]:
+    findings: list[Finding] = []
+    citation = "dhs_837_encounter_companion_guide.pdf p.43-44/p.59"
+    for block in doc.claim_blocks():
+        if _claim_type(block) != "837I":
+            continue
+        for ref in _claim_header_segments(block):
+            if ref.seg_id == "REF" and ref.el_str(1) in ("9B", "9D"):
+                findings.append(
+                    Finding(
+                        "error",
+                        3,
+                        "L3-837I-AMOUNT-REF-PLACEMENT",
+                        f"REF*{ref.el_str(1)} must not appear in loop 2300 on 837I claims "
+                        "(use REF*9A/9C for claim-level amounts or REF*9B/9D at the line level).",
+                        segment_id="REF",
+                        line_number=ref.line_number,
+                        source_citation=citation,
+                    )
+                )
+        for ref in _refs_in_line_groups(block, "9A") + _refs_in_line_groups(block, "9C"):
+            findings.append(
+                Finding(
+                    "error",
+                    3,
+                    "L3-837I-AMOUNT-REF-PLACEMENT",
+                    f"REF*{ref.el_str(1)} must not appear at the service-line level on 837I claims "
+                    "(use REF*9B/9D in loop 2400 or REF*9A/9C in loop 2300).",
+                    segment_id="REF",
+                    line_number=ref.line_number,
+                    source_citation=citation,
                 )
             )
     return findings
@@ -563,7 +645,7 @@ def rule_line_paid_amount_required_837i(doc: ParsedDocument) -> list[Finding]:
 
 @LAYER3.register(
     "L3-LINE-PAID-AMOUNT-NOT-NEGATIVE",
-    "Line-level paid/allowed amounts (REF*9D/9C paid, REF*9B/9A allowed) must not be negative.",
+    "Paid/allowed amount REF segments (9A/9B/9C/9D) must not be negative.",
     source_citation="dhs_837_encounter_companion_guide.pdf p.89-90, Appendix -- Paid Amount and Allowed "
     "Amount Rules: '0.00 is valid, but a negative number is not.'",
 )

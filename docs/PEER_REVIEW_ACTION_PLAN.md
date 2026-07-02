@@ -14,7 +14,7 @@
 |----|----------|------|--------|-------|
 | P1-1 | Bug | 835E `_allocate_line_paid` rounding — last-bucket correction + balance assert | [x] | `gen_835e.py` |
 | P1-2 | Bug | 999/835E `datetime.now()` breaks determinism — add `submission_time` | [x] | `gen_999.py`, `gen_835e.py` |
-| P1-3 | Bug | Missing `L3-LINE-PAID-AMOUNT-REQUIRED-837I` (REF*9C) | [x] | `layer3_dhs_rules.py` |
+| P1-3 | Bug | Missing `L3-LINE-PAID-AMOUNT-REQUIRED-837I` (REF*9C) | [x] | Revised 2026-07: dual-path 9D/9C + `L3-837I-AMOUNT-REF-PLACEMENT` |
 | P1-4 | Bug | `err_*` scenarios bypass consistency guard (`err_missing_mco_paid`, `err_bad_envelope`) | [x] | `write_batch_checked` |
 | P1-5 | Gap | Integration tests: per-scenario expected rule IDs | [x] | `test_pipeline.py` |
 | P1-6 | Gap | Integration tests: generated 999/835E Layer-1-clean | [x] | `test_pipeline.py` |

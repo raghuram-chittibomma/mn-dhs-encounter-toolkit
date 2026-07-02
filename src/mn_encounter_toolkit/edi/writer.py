@@ -178,6 +178,16 @@ def write_claim_segments(env: EnvelopeBuilder, encounter: Encounter) -> None:
 
     write_diagnoses(env, encounter)
 
+    if encounter.institutional is not None:
+        inst = encounter.institutional
+        # SOURCE: p.43-44 (837I loop 2300) -- claim-level allowed/paid for
+        # inpatient totals (REF*9A / REF*9C). Line-level outpatient amounts
+        # use REF*9B / REF*9D in write_service_lines (p.59).
+        if inst.allowed_amount_claim is not None:
+            env.add("REF", "9A", _fmt_money(inst.allowed_amount_claim))
+        if inst.mco_paid_amount_claim is not None:
+            env.add("REF", "9C", _fmt_money(inst.mco_paid_amount_claim))
+
     if encounter.epsdt is not None:
         # SOURCE: p.19 (837P) / p.44-45 (837I) -- CRC*ZZ*<Y/N>*<indicator>.
         crc02 = "Y" if encounter.epsdt.referral_given else "N"
@@ -267,16 +277,11 @@ def write_service_lines(env: EnvelopeBuilder, encounter: Encounter) -> None:
             )
         env.add("DTP", "472", "D8", _fmt_date(line.service_date))
         if line.allowed_amount_line is not None:
-            # SOURCE: p.28 (837P REF*9B) / p.43 (837I REF*9A) -- allowed
-            # amount, line level.
-            allowed_qualifier = "9A" if institutional else "9B"
-            env.add("REF", allowed_qualifier, _fmt_money(line.allowed_amount_line))
+            # SOURCE: p.28 (837P REF*9B) / p.59 (837I REF*9B) -- allowed at line level.
+            env.add("REF", "9B", _fmt_money(line.allowed_amount_line))
         if line.mco_paid_amount_line is not None:
-            # SOURCE: p.28 (837P REF*9D) / p.43 (837I REF*9C) -- "THE
-            # AMOUNT PAID TO THE PROVIDER EXCLUDING THIRD PARTY LIABILITY,
-            # PROVIDER WITHHOLDS, INCENTIVES, AND MEMBER COST SHARING".
-            paid_qualifier = "9C" if institutional else "9D"
-            env.add("REF", paid_qualifier, _fmt_money(line.mco_paid_amount_line))
+            # SOURCE: p.28 (837P REF*9D) / p.59 (837I REF*9D) -- paid at line level.
+            env.add("REF", "9D", _fmt_money(line.mco_paid_amount_line))
         if line.paid_units is not None:
             # SOURCE: changelog 06/26/2024 -- AMT*T (837P) / AMT*GT (837I),
             # paid units, format XXX.00.

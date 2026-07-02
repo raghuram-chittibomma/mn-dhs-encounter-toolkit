@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import dataclasses
 import random
 from decimal import Decimal
 
@@ -75,4 +76,28 @@ def clean_institutional_original(rng: random.Random) -> Encounter:
         service_lines=lines,
         institutional=institutional_detail(rng),
         scenario_name="clean_institutional_original",
+    )
+
+
+@register_scenario(
+    "clean_institutional_inpatient_claim_total",
+    "Valid 837I with MCO-paid amount at claim level (REF*9C/9A in loop 2300) only",
+)
+def clean_institutional_inpatient_claim_total(rng: random.Random) -> Encounter:
+    base = clean_institutional_original(rng)
+    mco_paid = base.mco_adjudication.paid_amount
+    stripped_lines = tuple(
+        dataclasses.replace(line, mco_paid_amount_line=None, allowed_amount_line=None)
+        for line in base.service_lines
+    )
+    inst = dataclasses.replace(
+        base.institutional,
+        mco_paid_amount_claim=mco_paid,
+        allowed_amount_claim=base.total_charge_amount,
+    )
+    return dataclasses.replace(
+        base,
+        service_lines=stripped_lines,
+        institutional=inst,
+        scenario_name="clean_institutional_inpatient_claim_total",
     )

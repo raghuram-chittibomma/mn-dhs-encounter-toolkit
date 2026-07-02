@@ -88,7 +88,14 @@ LAYER_INFO: tuple[LayerInfo, ...] = (
             LayerRule("L3-DIAGNOSIS-PRINCIPAL-QUALIFIER", "First HI uses ABK principal qualifier"),
             LayerRule("L3-DIAGNOSIS-SUBSEQUENT-QUALIFIER", "Subsequent HI segments use ABF"),
             LayerRule("L3-LINE-PAID-AMOUNT-REQUIRED-837P", "At least one line-level REF*9D on 837P claims"),
-            LayerRule("L3-LINE-PAID-AMOUNT-REQUIRED-837I", "At least one line-level REF*9C on 837I claims"),
+            LayerRule(
+                "L3-LINE-PAID-AMOUNT-REQUIRED-837I",
+                "837I: REF*9D on a service line or REF*9C at claim level (loop 2300)",
+            ),
+            LayerRule(
+                "L3-837I-AMOUNT-REF-PLACEMENT",
+                "837I: 9A/9C only in loop 2300; 9B/9D only at service-line level",
+            ),
             LayerRule("L3-LINE-PAID-AMOUNT-NOT-NEGATIVE", "Line paid/allowed amounts are not negative"),
             LayerRule(
                 "L3-CLM05-3-FREQUENCY-CODE-DOCUMENTED",

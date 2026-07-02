@@ -61,10 +61,8 @@ class ServiceLine:
       - SV102 (837P) line charge amount.
       - SV107 (837P, p.27) composite diagnosis code pointer -- up to 4
         1-based pointers into the claim's HI/Diagnosis list.
-      - REF*9B / REF*9D (837P, p.28) and REF*9A / REF*9C (837I, p.43):
-        line-level allowed amount / paid amount ("THE AMOUNT PAID TO THE
-        PROVIDER EXCLUDING THIRD PARTY LIABILITY, PROVIDER WITHHOLDS,
-        INCENTIVES, AND MEMBER COST SHARING").
+      - REF*9B / REF*9D (837P p.28 and 837I p.59): line-level allowed /
+        paid amount.
       - AMT*T (837P) / AMT*GT (837I) (changelog 06/26/2024): paid units,
         format XXX.00.
     """
@@ -77,8 +75,8 @@ class ServiceLine:
     service_date: date
     diagnosis_pointers: tuple[int, ...]  # 1-based indices into Encounter.diagnoses
     revenue_code: str | None = None  # 837I institutional revenue code
-    mco_paid_amount_line: Decimal | None = None  # REF*9D / REF*9C
-    allowed_amount_line: Decimal | None = None  # REF*9B / REF*9A
+    mco_paid_amount_line: Decimal | None = None  # REF*9D at line level (837P and 837I)
+    allowed_amount_line: Decimal | None = None  # REF*9B at line level (837P and 837I)
     paid_units: Decimal | None = None  # AMT*T / AMT*GT
 
 
@@ -124,6 +122,11 @@ class InstitutionalDetail:
     patient_status_code: str  # CL103, NUBC patient status code list 239
     statement_from: date  # DTP*434 RD8 from
     statement_through: date  # DTP*434 RD8 through
+    # SOURCE: dhs_837_encounter_companion_guide.pdf p.43-44 (837I loop 2300) --
+    # claim-level allowed/paid when reporting an inpatient total (REF*9A/9C).
+    # Omit when paid amounts are reported only at the 2400 line level (REF*9B/9D).
+    mco_paid_amount_claim: Decimal | None = None  # REF*9C at 2300
+    allowed_amount_claim: Decimal | None = None  # REF*9A at 2300
     # SOURCE: dhs_837_encounter_companion_guide.pdf p.47-48 -- HI segment,
     # HI01-1="BBR" principal procedure (ICD-10-PCS) / "BBQ" other procedure.
     # DRG itself was not found in the 837I encounter section of the
