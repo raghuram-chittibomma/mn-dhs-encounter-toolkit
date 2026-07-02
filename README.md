@@ -135,6 +135,10 @@ Every Layer 3 validation rule and every writer mapping comment cites the
 exact page/loop/segment of a source document in `docs/reference/` (see
 [`docs/reference/DOCUMENT_INDEX.md`](docs/reference/DOCUMENT_INDEX.md) for the
 full audit trail, including which modules and rule IDs cite each PDF).
+**Rule-to-source traceability:** [`docs/RULE_SOURCE_TRACE.md`](docs/RULE_SOURCE_TRACE.md)
+(generated from code) and an
+[**annotated companion guide PDF**](docs/reference/annotated/dhs_837_encounter_companion_guide_annotated.pdf)
+with highlights for Layer 1 and Layer 3 rules.
 Where a document gap exists (e.g. no confirmed UMPI format, or no DHS-specific
 835E structural spec), the relevant code carries a `# TODO: AMBIGUOUS IN SOURCE` /
 `# TODO: VERIFY AGAINST [doc]` comment, and the gap is tracked in

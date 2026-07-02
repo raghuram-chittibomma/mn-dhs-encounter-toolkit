@@ -1,5 +1,10 @@
 # Validation layers reference
 
+Human-readable catalog of all registered validation rules. For machine-generated
+**source traceability** (PDF page citations per rule ID), see
+[`RULE_SOURCE_TRACE.md`](RULE_SOURCE_TRACE.md) and the
+[annotated DHS companion guide](reference/annotated/dhs_837_encounter_companion_guide_annotated.pdf).
+
 The toolkit runs up to **four independent layers** against each 837P/837I file.
 Layers can be selected individually on the CLI (`--layers 1,2,3,4`) or in the
 web UI checkboxes. Each layer returns **findings** with a `rule_id`, severity,
