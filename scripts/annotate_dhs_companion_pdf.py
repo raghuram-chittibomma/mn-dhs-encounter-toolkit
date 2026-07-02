@@ -95,7 +95,7 @@ def _search_terms(citation: str, rule_id: str) -> list[str]:
         "L3-PAYER-NAME-FIXED": ["MN DEPT OF HUMAN SERVICES", "411674742"],
         "L3-LINE-PAID-AMOUNT-REQUIRED-837P": ["837P", "line level", "paid amounts"],
         "L3-LINE-PAID-AMOUNT-REQUIRED-837I": ["837I", "line level", "paid amounts", "9D", "9C"],
-        "L3-837I-AMOUNT-REF-PLACEMENT": ["9A", "9B", "9C", "9D", "line level"],
+        "L3-837I-AMOUNT-REF-PLACEMENT": ["9A", "9B", "9C", "9D", "Paid Amount", "Allowed Amount"],
         "L3-837I-CL1-REQUIRED": ["CL1", "CL101", "admission type"],
         "L3-837I-STATEMENT-DATES-REQUIRED": ["DTP", "434", "statement"],
         "L3-SUBSCRIBER-DMG-REQUIRED": ["DMG", "D8", "gender"],
