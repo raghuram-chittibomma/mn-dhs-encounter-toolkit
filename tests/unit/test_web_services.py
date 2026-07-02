@@ -1,11 +1,26 @@
 """Web UI tests for response and scenario generation services."""
 
+import json
+
 import random
 
 from mn_encounter_toolkit.edi.writer import write_batch_checked
 from mn_encounter_toolkit.generator.scenarios import registry
 from mn_encounter_toolkit.web.generate_service import generate_batch_from_scenarios
 from mn_encounter_toolkit.web.response_service import generate_835e_from_text, generate_999_from_text
+from mn_encounter_toolkit.web.validate_service import report_to_json, validate_upload
+
+
+def test_report_to_json_includes_empty_findings_for_clean_upload():
+    encounter = registry.build_encounter("clean_professional_original", seed=42)
+    source = write_batch_checked([encounter])
+    report = validate_upload(source, filename="clean.x12")
+    payload = json.loads(report_to_json(report))
+    assert report.error_count == 0
+    assert payload["finding_count"] == 0
+    assert payload["error_count"] == 0
+    assert payload["claims"]
+    assert payload["enriched_findings"] == []
 
 
 def test_generate_999_deterministic_from_clean_837():

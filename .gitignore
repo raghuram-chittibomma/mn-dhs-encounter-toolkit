@@ -8,3 +8,9 @@ build/
 dist/
 output/
 private/
+
+# QA/UAT manufactured artifacts (structure tracked via .gitkeep)
+qa-uat/results/executions/*.json
+!qa-uat/results/executions/.gitkeep
+qa-uat/test-data/inputs/*.x12
+!qa-uat/test-data/inputs/.gitkeep

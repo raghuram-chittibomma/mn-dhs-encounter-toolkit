@@ -40,11 +40,7 @@ def render_finding(item: EnrichedFinding) -> None:
             st.code(item.billing_loop_note, language=None)
 
 
-def render_validation_results(report: ValidationReport, uploaded_name: str) -> None:
-    if not report.findings:
-        st.success("No findings — all selected layers passed.")
-        return
-
+def _render_report_downloads(report: ValidationReport, uploaded_name: str) -> None:
     download_col1, download_col2 = st.columns(2)
     download_col1.download_button(
         "Download JSON report",
@@ -60,6 +56,14 @@ def render_validation_results(report: ValidationReport, uploaded_name: str) -> N
         mime="text/csv",
         key=f"csv_{uploaded_name}",
     )
+
+
+def render_validation_results(report: ValidationReport, uploaded_name: str) -> None:
+    _render_report_downloads(report, uploaded_name)
+
+    if not report.findings:
+        st.success("No findings — all selected layers passed.")
+        return
 
     severity_filter = st.multiselect(
         "Filter by severity",

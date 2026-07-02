@@ -186,6 +186,20 @@ need MN–ITS — [`docs/QA_VS_DHS_TEST.md`](docs/QA_VS_DHS_TEST.md).
 
 **Note:** Files are processed in memory only and are not saved to disk by default.
 
+## QA / UAT (black-box)
+
+Independent test planning lives in [`qa-uat/`](qa-uat/README.md). QA and UAT
+**agents** derive cases from [`docs/SPEC.md`](docs/SPEC.md) and DHS companion
+guides only — not from application source.
+
+| Resource | Purpose |
+|----------|---------|
+| [`qa-uat/README.md`](qa-uat/README.md) | Workspace layout, workflows, recording runs |
+| [`qa-uat/AGENTS.md`](qa-uat/AGENTS.md) | How to invoke QA vs UAT agents in a new chat |
+
+Start a **new Cursor chat** and ask to use `mn-dhs-qa-agent` or
+`mn-dhs-uat-agent` (project skills under `.cursor/skills/`).
+
 ## CLI usage
 
 The package installs a `mn-encounter` entry point (or run it as

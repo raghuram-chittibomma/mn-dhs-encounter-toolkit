@@ -1,0 +1,7615 @@
+﻿=== PAGE 3 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+  
+       
+        
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+  
+  
+       
+        
+ 
+                                   
+                                   
+                                   
+ 
+                           
+                                          
+                               
+ 
+ 
+  
+ 
+  
+  
+ 
+ 
+ 
+  
+ 
+  
+  
+        
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+  
+  
+        
+ 
+ 
+ 
+  
+ 
+ 
+  
+  
+       
+        
+ 
+ 
+ 
+  
+ 
+  
+  
+       
+        
+ 
+ 
+ 
+  
+ 
+  
+  
+ 
+       
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+  
+  
+ 
+ 
+ 
+  
+ 
+  
+  
+        
+ 
+ 
+ 
+  
+ 
+ 
+  
+  
+        
+ 
+ 
+ 
+  
+ 
+  
+  
+        
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+  
+  
+ 
+                                   
+ 
+            
+ 
+      
+ 
+       
+ 
+EDI Mapping Specifications - Introduction 
+Page 3 of 90 
+Date of 
+change 
+Project or
+Reason for 
+change 
+Transactio 
+n 
+Loop/Segment/Data Element 
+Data Element Name 
+Value 
+What was the change? 
+837D 
+837I 
+837P 
+L2330A 
+Other Subscriber Name 
+Description identifies loop is 
+required and MCO adjudication 
+information as a payer is 
+submitted here. 
+837D 
+837I 
+837P 
+L2330A/NM102     
+L2330A/NM104     
+L2330A/NM105     
+L2330A/NM107 
+Entity Type Qualifier 
+Name First 
+Name Middle       
+Name Suffix 
+1 
+Added value: 1 û Person 
+837D 
+L2330B 
+Other Payer Name 
+Added 2330B loop 
+837I 
+837P 
+L2330B 
+Other Payer Name 
+Description identifies loop is 
+required and MCO adjudication 
+information as a payer is 
+submitted here. 
+837I 
+837P 
+L2330B/NM109 
+Identification Code 
+Revised description no longer 
+limits use to DHS MCO assigned 
+UMPI. 
+837D 
+837I 
+837P 
+L2330B/DTP 
+Claim Check or Remittance Date 
+Added DTP segment 
+837D 
+837I 
+837P 
+L2330B/REF 
+Other Payer Claim Control Number 
+Added REF segment, required 
+for Medicare claims. 
+837I 
+837P 
+L2430 
+Line Adjudication Information 
+Description identifies loop is 
+required and MCO adjudication 
+information as a payer is 
+submitted here. 
+837D 
+L2430 
+Line Adjudication Information 
+Added 2430 loop 
+837I 
+837P 
+L2430/SVD01 
+Identification Code 
+Revised description no longer 
+limits use to DHS MCO assigned 
+UMPI. 
+837I 
+837P 
+L2430/CAS 
+Line Adjustment 
+Added CAS segment 
+837I 
+837P 
+L2430/AMT 
+Remaining Patient Liability 
+Added AMT segment 
+9/19/2013 
+Corrections 
+837P 
+L2010AA/REF 
+REF Billing Provider Tax 
+Identification 
+Corrected Requirement to ôYö 
+837P 
+L2000B/SBR02     
+L2000B/SBR09 
+Individual Relationship Code  
+Claim Filing Indicator Code 
+18 
+MC 
+Corrected Requirement to ôC1ö 
+Corrected Requirement to ôC1ö 
+3 
+
+
+=== PAGE 6 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+       
+       
+ 
+                                            
+                                   
+                                   
+ 
+ 
+                           
+                  
+    
+ 
+          
+        
+ 
+ 
+  
+  
+     
+ 
+                              
+ 
+                                              
+ 
+ 
+  
+                 
+ 
+  
+  
+ 
+ 
+ 
+  
+ 
+  
+  
+        
+       
+ 
+                                        
+ 
+                     
+ 
+  
+ 
+                                
+ 
+  
+  
+        
+       
+ 
+                                        
+                                        
+ 
+                                          
+                
+ 
+  
+          
+       
+ 
+  
+  
+ 
+ 
+ 
+  
+ 
+ 
+ 
+       
+ 
+ 
+ 
+  
+  
+  
+  
+ 
+ 
+ 
+  
+ 
+ 
+ 
+      
+        
+ 
+                                
+                                   
+ 
+                   
+                         
+              
+ 
+    
+ 
+ 
+ 
+ 
+  
+       
+        
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+       
+        
+ 
+ 
+ 
+  
+ 
+ 
+ 
+  
+  
+       
+        
+      
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+  
+  
+ 
+ 
+ 
+  
+ 
+  
+  
+ 
+ 
+ 
+  
+ 
+EDI Mapping Specifications - Introduction 
+Page 6 of 90 
+Date of 
+change 
+Project or
+Reason for 
+change 
+Transactio 
+n 
+Loop/Segment/Data Element 
+Data Element Name 
+Value 
+What was the change? 
+11/4/2013 
+Taxonomy Code 
+837D 
+837I 
+837P 
+L2000A/PRV 
+L2000A/PRV01     
+L2000A/PRV02     
+L2000A/PRV03 
+Billing Provider Specialty 
+Information      
+Billing Provider Code        
+Provider Taxonomy Code Qualifier 
+Provider Taxonomy Code 
+BI 
+PXC 
+. 
+Added PRV segment 
+837D 
+837P 
+L2010AA/NM102       
+L2010AA/NM104 
+Billing Provider Entity Type 
+Qualifier 
+Billing Provider First Name 
+1 
+Added Value 1 û Person 
+Added NM104 data element 
+837I 
+L2010AA/NM103 
+Name Last or Organization Name 
+Removed default instructions 
+837I 
+837P 
+837D 
+L2010AA/N301 
+L2010AA/N302 
+Billing Provider Address 
+Address Information 
+Removed default 
+instructions      
+Added N302 data element 
+837I 
+837P 
+837D 
+L2010AA/N401 
+L2010AA/N402 
+L2010AA/N403 
+City Name 
+State or Province Code      
+Postal Code 
+Removed default instructions 
+Corrected Requirement to ôC1ö 
+Corrected Requirement to ôC1ö 
+837P 
+L2010AA/REF 
+Billing Provider Tax Identification 
+Corrected Requirement to ôYö 
+11/4/2013 
+Service Facility 
+837D 
+837P 
+L2310C 
+Service Facility Location Name 
+Added Loop 2310C 
+837I 
+L2310E 
+Service Facility Location Name 
+Added Loop 2310E 
+11/25/2013 
+HMS 
+Implementation 
+837D 
+837I 
+837P 
+L2330B/DTP01     
+L2330B/DTP02     
+L2330B/DTP03 
+Date Claim Paid Qualifier 
+Date Format Qualifier 
+Payment Date 
+573 
+D8      
+. 
+Added DTP segment for Other 
+Payer Claim Check or 
+Remittance Date 
+12/20/2013 
+837D 
+837I 
+837P 
+L2000B/SBR01 
+Payer Responsibility Sequence Nbr 
+Code 
+U 
+Added Value ôU û Unknownö; 
+deleted Values ôPö, ôSö and ôTö. 
+12/4/2014 
+Denied Encounter 
+Claims 
+837D 
+837I 
+837P 
+L2320/CAS04/CAS07/CAS10/CAS13/ 
+CAS16/CAS19 
+Quantity 
+Revised description to include 
+value to enter if claim denied at 
+header level. 
+837D 
+837I 
+837P 
+L2430/CAS04/CAS07/CAS10/CAS13/ 
+CAS16/CAS19 
+Quantity 
+Revised description to include 
+value to enter if claim denied at 
+service line level. 
+3/15/2015 
+T-MSIS Project 
+837D 
+L2310A 
+Referring Provider Name 
+Added Loop 2310A 
+837D 
+L2420C 
+Supervising Provider Name 
+Added Loop L2420C 
+837P 
+L2420D 
+Supervising Provider Name 
+Added Loop L2420D 
+6 
+
+
+=== PAGE 7 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+  
+ 
+ 
+ 
+  
+ 
+  
+  
+ 
+ 
+ 
+  
+ 
+  
+  
+ 
+ 
+ 
+  
+ 
+  
+  
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+       
+        
+ 
+ 
+ 
+ 
+  
+ 
+                 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+       
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+       
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+       
+        
+ 
+ 
+  
+ 
+ 
+ 
+                                          
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+                                              
+ 
+ 
+ 
+ 
+ 
+        
+                           
+            
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+EDI Mapping Specifications - Introduction 
+Page 7 of 90 
+Date of 
+change 
+Project or
+Reason for 
+change 
+Transactio 
+n 
+Loop/Segment/Data Element 
+Data Element Name 
+Value 
+What was the change? 
+837P 
+L2420E 
+Ordering Provider Name 
+Added Loop L2420E 
+837P 
+L2420F 
+Referring Provider Name 
+Added Loop L2420E 
+837P 
+L2310D 
+Supervising Provider Name 
+Added Loop L2310D 
+837I 
+L2420D 
+Referring Provider Name 
+Added Loop L2310D 
+6/30/2015 
+MCO Received 
+Date 
+837D 
+837I 
+837P 
+L2300/DTP(050) 
+Date û Repricer Received Date 
+Added segment 
+L2300/DTP(050)01        
+MCO Received Date is submitted 
+in this segment 
+6/30/2015 
+Tracking ICN 
+837I 
+L2300/NTE(ADD) 
+Billing Note 
+Added segment L2300/NTE for 
+corrected ICN 
+6/30/2015 
+Tracking ICN 
+837D 
+837P 
+L2300/NTE(ADD) 
+Claim Note 
+Added segment L2300/NTE for 
+corrected ICN 
+6/30/2015 
+Correction 
+837P 
+L2400/K3 
+File Information 
+Used for submitting tooth 
+number. Removed from L2300 
+and added to L2400. 
+7/9/2015 
+Tracking ICN 
+837I 
+L2300/NTE(ADD) 
+Billing Note 
+Revised description replacing 
+colon (ò with equal sign (=) in 
+format of  corrected ICN. 
+7/9/2015 
+Tracking ICN 
+837D 
+837P 
+L2300/NTE(ADD) 
+Claim Note 
+Revised description replacing 
+colon (:) with equal sign (=) in 
+format of  corrected ICN. 
+7/31/2015 
+MCO Received 
+Date 
+837D 
+837I 
+837P 
+L2300/DTP(050) 
+Datû - Repricer Received Date 
+Corrected qualifier for 
+L2300/DTP(050)02 from ôDTö to 
+ôD8ö. 
+10/21/2015 
+Discontinuing 
+Replacement 
+Claims 
+837D 
+837I 
+837P 
+L2300/CLM05-3 
+Claim Submission Reason Code 
+7 
+Removed from guide, no longer 
+valid for encounter claims. 
+10/21/2015 
+Discontinuing 
+Replacement 
+Claims 
+837D 
+837I 
+837P 
+L2300/REF(F8)02 
+Original Reference Number ID 
+Updated description and 
+removed instructions for 
+replacement claims. 
+01/11/2016 
+Newborn Birth 
+Weight 
+837I 
+L2300/HI0x 
+L2300/HI0x-1 
+L2300/HI0x-2 
+L2300?HI0x-5 
+Value Code Information      
+Value Code 
+Value Code Amount 
+BE 
+54 
+Added information for reporting 
+newborn birth weight on claims 
+with discharge dates on or after 
+10/1/15. 
+01/11/2016 
+0.00 Adjustment 
+Amount 
+837D 
+837I 
+837P 
+L2320/CAS03/CAS06/CAS09/CAS12/ 
+CAS15/CAS18 
+Monetary Amount 
+Revised description to indicate 
+that zero amounts are accepted 
+at claim header level. 
+7 
+
+
+=== PAGE 8 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+EDI Mapping Specifications - Introduction 
+Page 8 of 90 
+Date of 
+change 
+Project or
+Reason for 
+change 
+Transactio 
+n 
+Loop/Segment/Data Element 
+Data Element Name 
+Value 
+What was the change? 
+01/11/2016 
+0.00 Adjustment 
+Amount 
+837D 
+837I 
+837P 
+L2430/CAS03/CAS06/CAS09/CAS12/ 
+CAS15/CAS18 
+Monetary Amount 
+Revised description indicate that 
+zero amounts are accepted at 
+service line level. 
+11/09/2016 
+Patient Account 
+Number now 
+required on all 
+837I claims. 
+837I 
+L2300/NTE*UPI û 837I 
+Claim Note 
+UPI 
+Begin sending Patient Account 
+Number on all 837I claims on or 
+after 2-1-17. 
+04/17/2017 
+Procedure Code 
+Qualifiers 
+837I 
+L2400/SV202-1 
+Qualifiers for Procedure Codes 
+MCOs must reference 837I TR3 
+to used correct qualifier. 
+07/25/2018 
+Zero adjustment 
+amounts are no 
+longer allowed. 
+837D 
+837I 
+837P 
+L2320/CAS03/CAS06/CAS09/CAS12/ 
+CAS15/CAS18 
+Monetary Amount 
+Revised description to indicate 
+that zero amounts are no longer 
+allowed at the claim header level. 
+07/25/2018 
+Zero adjustment 
+amounts are no 
+longer allowed. 
+837D 
+837I 
+837P 
+L2430/CAS03/CAS06/CAS09/CAS12/ 
+CAS15/CAS18 
+Monetary Amount 
+Revised description to indicate 
+that zero amounts are no longer 
+allowed at the service line level. 
+01/11/2019 
+Updated DHS 
+Requirement 
+Description on 
+page 70 per email 
+question/request 
+from Cirdan. 
+837F 
+L2300/AMT02 
+Monetary Amount 
+F5 
+Changed description from 
+ENTER TOTAL TPL AND/OR 
+MEDICARE PAYMENT, IF 
+APPLICABLE. PER APPENDIX 
+A IN THE IMPLEMENTATION 
+GUIDE, DECIMAL DATA 
+ELEMENTS IN DATA ELEMENT 
+782 WILL BE LIMITED TO A 
+MAXIMUM LENGTH OF 10 
+CHARACTERS INCLUDING 
+REPORTED OR IMPLIED 
+PLACES FOR CENTS to Patient 
+Amount Paid.  Not sure where 
+the original description came 
+from. 
+02/24/2020 
+MCO Stop 
+Sending 
+L2320/SBR09 = 
+ôHMö 
+segment/data 
+element 
+837D 
+837I 
+837P 
+L2320/SBR09 
+L2430 
+Other Subscriber Information 
+Line Adjudication Information 
+HM 
+Send ôHMö segment on MCO 
+Denied Claims/Lines only. 
+11/15/2019 
+Re-Map MCO 
+Paid Date û 
+Header Level 
+837I 
+L2300/NTE01 = RHN 
+Claim Note 
+RHN 
+MCO Paid Date û Header/Claim 
+Level 
+8 
+
+
+=== PAGE 10 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+EDI Mapping Specifications - Introduction 
+Page 10 of 90 
+Date of 
+change 
+Project or
+Reason for 
+change 
+Transactio 
+n 
+Loop/Segment/Data Element 
+Data Element Name 
+Value 
+What was the change? 
+living rate floor, indicate using 
+P=CLRF. 
+05/21/2024 
+Desciption 
+Correction 
+837P 
+L2400/SV101-7 
+Description 
+Removed the follow description 
+prior to P=CLRF, per EDQ team 
+email on 05/21/24-ô 
+DESCRIPTION OF NON 
+SPECIFIC, (NOC), UNLISTED, 
+UNCLASSIFIED OR 
+MISCELLANEOUS CODES 
+WHEN REPORTED IN SV101-2. 
+YOU SHOULD ALSO REPORT 
+THE HEARING AID MODEL 
+NUMBER IN THIS DATA 
+ELEMENT (NOT IN THE 
+L2300/K3 SEGMENT). YOU 
+SHOULD REPORTö 
+05/28/2024 
+Accessibility 
+Changes 
+Entire 
+Document 
+I made the line at the header of 
+the document decorative along 
+with the Boarder boxes.  This 
+document is good to go. 
+06/26/2024 
+Adding Paid Units 
+837P 
+L2400/AMT*T 
+PAID UNITS 
+T 
+Added Qualifier æTÆ for Paid Units 
+(format should be XXX.00) 
+06/26/2024 
+Adding Paid Units 
+837I 
+L2400/AMT*GT 
+PAID UNITS 
+GT 
+Added Qualifier æGTÆ for Paid 
+Units (format should be XXX.00) 
+10 
+
+
+=== PAGE 13 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+2 PROFESSIONAL 
+837P HIPAA Implementation Guide Data 
+DHS Encounter Data 
+LOOP 
+SEG¡
+MENT 
+NAME 
+ID 
+ELEMENT NAME 
+REQ 
+VALUE(S) 
+DHS REQUIREMENT DESCRIPTION 
+HDR 
+HEADER 
+ST 
+TRANSACTION SET HEADER 
+Y 
+ST01 
+TRANSACTION SET IDENTIFIER 
+CODE 
+Y 
+837 
+HEALTH CARE CLAIM 
+ST02 
+TRANSACTION SET CONTROL 
+NUMBER 
+Y 
+MCO SYSTEM GENERATED NUMBER 
+ST03 
+IMPLEMENTATION 
+CONVENTION REFERENCE 
+Y 
+005010X222 
+A1 
+MUST BE SAME AS GS08 
+BHT 
+BEGIN OF HIERARCHICAL TXN 
+Y 
+BHT01 
+HIERARCHICAL STRUCTURE 
+CODE 
+Y 
+0019 
+INFORMATION SOURCE, SUBSCRIBER, 
+DEPENDENT 
+BHT02 
+TRANSACTION SET PURPOSE 
+CODE 
+Y 
+00 
+ORIGINAL 
+18 
+REISSUE 
+BHT03 
+REFERENCE IDENTIFICATION 
+Y 
+SUBMISSION NUMBER-MCO ASSIGNED 
+BHT04 
+DATE 
+Y 
+TRANSACTION SET CREATION DATE 
+BHT05 
+TIME 
+Y 
+TRANSACTION SET CREATION TIME 
+BHT06 
+TRANSACTION TYPE CODE 
+Y 
+RP 
+REPORTING 
+1000A 
+SUBMITTER NAME 
+THIS LOOP IS USED FOR INFORMATION 
+REGARDING THE MCO RESPONSIBLE 
+FOR THE ENCOUNTER. 
+NM1 
+SUBMITTER NAME 
+Y 
+NM101 
+ENTITY IDENTIFIER CODE 
+Y 
+41 
+VALUE 41 SHOULD BE SUBMITTED EVEN 
+THOUGH THIS IS MCO INFORMATION. 
+NM102 
+ENTITY TYPE QUALIFIER 
+Y 
+2 
+NON-PERSON ENTITY 
+NM103 
+NAME LAST OR ORGANIZATION 
+NAME 
+Y 
+MCO NAME (OR CONTRACTOR NAME) 
+NM108 
+IDENTIFICATION CODE 
+QUALIFIER 
+Y 
+46 
+TRADING PARTNER ID 
+NM109 
+IDENTIFICATION CODE 
+Y 
+MCO UMPI NUMBER ASSIGNED BY DHS 
+PER 
+SUBMITTER EDI CONTACT 
+INFO 
+Y 
+PER01 
+CONTACT FUNCTION CODE 
+Y 
+IC 
+INFORMATION CONTACT 
+PER02 
+NAME 
+Y 
+MCO SUBMITTER CONTACT 
+Minnesota Department of Human Services 
+13 
+
+
+=== PAGE 17 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+837P HIPAA Implementation Guide Data 
+DHS Encounter Data 
+LOOP 
+SEG¡
+MENT 
+NAME 
+ID 
+ELEMENT NAME 
+REQ 
+VALUE(S) 
+DHS REQUIREMENT DESCRIPTION 
+REF 
+BILLING PROVIDER 
+SECONDARY IDENTIFICATION 
+C1 
+REF01 
+REFERENCE IDENTIFICATION 
+QUALIFIER 
+Y 
+G2 
+(REPLACES 2010AA PAY TO PROVIDER 
+UMPI) 
+PROVIDER COMMERCIAL NUMBER 
+REF02 
+REFERENCE IDENTIFICATION 
+Y 
+BILLING PROVIDER SECONDARY 
+IDENTIFIER (DHS UMPI NUMBER) 
+2300 
+CLAIM INFORMATION 
+Y 
+CLM 
+CLAIM INFORMATION 
+CLM01 
+CLAIM SUBMITTERÆS IDENTIFIER 
+Y 
+MCOÆS OWN CLAIM NUMBER (ICN) 
+CLM02 
+MONETARY AMOUNT 
+Y 
+TOTAL CLAIM CHARGE AMOUNT (BILLED 
+AMOUNT) PER APPENDIX A IN THE 
+IMPLEMENTATION GUIDE, DECIMAL 
+DATA ELEMENTS IN DATA ELEMENT 782 
+WILL BE LIMITED TO A MAXIMUM 
+LENGTH OF 10 CHARACTERS 
+INCLUDING REPORTED OR IMPLIED 
+PLACES FOR CENTS. 
+CLM05 
+HEALTH CARE SERVICE 
+LOCATION INFORMATION 
+Y 
+CLM05¡
+1 
+FACILITY CODE VALUE 
+Y 
+PLACE OF SERVICE CODE 
+CLM05¡
+2 
+FACILITY CODE QUALIFIER 
+Y 
+B 
+PLACE OF SERVICE CODE FOR 
+PROFESSIONAL OR DENTAL SERVICES 
+CLM05¡
+3 
+CLAIM FREQUENCY TYPE CODE 
+(CLAIM SUBMISSION REASON 
+CODE) 
+Y 
+1 
+ORIGINAL 
+8 
+VOID 
+CLM06 
+YES/NO CONDITION OR 
+RESPONSE CODE (PROVIDER 
+SIGNATURE ON FILE) 
+Y 
+Y 
+YES (DEFAULT) 
+N 
+NO 
+CLM07 
+PROVIDER ACCEPT 
+ASSIGNMENT CODE (MEDICARE 
+ASSIGNMENT CODE) 
+Y 
+A 
+ASSIGNED (DEFAULT) 
+B 
+ASSIGNMENT ACCEPTED FOR CLINICAL 
+LAB SERVICES ONLY 
+C 
+NOT ASSIGNED 
+CLM08 
+YES/NO CONDITION OR 
+RESPONSE CODE 
+(ASSIGNMENT OF BENEFITS 
+INDICATOR) 
+Y 
+Y 
+YES (DEFAULT) 
+Minnesota Department of Human Services 
+17 
+
+
+=== PAGE 19 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+837P HIPAA Implementation Guide Data 
+DHS Encounter Data 
+LOOP 
+SEG¡
+MENT 
+NAME 
+ID 
+ELEMENT NAME 
+REQ 
+VALUE(S) 
+DHS REQUIREMENT DESCRIPTION 
+DTP02 
+DATE TIME PERIOD FORMAT 
+QUALIFIER 
+Y 
+D8 
+DATE EXPRESSED IN CCYYMMDD 
+DTP03 
+DATE TIME PERIOD 
+Y 
+ACCIDENT DATE 
+DTP 
+DATE û REPRICER RECEIVED 
+DATE 
+C2 
+DATE MCO RECEIVED CLAIM 
+DTP01 
+DATE/TIME QUALIFIER 
+Y 
+050 
+RECEIVED 
+DTP02 
+DATE TIME PERIOD FORMAT 
+QUALIFIER 
+Y 
+D8 
+DATE AND TIME EXPRESSED IN FORMAT 
+CCYYMMDD 
+DTP03 
+DATE TIME PERIOD 
+Y 
+MCO RECEIVED DATE 
+AMT 
+PATIENT AMOUNT PAID 
+C1 
+AMT01 
+AMOUNT QUALIFIER CODE 
+Y 
+F5 
+PATIENT AMOUNT PAID.  ENTER IF 
+APPLICABLE. 
+AMT02 
+MONETARY AMOUNT 
+Y 
+PER APPENDIX A IN THE 
+IMPLEMENTATION GUIDE, DECIMAL 
+DATA ELEMENTS IN DATA ELEMENT 782 
+WILL BE LIMITED TO A MAXIMUM 
+LENGTH OF 10 CHARACTERS 
+INCLUDING REPORTED OR IMPLIED 
+PLACES FOR CENTS. 
+REF 
+ORIGINAL REFERENCE 
+NUMBER (ICN/DCN) 
+C1 
+REF01 
+PAYER CLAIM CONTROL 
+NUMBER 
+Y 
+F8 
+ORIGINAL REFERENCE NUMBER 
+REF02 
+REFERENCE IDENTIFICATION 
+Y 
+MCOÆS ORIGINAL CLAIM (ICN) NUMBER. 
+USED WHEN CLM05-3 IS 8-VOID.  THIS IS 
+FOR VOID CLAIM USAGE ONLY. 
+NTE 
+CLAIM NOTE 
+C2 
+REQUIRED ICN TRACKING NUMBER 
+WHEN CLAIM IS A CORRECTED 
+VERSION OF A DHS DENIED CLAIM OR 
+VOIDED CLAIM. 
+NTE01 
+NOTE REFERENCE CODE 
+Y 
+ADD 
+ADDITIONAL INFORMATION 
+NTE02 
+DESCRIPTION 
+Y 
+ICN OF CORRECTED CLAIM 
+FORMAT IS ôC=12345678ö (CAPITAL C, 
+EQUAL SIGN (=), ICN OF CLAIM BEING 
+CORRECTED û NO SPACES) 
+Minnesota Department of Human Services 
+19 
+
+
+=== PAGE 21 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+837P HIPAA Implementation Guide Data 
+DHS Encounter Data 
+LOOP 
+SEG¡
+MENT 
+NAME 
+ID 
+ELEMENT NAME 
+REQ 
+VALUE(S) 
+DHS REQUIREMENT DESCRIPTION 
+HI102 
+THRU 
+HI12 
+HEALTH CARE CODE 
+INFORMATION 
+C1 
+HI02-1 
+THRU 
+HI12-1 
+CODE LIST QUALIFIER CODE(S) 
+Y 
+BF 
+ICD-9-CM DIAGNOSIS CODE 
+ABF 
+ICD-10-CM DIAGNOSIS CODE 
+HI02-2 
+THRU 
+HI12-2 
+INDUSTRY CODE 
+Y 
+DIAGNOSIS CODE 
+HI 
+HEALTH CARE  INFORMATION 
+CODES 
+HI01 
+THRU 
+HI12 
+HEALTH CARE CODE 
+INFORMATION 
+C1 
+CONDITION CODE 
+HI01-1 
+THRU 
+HI12-1 
+CODE LIST QUALIFIER CODE 
+Y 
+BG 
+CONDITION 
+HI01-2 
+THRU 
+HI01-2 
+INDUSTRY CODE 
+Y 
+CONDITION CODE 
+2310A 
+REFERRING PROVIDER NAME 
+C1 
+NM1 
+INDIVIDUAL /ORG. NAME 
+Y 
+NM101 
+ENTITY IDENTIFIER CODE 
+Y 
+DN 
+REFERRING PROVIDER 
+NM102 
+ENTITY TYPE QUALIFIER 
+Y 
+1 
+PERSON 
+NM103 
+NAME LAST OR ORGANIZATION 
+NAME 
+Y 
+DEFAULT TO ANY TEXT û NOT USED 
+BUT REQUIRED BY STANDARD 
+NM104 
+NAME FIRST 
+C1 
+DEFAULT TO ANY TEXT- REQUIRED IF 
+ô1ö IS SENT IN NM102. 
+NM108 
+IDENTIFICATION CODE 
+QUALIFIER 
+Y 
+XX 
+NPI 
+NM109 
+IDENTIFICATION CODE 
+Y 
+REFERRING PROVIDER NPI 
+REF 
+REFERRING PROVIDER 
+SECONDARY IDENTIFICATION 
+C1 
+REF01 
+REFERENCE IDENTIFICATION 
+QUALIFIER 
+Y 
+G2 
+PROVIDER COMMERCIAL NUMBER 
+REF02 
+REFERENCE IDENTIFICATION 
+Y 
+REFERRING PROVIDER SECONDARY 
+IDENTIFIER (DHS UMPI NUMBER). 
+2310B 
+RENDERING PROVIDER NAME 
+C2 
+REQUIRED WHEN RENDERING 
+PROVIDER INFORMATION IS DIFFERENT 
+THAN PROVIDER LISTED IN LOOP 
+2010AA 
+NM1 
+INDIVIDUAL /ORG. NAME 
+Y 
+Minnesota Department of Human Services 
+21 
+
+
+=== PAGE 22 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+837P HIPAA Implementation Guide Data 
+DHS Encounter Data 
+LOOP 
+SEG¡
+MENT 
+NAME 
+ID 
+ELEMENT NAME 
+REQ 
+VALUE(S) 
+DHS REQUIREMENT DESCRIPTION 
+NM101 
+ENTITY IDENTIFIER CODE 
+Y 
+82 
+RENDERING PROVIDER 
+NM102 
+ENTITY TYPE QUALIFIER 
+Y 
+1 
+PERSON 
+2 
+NON-PERSON 
+NM103 
+NAME LAST OR ORGANIZATION 
+NAME 
+Y 
+DEFAULT TO ANY TEXT- NOT USED BUT 
+REQUIRED BY STANDARD 
+NM104 
+NAME FIRST 
+C1 
+DEFAULT TO ANY TEXT- REQUIRED IF 
+ô1ö IS SENT IN NM102. 
+NM108 
+IDENTIFICATION CODE 
+QUALIFIER 
+C1 
+XX 
+NPI 
+NM109 
+IDENTIFICATION CODE 
+C1 
+RENDERING PROVIDER NPI NUMBER 
+REF 
+RENDERING PROVIDER 
+SECONDARY IDENTIFICATION 
+C2 
+REF01 
+REFERENCE IDENTIFICATION 
+QUALIFIER 
+Y 
+G2 
+PROVIDER COMMERCIAL NUMBER 
+REF02 
+REFERENCE IDENTIFICATION 
+Y 
+RENDERING PROVIDER SECONDARY 
+IDENTIIER (DHS UMPI NUMBER). 
+2310C 
+SERVICE FACILITY LOCATION 
+NAME 
+C1 
+REQUIRED WHEN THE LOCATION OF 
+HEALTH CARE SERVICE IS DIFFERENT 
+THAN THAT CARRIED IN LOOP 2010AA 
+NM1 
+SERVICE FACILITY LOCATION 
+NAME 
+C1 
+NM101 
+ENTITY IDENTIFIER CODE 
+Y 
+77 
+SERVICE LOCATION 
+NM102 
+ENTITY TYPE QUALIFIER 
+Y 
+2 
+NON-PERSON ENTITY 
+NM103 
+NAME LAST OR ORGANIZATION 
+NAME 
+Y 
+LABORATORY OR FACILITY NAME 
+NM108 
+IDENTIFICATION CODE 
+QUALIFIER 
+C1 
+XX 
+NPI 
+NM109 
+IDENTIFICATION CODE 
+C1 
+LABORATORY OR FACILITY PRIMARY 
+IDENTIFIER 
+N3 
+SERVICE FACILITY LOCATION 
+ADDRESS 
+Y 
+N301 
+ADDRESS INFORMATION 
+Y 
+LABORATORY OR FACILITY ADDRESS 
+LINE 
+N302 
+ADDRESS INFORMATION 
+C1 
+LABORATORY OR FACILITY ADDRESS 
+N4 
+SERVICE FACILITY LOCATION 
+CITY, STATE, ZIP CODE 
+Y 
+N401 
+CITY NAME 
+Y 
+LABORATORY OR FACILITY CITY NAME 
+N402 
+STATE OR PROVINCE CODE 
+C1 
+LABORATORY OR FACILITY STATE OR 
+PROVINCE CODE 
+Minnesota Department of Human Services 
+22 
+
+
+=== PAGE 23 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+837P HIPAA Implementation Guide Data 
+DHS Encounter Data 
+LOOP 
+SEG¡
+MENT 
+NAME 
+ID 
+ELEMENT NAME 
+REQ 
+VALUE(S) 
+DHS REQUIREMENT DESCRIPTION 
+N403 
+POSTAL CODE 
+C1 
+LABORATORY OR FACILITY POSTAL 
+ZONE OR ZIP CODE 
+REF 
+SERVICE FACILITY LOCATION 
+SECONDARY IDENTIFICATION 
+C1 
+REF01 
+REFERENCE IDENTIFICATION 
+QUALIFIER 
+Y 
+G2 
+PROVIDER COMMERCIAL NUMBER 
+REF02 
+REFERENCE IDENTIFICATION 
+Y 
+LABORATORY OR FACILITY SECONDARY 
+IDENTIFIER (DHS UMPI NUMBER) 
+2310D 
+SUPERVISING PROVIDER 
+NAME 
+C1 
+NM1 
+SUPERVISING PROVIDER 
+NAME 
+C1 
+NM101 
+ENTITY IDENTIFIER CODE 
+Y 
+DQ 
+SUPERVISING PHYSICIAN 
+NM102 
+ENTITY TYPE QUALIFIER 
+Y 
+1 
+PERSON 
+NM103 
+NAME LAST OR ORGANIZATION 
+NAME 
+Y 
+SUPERVISING PROVIDER LAST NAME 
+NM104 
+NAME FIRST 
+C1 
+SUPERVISING PROVIDER FIRST NAME 
+NM108 
+IDENTIFICATION CODE 
+QUALIFIER 
+C1 
+XX 
+NPI 
+NM109 
+IDENTIFICATION CODE 
+C1 
+SUPERVISING PROVIDER IDENTIFIER 
+REF 
+SUPERVISING PROVIDER 
+SECONDARY IDENTIFICATION 
+C1 
+REF01 
+REFERENCE IDENTIFICATION 
+QUALIFIER 
+Y 
+G2 
+PROVIDER COMMERCIAL NUMBER 
+REF02 
+REFERENCE IDENTIFICATION 
+Y 
+SUPERVISING PROVIDER SECONDARY 
+IDENTIFIER (DHS UMPI NUMBER) 
+2320 
+OTHER SUBSCRIBER 
+INFORMATION 
+C2 
+THIS LOOP IS REQUIRED û THE FIRST 
+OCCURRENCE MUST CONTAIN 
+INFORMATION FOR THE MCO AS THE 
+PRIMARY/SECONDARY PAYER. IF THE
+PRIMARY PAYER IS A THIRD PARTY, 
+THE SECOND OCCURRENCE OF THIS 
+SEGMENT SHOULD CONTAIN A ôPö AND 
+INFORMATION RELATED TO THE 
+RELEVANT THIRD PARTY PAYER. UP 
+TO 10 SBR LOOPS CAN BE SENT. 
+SBR 
+OTHER SUBSCRIBER 
+INFORMATION 
+Y 
+SBR01 
+PAYER RESPONSIBILITY 
+SEQUENCE NUMBER CODE 
+Y 
+P 
+PRIMARY 
+S 
+SECONDARY 
+T 
+TERTIARY 
+Minnesota Department of Human Services 
+23 
+
+
+=== PAGE 27 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+  
+837P HIPAA Implementation Guide Data 
+DHS Encounter Data 
+LOOP 
+SEG¡
+MENT 
+NAME 
+ID 
+ELEMENT NAME 
+REQ 
+VALUE(S) 
+DHS REQUIREMENT DESCRIPTION 
+NM103 
+NAME LAST OR ORGANIZATION 
+NAME 
+Y 
+EITHER THE ORGANIZATION NAME OR 
+ôUNKNOWNö IS VALID. 
+NM108 
+IDENTIFICATION CODE 
+QUALIFIER 
+Y 
+PI 
+PAYOR IDENTIFICATION 
+NM109 
+IDENTIFICATION CODE 
+Y 
+OTHER PAYER PRIMARY IDENTIFIER 
+DTP 
+CLAIM  CHECK OR 
+REMITTANCE DATE 
+C1 
+DTP01 
+DATE/TIME QUALIFIER 
+Y 
+573 
+DATE CLAIM PAID 
+DTP02 
+DATE TIME PERIOD FORMAT 
+QUALIFIER 
+Y 
+D8 
+DATE EXPRESSED IN CCYYMMDD 
+DTP03 
+DATE TIME PERIOD 
+Y 
+ADJUDICATION OR PAYMENT DATE 
+REF 
+OTHER PAYER CLAIM 
+CONTROL NUMBER 
+C1 
+MUST BE USED FOR MEDICARE CLAIMS. 
+REF01 
+REFERENCE IDENTIFICATION 
+QUALIFIER 
+Y 
+F8 
+ORIGINAL REFERENCE NUMBER 
+REF02 
+REFERENCE IDENTIFICATION 
+Y 
+MEDICARE ICN 
+2400 
+SERVICE LINE 
+Y 
+LX 
+SERVICE LINE 
+Y 
+LX01 
+ASSIGNED NUMBER 
+Y 
+BEGIN WITH 1 AND INCREMENT BY 1. 
+SV1 
+PROFESSIONAL SERVICE 
+Y 
+SV101 
+COMPOSITE MEDICAL 
+PROCEDURE IDENTIFIER 
+Y 
+SV101¡
+1 
+PRODUCT/SERVICE ID 
+QUALIFIER 
+Y 
+HC 
+HCPCS/CPT CODE 
+SV101¡
+2 
+PRODUCT/SERVICE ID 
+Y 
+HCPCS/CPT PROCEDURE CODE 
+SV101¡
+3 
+PROCEDURE MODIFIER 
+C1 
+MODIFIER 1 
+SV101¡
+4 
+PROCEDURE MODIFIER 
+C1 
+MODIFIER 2 
+SV101¡
+5 
+PROCEDURE MODIFIER 
+C1 
+MODIFIER 3 
+SV101¡
+6 
+PROCEDURE MODIFIER 
+C1 
+MODIFIER 4 
+SV101¡
+7 
+DESCRIPTION 
+C1 
+ôP=CLRFö The program indicator is used for 
+Customized Living Rate Floor. If this service 
+is for customized living rate floor. 
+Minnesota Department of Human Services 
+27 
+
+
+=== PAGE 30 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+837P HIPAA Implementation Guide Data 
+DHS Encounter Data 
+LOOP 
+SEG¡
+MENT 
+NAME 
+ID 
+ELEMENT NAME 
+REQ 
+VALUE(S) 
+DHS REQUIREMENT DESCRIPTION 
+LIN02 
+PRODUCT/SERVICE ID 
+QUALIFIER 
+Y 
+N4 
+NATIONAL DRUG CODE 
+LIN03 
+PRODUCT SERVICE ID 
+Y 
+NDC CODE FOR PHYSICIAN 
+ADMINISTERED DRUGS. 
+CTP 
+DRUG PRICING 
+C2 
+CTP04 
+QUANTITY 
+Y 
+DRUG QUANTITY FOR PHYSICIAN 
+ADMINISTERED DRUGS. 
+CTP05 
+COMPOSITE UNIT OF MEASURE 
+Y 
+UNIT OR BASIS FOR MEASUREMENT 
+CODE 
+CTP05¡
+1 
+UNIT OR BASIS OF 
+MEASUREMENT CODE 
+Y 
+F2 
+INTERNATIONAL UNIT 
+GR 
+GRAM 
+ME 
+MILLIGRAM 
+ML 
+MILLILITER 
+UN 
+UNIT 
+2420A 
+RENDERING PROVIDER NAME 
+C1 
+OVERRIDE 2310B LOOP IF THE 
+RENDERING PROVIDER ON A LINE ITEM 
+IS DIFFERENT THAN THE NUMBER 
+SUBMITTED AT THE CLAIM LEVEL. 
+NM1 
+RENDERING PROVIDER NAME 
+NM101 
+ENTITY IDENTIFIER CODE 
+Y 
+82 
+RENDERING PROVIDER 
+NM102 
+ENTITY TYPE QUALIFIER 
+Y 
+1 
+PERSON 
+2 
+NON-PERSON 
+NM103 
+NAME LAST OR ORGANIZATION 
+NAME 
+Y 
+RENDERING PROVIDER LAST NAME 
+NM104 
+NAME FIRST 
+C1 
+RENDERING PROVIDER FIRST NAME 
+REQUIRED IF ô1ö IS SENT IN NM102. 
+NM108 
+IDENTIFICATION CODE 
+QUALIFIER 
+C1 
+XX 
+NPI 
+NM109 
+IDENTIFICATION CODE 
+C1 
+RENDERING PROVIDER IDENTIFIER 
+REF 
+RENDERING PROVIDER 
+SECONDARY IDENTIFICATION 
+C1 
+REF01 
+REFERENCE IDENTIFICATION 
+QUALIFIER 
+Y 
+G2 
+PROVIDER COMMERCIAL NUMBER 
+REF02 
+REFERENCE IDENTIFICATION 
+Y 
+RENDERING PROVIDER SECONDARY 
+IDENTIFIER (DHS UMPI NUMBER) 
+2420D 
+SUPERVISING PROVIDER 
+NAME 
+C1 
+Minnesota Department of Human Services 
+30 
+
+
+=== PAGE 31 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+     
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+837P HIPAA Implementation Guide Data 
+DHS Encounter Data 
+LOOP 
+SEG¡
+MENT 
+NAME 
+ID 
+ELEMENT NAME 
+REQ 
+VALUE(S) 
+DHS REQUIREMENT DESCRIPTION 
+NM1 
+SUPERVISING PROVIDER 
+NAME 
+NM101 
+ENTITY IDENTIFIER CODE 
+Y 
+DQ 
+SUPERVISING PHYSICIAN 
+NM102 
+ENTITY TYPE QUALIFIER 
+Y 
+1 
+PERSON 
+NM103 
+NAME LAST OR ORGANIZATION 
+NAME 
+Y 
+SUPERVISING PROVIDER LAST NAME 
+NM104 
+NAME FIRST 
+C1 
+SUPERVISING PROVIDER FIRST NAME  
+REQUIRED IF ô1ö IS SENT IN NM102. 
+NM108 
+IDENTIFICATION CODE 
+QUALIFIER 
+C1 
+XX 
+NPI 
+NM109 
+IDENTIFICATION CODE 
+C1 
+SUPERVISING PROVIDER IDENTIFIER 
+REF 
+SUPERVISING PROVIDER 
+SECONDARY IDENTIFICATION 
+C1 
+REF01 
+REFERENCE IDENTIFICATION 
+QUALIFIER 
+Y 
+G2 
+PROVIDER COMMERCIAL NUMBER 
+REF02 
+REFERENCE IDENTIFICATION 
+Y 
+SUPERVISING PROVIDER SECONDARY 
+IDENTIFIER  (DHS UMPI NUMBER) 
+2420E 
+ORDERING PROVIDER NAME 
+C1 
+NM1 
+ORDERING PROVIDER NAME 
+NM101 
+ENTITY IDENTIFIER CODE 
+Y 
+DK 
+ORDERING PHYSICIAN 
+NM102 
+ENTITY TYPE QUALIFIER 
+Y 
+1 
+PERSON 
+NM103 
+NAME LAST OR ORGANIZATION 
+NAME 
+Y 
+ORDERING PROVIDER LAST NAME 
+NM104 
+NAME FIRST 
+C1 
+ORDERING PROVIDER FIRST NAME 
+REQUIRED IF ô1ö IS SENT IN NM102. 
+NM108 
+IDENTIFICATION CODE 
+QUALIFIER 
+C1 
+XX 
+NPI 
+NM109 
+IDENTIFICATION CODE 
+C1 
+ORDERING PROVIDER IDENTIFIER 
+REF 
+ORDERING PROVIDER 
+SECONDARY IDENTIFICATION 
+C1 
+REF01 
+REFERENCE IDENTIFICATION 
+QUALIFIER 
+Y 
+G2 
+PROVIDER COMMERCIAL NUMBER 
+REF02 
+REFERENCE IDENTIFICATION 
+Y 
+ORDERING PROVIDER SECONDARY 
+IDENTIFIER (DHS UMPI NUMBER) 
+2420F 
+REFERRING PROVIDER NAME 
+C1 
+NM1 
+REFERRING PROVIDER NAME 
+NM101 
+ENTITY IDENTIFIER CODE 
+Y 
+DN 
+REFERRING PROVIDER 
+NM102 
+ENTITY TYPE QUALIFIER 
+Y 
+1 
+PERSON 
+Minnesota Department of Human Services 
+31 
+
+
+=== PAGE 35 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ENVELOPE INFORMATION 
+INTERCHANGE CONTROL HEADER 
+REFERENCE 
+DESCRIPTION 
+ELEMENT DESCRIPTION 
+837P VALUES 
+DO NOT SEND SEGMENT DELIMITERS THAT ARE MORE THAN ONE BYTE. SEE APPENDIX A.1.2.4 
+THROUGH A.1.2.7 IN THE 837 IMPLEMENTATION GUIDE FOR LISTS OF CHARACTERS THAT ARE 
+ALLOWED.  IF YOU SEND CHARACTERS THAT ARE NOT WITHIN THE SETS SHOWN IN THE GUIDE, 
+YOUR FILE WILL NOT BE PROCESSED.  QUALIFIER VALUES ARE CASE SENSITIVE. IF LOWER CASE 
+VALUES ARE SENT, YOUR FILE WILL NOT BE PROCESSED.  PLEASE SEND ONE INTERCHANGE PER 
+FILE UNTIL FURTHER NOTICE. IF YOU SEND MORE THAN ONE INTERCHANGE, THE ADDITIONAL 
+INTERCHANGES MAY NOT BE PROCESSED. 
+ISA01 
+AUTHORIZATION INFORMATION 
+QUALIFIER 
+00-NO AUTHORIZATION INFORMATION PRESENT. 
+ISA02 
+AUTHORIZATION INFORMATION 
+10 SPACES 
+ISA03 
+SECURITY INFORMATION QUALIFIER 
+00-NO SECURITY INFORMATION PRESENT 
+ISA04 
+SECURITY INFORMATION 
+10 SPACES 
+ISA05 
+INTERCHANGE ID QUALIFIER 
+ZZ-MUTUALLY DEFINED 
+ISA06 
+INTERCHANGE SENDER ID 
+THIS NUMBER MUST BE THE ONE USED TO REGISTER IN THE MN-ITS SYSTEM AND MUST 
+CORRESPOND TO THE MN-ITS MAILBOX NUMBER. THIS MUST CHANGE TO THE 10-DIGIT NATIONAL 
+PROVIDER IDENTIFIER (NPI) OR UNIVERSAL MINNESOTA PROVIDER IDENTIFIER (UMPI) FOLLOWED 
+BY 5 TRAILING SPACES. 
+ISA07 
+INTERCHANGE ID QUALIFIER 
+30-U.S. FEDERAL TAX IDENTIFICATION NUMBER 
+ISA08 
+INTERCHANGE RECEIVER ID 
+41-1674742-MN DEPT OF HUMAN SERVICES FEIN FOLLOWED BY 5 TRAILING SPACES. THIS NUMBER 
+MUST CONTAIN A HYPHEN. 
+ISA09 
+INTERCHANGE DATE 
+CURRENT DATE FORMATTED AS 6-DIGITS (YYMMDD) 
+ISA10 
+INTERCHANGE TIME 
+CURRENT TIME FORMATTED AS 4-DIGITS(HHMM) 
+ISA11 
+REPETITION SEPARATOR 
+PLEASE SEND DHS ô[ô 
+ISA12 
+INTERCHANGE CONTROL VERSION 
+NUMBER 
+00501-DRAFT STANDARDS FOR TRIAL USE APPROVED ASC X-12 REVIEW BOARD 
+ISA13 
+INTERCHANGE CONTROL NUMBER 
+BEGIN WITH "1" 9-DIGIT ZERO FILLED LEFT TO RIGHT.  ALL ZEROS IS NOT AN ALLOWED VALUE. 
+ISA14 
+ACKNOWLEDGMENT REQUESTED 
+PROVIDER OPTION 0-NO OR 1-YES. 
+ISA15 
+USAGE INDICATOR 
+SEND P-PRODUCTION DATE FOR PRODUCTION FILES AND T-TEST DATA FOR TEST FILES. 
+ISA16 
+COMPONENT ELEMENT SEPARATOR 
+PROVIDER OPTION/SUB-ELEMENT DELIMITER. 
+Minnesota Department of Human Services 
+35 
+
+
+=== PAGE 36 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+INTERCHANGE CONTROL TRAILER 
+REFERENCE 
+DESCRIPTION 
+ELEMENT DESCRIPTION 
+837P VALUES 
+IEA01 
+NUMBER OF INCLUDED FUNCTIONAL 
+GROUPS 
+PROVIDER TRANSLATOR COUNTS NUMBER OF FUNCTIONAL GROUPS WITHIN THE 
+INTERCHANGE. 
+IEA02 
+INTERCHANGE CONTROL NUMBER 
+SAME AS ISA13 
+FUNCTIONAL GROUP HEADER 
+REFERENCE 
+DESCRIPTION 
+ELEMENT DESCRIPTION 
+837P VALUES 
+GS01 
+FUNCTIONAL IDENTIFIER CODE 
+HC-HEALTH CARE CLAIMS (837) 
+GS02 
+APPLICATION SENDERÆS CODE 
+THIS MUST CHANGE TO 10-DIGIT NATIONAL PROVIDER IDENTIFIOER OR UNIVERSAL MINNESOTA 
+PROVIDER IDENTIFIER (UMPI). MUST MATCH THE NUMBER IN ISA06 WITHOUT THE TRAILING 
+SPACES. 
+GS03 
+APPLICATION RECEIVERÆS CODE 
+41-1674742-MN DEPT OF HUMAN SERVICES FEIN. THIS NUMBER MUST CONTAIN A HYPHEN. 
+GS04 
+FUNCTIONAL GROUP CREATION DATE 
+CURRENT DATE FORMATTED AS 8-DIGITS (CCYYMMDD). 
+GS05 
+CREATION TIME 
+CURRENT TIME FORMATTED AS 4-DIGITS (HHMM). 
+GS06 
+GROUP CONTROL NUMBER 
+UNIQUE 1-DIGIT TO 9-DIGIT NUMBER. PREFERABLY START AT 1 AND INCREMENT BY 1 FOR EACH 
+SUCCESSIVE FUNCTIONAL GROUP FROM SENDER TO RECEIVER, AND NOT RESET TO STARTING 
+VALUE OF 1 WITHIN EACH INTERCHANGE OR EACH DAY. 
+GS07 
+RESPONSIBLE AGENCY CODE 
+X-ACCREDITED STANDARDS COMMITTEE X-12 
+GS08 
+VERSION/RELEASE/INDUSTRY 
+IDENTIFIER CODE 
+005010X222A1DRAFT STANDARDS APPROVED BY ASC X12 BOARD. 
+FUNCTIONAL GROUP TRAILER 
+REFERENCE 
+DESCRIPTION 
+ELEMENT DESCRIPTION 
+837P VALUES 
+GE01 
+NUMBER OF TRANSACTION SETS 
+INCLUDED 
+1 - 6 DIGITS. PROVIDER TRANSLATOR COUNTS NUMBER OF TRANSACTION SETS WITHIN THE 
+FUNCTIONAL GROUP. 
+GE02 
+GROUP CONTROL NUMBER 
+MUST MATCH GS06 NUMBER. 
+Minnesota Department of Human Services 
+36 
+
+
+=== PAGE 37 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+3 INSTITUTIONAL 
+837I HIPAA Implementation Guide Data 
+DHS Encounter Data 
+LOOP 
+SEG 
+NAME 
+ID 
+ELEMENT NAME 
+REQ 
+VALUE 
+DESCRIPTION 
+HDR 
+HEADER 
+Y 
+ST 
+TRANSACTION SET HEADER 
+Y 
+ST01 
+TRANSACTION SET IDENTIFIER 
+CODE 
+Y 
+837 
+HEALTH CARE CLAIM 
+ST02 
+TRANSACTION SET CONTROL 
+NUMBER 
+Y 
+MCO SYSTEM GENERATED NUMBER 
+ST03 
+IMPLEMENTATION 
+CONVENTION REFERENCE 
+Y 
+005010 
+X223A2 
+837I VERSION NUMBER 
+BHT 
+BEGIN OF HIERARCHICAL TXN 
+Y 
+BHT01 
+HIERARCHICAL STRUCTURE 
+CODE 
+Y 
+0019 
+INFORMATION SOURCE, SUBSCRIBER 
+DEPENDENT 
+BHT02 
+TRANSACTION SET PURPOSE 
+CODE 
+Y 
+00 
+ORIGINAL 
+Y 
+18 
+REISSUE 
+BHT03 
+REFERENCE IDENTIFICATION 
+Y 
+SUBMISSION NUMBER-MCO ASSIGNED 
+BHT04 
+DATE 
+Y 
+TRANSACTION SET CREATION DATE 
+BHT05 
+TIME 
+Y 
+TRANSACTION SET CREATION TIME 
+BHT06 
+TRANSACTION TYPE CODE 
+Y 
+RP 
+REPORTING 
+1000A 
+SUBMITTER NAME 
+Y 
+THIS LOOP IS USED FOR INFORMATION 
+REGARDING THE MCO RESPONSIBLE 
+FOR THE ENCOUNTER. 
+NM1 
+SUBMITTER NAME 
+Y 
+NM101 
+ENTITY IDENTIFIER CODE 
+Y 
+41 
+SUBMITTER 
+NM102 
+ENTITY TYPE QUALIFIER 
+Y 
+2 
+NON-PERSON ENTITY 
+NM103 
+NAME LAST OR 
+ORGANIZATION NAME 
+Y 
+MCO (OR CONTRACTOR) NAME 
+NM108 
+IDENTIFICATION CODE 
+QUALIFIER 
+Y 
+46 
+TRADING PARTNER ID 
+NM109 
+IDENTIFICATION CODE 
+Y 
+MCO UMPI NUMBER 
+PER 
+SUBMITTER EDI CONTACT INFO 
+Y 
+PER01 
+CONTACT FUNCTION CODE 
+Y 
+IC 
+INFORMATION CONTACT 
+PER02 
+NAME 
+Y 
+MCO SUBMITTER CONTACT 
+PER03 
+COMMUNICATION NUMBER 
+QUALIFIER 
+Y 
+TE 
+TELEPHONE 
+PER04 
+COMMUNICATION NUMBER 
+Y 
+MCO CONTACT PHONE NUMBER 
+Minnesota Department of Human Services 
+37 
+
+
+=== PAGE 41 ===
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+837I HIPAA Implementation Guide Data 
+DHS Encounter Data 
+LOOP 
+SEG 
+NAME 
+ID 
+ELEMENT NAME 
+REQ 
+VALUE 
+DESCRIPTION 
+REF 
+BILLING PROVIDER SECONDARY 
+IDENTIFICATION 
+C1 
+REF01 
+REFERENCE IDENTIFICATION 
+QUALIFIER 
+Y 
+G2 
+(REPLACES 2010AA PAY TO PROVIDER 
+UMPI) 
+PROVIDER COMMERCIAL NUMBER 
+REF02 
+REFERENCE IDENTIFICATION 
+Y 
+BILLING PROVIDER SECONDARY 
+IDENTIFIER (DHS UMPI NUMBER) 
+2300 
+CLAIM INFORMATION 
+Y 
+CLM 
+CLAIM INFORMATION 
+Y 
+CLM01 
+CLAIM SUBMITTERÆS 
+IDENTIFIER 
+Y 
+MCOÆS OWN CLAIM NUMBER (ICN) 
+CLM02 
+MONETARY AMOUNT 
+Y 
+TOTAL CLAIM CHARGE AMOUNT (BILLED 
+AMOUNT) PER APPENDIX A IN THE 
+IMPLEMENTATION GUIDE, DECIMAL DATA 
+ELEMENTS IN DATA ELEMENT 782 WILL 
+BE LIMITED TO A MAXIMUM LENGTH OF 
+10 CHARACTERS INCLUDING REPORTED 
+OR IMPLIED PLACES FOR CENTS. MUST 
+BE GREATER THAN OR EQUAL TO ZERO 
+CLM05 
+HEALTH CARE SERVICE 
+LOCATION INFORMATION 
+Y 
+FACILITY CODE VALUE 
+CLM05 
+-1 
+FACILITY CODE VALUE 
+Y 
+FIRST TWO DIGITS OF THE TYPE OF BILL 
+CLM05 
+-2 
+FACILITY CODE QUALIFIER 
+Y 
+A 
+UNIFORM BILLING CLAIM FORM BILL 
+TYPE 
+CLM05 
+-3 
+CLAIM FREQUENCY TYPE 
+CODE 
+Y 
+CLAIM FREQUENCY TYPE CODE, CODE 
+SPECIFYING THE FREQUENCY OF THE 
+CLAIM; THIS IS THE THIRD POSITION OF 
+THE UNIFORM BILLING CLAIM FORM BILL 
+TYPE CODE SOURCE 235 
+1 
+ADMIT THRU DISCHARGE 
+2 
+INTERIM-FIRST CLAIM 
+3 
+INTERIM-CONTINUING CLAIM 
+4 
+INTERIM-LAST CLAIM 
+5 
+LATE CHARGES 
+Minnesota Department of Human Services 
+41 
+
+
+=== PAGE 43 ===
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+837I HIPAA Implementation Guide Data 
+DHS Encounter Data 
+LOOP 
+SEG 
+NAME 
+ID 
+ELEMENT NAME 
+REQ 
+VALUE 
+DESCRIPTION 
+DTP01 
+DATE/TIME QUALIFIER 
+Y 
+435 
+ADMISSION 
+DTP02 
+DATE TIME PERIOD FORMAT 
+QUALIFIER 
+Y 
+DT 
+DATE AND TIME EXPRESSED IN FORMAT 
+CCYYMMDDHHMM 
+DTP03 
+DATE TIME PERIOD 
+Y 
+ADMISSION DATE AND HOUR 
+DTP 
+DATE û REPRICER RECEIVED 
+DATE 
+C2 
+DATE MCO RECEIVED CLAIM 
+DTP01 
+DATE/TIME QUALIFIER 
+Y 
+050 
+RECEIVED 
+DTP02 
+DATE TIME PERIOD FORMAT 
+QUALIFIER 
+Y 
+D8 
+DATE AND TIME EXPRESSED IN FORMAT 
+CCYYMMDD 
+DTP03 
+DATE TIME PERIOD 
+Y 
+MCO RECEIVED DATE 
+CL1 
+INSTITUTIONAL CLAIM CODE 
+Y 
+CL101 
+PRIORITY (TYPE) OF 
+ADMISSION OR VISIT 
+Y 
+ADMISSION TYPE REQUIRED FOR ALL 
+INPATIENT AND OUTPATIENT SERVICES 
+CL102 
+POINT OF ORIGIN FOR 
+ADMISSION OR VISIT 
+C1 
+ADMISSION SOURCE REQUIRED FOR ALL 
+INPATIENT AND OUTPATIENT SERVICES 
+CL103 
+PATIENT STATUS 
+Y 
+PATIENT STATUS CODE LIST 239 
+C1: Follow HIPAA guide for all claims except 
+CD residential 
+C2: Required for CD residential treatment 
+claims 
+AMT 
+PATIENT ESTIMATED AMOUNT 
+DUE 
+C1 
+AMT01 
+AMOUNT CODE QUALIFIER 
+Y 
+F3 
+PATIENT RESPONSIBILITY IF 
+APPLICABLE 
+AMT02 
+MONETARY AMOUNT 
+Y 
+REF 
+PAYER CLAIM CONTROL NUMBER 
+C1 
+REF01 
+REFERENCE IDENTIFICATION 
+QUALIFIER 
+C1 
+F8 
+ORIGINAL REFERENCE NUMBER 
+REF02 
+REFERENCE IDENTIFICATION 
+C1 
+MCOÆS ORIGINAL CLAIM (ICN) NUMBER. 
+USED WHEN CLM05-3 IS 8-VOID.  THIS IS 
+FOR VOID CLAIM USAGE ONLY. 
+REF 
+REPRICED CLAIM REFERENCE 
+NUMBER 
+C2 
+REQUIRED FIELD, THIS SEGMENT IS 
+USED FOR INPATIENT & OUTPATIENT 
+CLAIMS SEE APPENDIX û P. 85 
+REF01 
+REFERENCE IDENTIFICATION 
+QUALIFIER 
+C2 
+9A 
+ALLOWED AMOUNT 
+Minnesota Department of Human Services 
+43 
+
+
+=== PAGE 44 ===
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+837I HIPAA Implementation Guide Data 
+DHS Encounter Data 
+LOOP 
+SEG 
+NAME 
+ID 
+ELEMENT NAME 
+REQ 
+VALUE 
+DESCRIPTION 
+REF02 
+REFERENCE INFORMATION 
+Y 
+THE ALLOWED AMOUNT IS THE 
+PROVIDER CONTRACTED RATE PRIOR 
+TO ANY EXCLUSIONS OR ADD-ONS. SEE 
+APPENDIX û P. 85 
+REF 
+ADJUSTED REPRICED CLAIM 
+NUMBER 
+C2 
+REQUIRED FIELD, THIS SEGMENT IS 
+USED FOR INPATIENT & OUTPATIENT 
+CLAIMS SEE APPENDIX û P. 85 
+REF01 
+REFERENCE IDENTIFICATION 
+QUALIFIER 
+C2 
+9C 
+PAID AMOUNT 
+REF02 
+REFERENCE INFORMATION 
+Y 
+PAID AMOUNT IS THE AMOUNT PAID TO 
+THE PROVIDER EXCLUDING THIRD 
+PARTY LIABILITY, PROVIDER 
+WITHHOLDS, INCENTIVES, AND MEMBER 
+COST SHARING. SEE APPENDIX û P. 85 
+NTE 
+CLAIM NOTE û REPEATS 10 TIMES 
+C2 
+THE PATIENT ACCOUNT NUMBER IS NOW 
+REQUIRED TO BE SENT ON ALL 837I 
+CLAIMS. 
+NTE01 
+NOTE REFERENCE CODE 
+Y 
+UPI 
+UPDATED INFORMATION 
+NTE02 
+DESCRIPTION 
+Y 
+PATIENT ACCOUNT NUMBER OF CLAIM 
+FORMAT IS ôPAC=XXXXXXXXö (CAPITAL 
+PAC, EQUAL SIGN (=), PATIENT ACCOUNT 
+NUMBER OF CLAIM 
+NTE01 
+NOTE REFERENCE CODE 
+Y 
+RNH 
+MCO Paid Date/Times and Reasons Patient 
+Not at Home 
+NTE02 
+DESCRIPTION 
+Y 
+DATE OF THE PAYMENT TO THE 
+PROVIDER. PAID DATE MUST BE SENT 
+AS æPAIDDATE=20120101Æ. 
+NTE01 
+NOTE REFERENCE CODE 
+Y 
+SPT 
+PROGRAM INDICATOR 
+NTE02 
+DESCRIPTION 
+Y 
+The program indicator is used for IMD 
+(Institute of mental Disease) only. If pay-to 
+provider is an IMD provider, indicate using 
+P=IMD 
+NTE 
+BILLING NOTE 
+C2 
+REQUIRED ICN TRACKING NUMBER 
+WHEN CLAIM IS A CORRECTED VERSION 
+OF A DHS DENIED CLAIM OR VOIDED 
+CLAIM. 
+NTE01 
+NOTE REFERENCE CODE 
+Y 
+ADD 
+ADDITIONAL INFORMATION 
+Minnesota Department of Human Services 
+44 
+
+
+=== PAGE 51 ===
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+837I HIPAA Implementation Guide Data 
+DHS Encounter Data 
+LOOP 
+SEG 
+NAME 
+ID 
+ELEMENT NAME 
+REQ 
+VALUE 
+DESCRIPTION 
+NM102 
+ENTITY TYPE QUALIFIER 
+Y 
+1 
+PERSON 
+NM103 
+ATTENDING PROVIDER LAST 
+NAME 
+Y 
+DEFAULT TO ANY TEXT û NOT USED BUT 
+REQUIRED BY STANDARD 
+NM104 
+ATTENDING PROVIDER FIRST 
+NAME 
+C1 
+DEFAULT TO ANY TEXT- REQUIRED IF ô1ö 
+IS SENT IN NM102. 
+NM108 
+IDENTIFICATION CODE 
+QUALIFIER 
+Y 
+XX 
+NPI 
+NM109 
+IDENTIFICATION CODE 
+Y 
+ATTENDING PROVIDER PRIMARY 
+IDENTIFIER - NPI NUMBER IF ôXXö 
+QUALIFIER IS ENTERED IN NM108. 
+REF 
+ATTENDING PHYSICIAN 
+SECONDARY IDENTIFICATION 
+C2 
+REF01 
+REFERENCE IDENTIFICATION 
+QUALIFIER 
+Y 
+G2 
+PROVIDER COMMERCIAL NUMBER 
+REF02 
+REFERENCE IDENTIFICATION 
+Y 
+ATTENDING PHYSICIAN SECONDARY 
+IDENTIFIER (DHS UMPI NUMBER) 
+2310B 
+OPERATING PHYSICIAN NAME 
+C1 
+NM1 
+OPERATING PHYSICIAN NAME 
+C1 
+NM101 
+ENTITY IDENTIFIER CODE 
+Y 
+72 
+OPERATING PHYSICIAN 
+NM102 
+ENTITY TYPE QUALIFIER 
+Y 
+1 
+PERSON 
+NM103 
+NAME LAST OR 
+ORGANIZATION NAME 
+Y 
+OPERATING PHYSICIAN LAST NAME 
+DEFAULT TO ANY TEXT û NOT USED BUT 
+REQUIRED BY STANDARD 
+NM104 
+NAME FIRST 
+C1 
+OPERATING PHYSICIAN FIRST NAME 
+DEFAULT TO ANY TEXT-NOT USED BUT 
+REQUIRED IF ô1ö IS SENT IN NM102. 
+NM108 
+IDENTIFICATION CODE 
+QUALIFIER 
+Y 
+XX 
+NPI 
+NM109 
+IDENTIFICATION CODE 
+Y 
+OPERATING PHYSICIAN PRIMARY 
+IDENTIFIER 
+REF 
+OPERATING PHYSICIAN 
+SECONDARY IDENTIFICATION 
+C1 
+REF01 
+REFERENCE IDENTIFICATION 
+QUALIFIER 
+Y 
+G2 
+PROVIDER COMMERCIAL NUMBER 
+REF02 
+OPERATING PHYSICIAN 
+SECONDARY IDENTIFIER 
+Y 
+OPERATING PHYSICIAN SECONDARY 
+IDENTIFIER (DHS UMPI NUMBER) 
+2310D 
+RENDERING PROVIDER NAME 
+C1 
+NM1 
+RENDERING PROVIDER NAME 
+C1 
+Minnesota Department of Human Services 
+51 
+
+
+=== PAGE 52 ===
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+837I HIPAA Implementation Guide Data 
+DHS Encounter Data 
+LOOP 
+SEG 
+NAME 
+ID 
+ELEMENT NAME 
+REQ 
+VALUE 
+DESCRIPTION 
+NM101 
+ENTITY IDENTIFIER CODE 
+Y 
+82 
+RENDERING PROVIDER 
+NM102 
+ENTITY TYPE QUALIFIER 
+Y 
+1 
+PERSON 
+NM103 
+NAME LAST OR 
+ORGANIZATION NAME 
+Y 
+RENDERING PROVIDER LAST NAME 
+NM104 
+NAME FIRST 
+C1 
+RENDERING PROVIDER FIRST NAME 
+NM105 
+NAME MIDDLE 
+C1 
+RENDERING PROVIDER MIDDLE  NAME 
+OR INITIAL 
+NM107 
+NAME SUFFIX 
+C1 
+RENDERING PROVIDER NAME SUFFIX 
+NM108 
+IDENTIFICATION CODE 
+QUALFIER 
+Y 
+XX 
+NPI 
+NM109 
+IDENTIFICATION CODE 
+Y 
+RENDERING PROVIDER IDENTIFIER (NPI) 
+REF 
+RENDERING PROVIDER 
+SECONDARY IDENTIFICATION 
+C1 
+REF01 
+REFERENCE IDENTIFICATION 
+QUALIFIER 
+Y 
+G2 
+PROVIDER COMMERCIAL NUMBER 
+REF02 
+RENDERING PROVIDER 
+SECONDARY IDENTIFIER 
+Y 
+RENDERING PROVIDER UMPI ID NUMBER 
+(DHS UMPI NUMBER) 
+2310E 
+SERVICE FACILITY LOCATION 
+NAME 
+C1 
+REQUIRED WHEN THE LOCATION OF 
+HEALTH CARE SERVICE IS DIFFERENT 
+THAN THAT CARRIED IN LOOP 2010AA 
+NM1 
+SERVICE FACILITY LOCATION 
+NAME 
+NM101 
+ENTITY IDENTIFIER CODE 
+Y 
+77 
+SERVICE LOCATION 
+NM102 
+ENTITY TYPE QUALIFIER 
+Y 
+2 
+NON-PERSON ENTITY 
+NM103 
+NAME LAST OR 
+ORGANIZATION NAME 
+Y 
+LABORATORY OR FACILITY NAME 
+NM108 
+IDENTIFICATION CODE 
+QUALIFIER 
+C1 
+XX 
+NPI 
+NM109 
+IDENTIFICATION CODE 
+C1 
+LABORATORY OR FACILITY PRIMARY 
+IDENTIFIER 
+N3 
+SERVICE FACILITY LOCATION 
+ADDRESS 
+Y 
+N301 
+ADDRESS INFORMATION 
+Y 
+LABORATORY OR FACILITY ADDRESS 
+LINE 
+N302 
+ADDRESS INFORMATION 
+C1 
+LABORATORY OR FACILITY ADDRESS 
+LINE 
+Minnesota Department of Human Services 
+52 
+
+
+=== PAGE 53 ===
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+LOOP 
+2320 
+SEG 
+N4 
+REF 
+SBR 
+837I HIPAA Implementation Guide Data 
+NAME 
+ID 
+ELEMENT NAME 
+SERVICE FACILITY LOCATION 
+CITY, STATE, ZIP CODE 
+N401 
+CITY NAME 
+N402 
+STATE OR PROVINCE CODE 
+N403 
+POSTAL CODE 
+SERVICE FACILITY LOCATION 
+SECONDARY IDENTIFICATION 
+REF01 
+REFERENCE IDENTIFICATION 
+QUALIFIER 
+REF02 
+REFERENCE IDENTIFICATION 
+OTHER SUBSCRIBER 
+INFORMATION 
+OTHER SUBSCRIBER 
+INFORMATION 
+SBR01 
+PAYER RESPONSIBILITY 
+SEQUENCE NUMBER CODE 
+SBR02 
+INDIVIDUAL RELATIONSHIP 
+CODE 
+REQ 
+Y 
+Y 
+C1 
+C1 
+C1 
+Y 
+Y 
+C2 
+C1 
+Y 
+Y 
+VALUE 
+G2 
+P 
+S 
+T 
+SEE 
+X12 IG 
+FOR 
+ADDTÆL 
+CODES 
+/VALUE 
+S 
+18 
+DHS Encounter Data 
+DESCRIPTION 
+LABORATORY OR FACILITY CITY NAME 
+LABORATORY OR FACILITY STATE OR 
+PROVINCE CODE 
+LABORATORY OR FACILITY POSTAL 
+ZONE OR ZIP CODE 
+PROVIDER COMMERCIAL NUMBER (FOR 
+UMPI NUMBERS) 
+LABORATORY OR FACILITY SECONDARY 
+IDENTIFIER (DHS UMPI NUMBER) 
+THIS LOOP IS REQUIRED û THE FIRST 
+OCCURRENCE MUST CONTAIN 
+INFORMATION FOR THE MCO AS THE 
+PRIMARY/SECONDARY PAYER. IF THE
+PRIMARY PAYER IS A THIRD PARTY, THE 
+SECOND OCCURRENCE OF THIS 
+SEGMENT SHOULD CONTAIN A ôPö AND 
+INFORMATION RELATED TO THE 
+RELEVANT THIRD PARTY PAYER. UP TO 
+10 SBR LOOPS CAN BE SENT. 
+PRIMARY 
+SECONDARY 
+TERTIARY 
+REFER TO THE IMPLEMENTATION GUIDE 
+FOR THE OTHER CODES/VALUES TO 
+USE. 
+SELFû this is the only option for the first 
+occurrence. Subsequent occurrences should 
+be billed as appropriate. 
+Minnesota Department of Human Services 
+53 
+
+
+=== PAGE 67 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+837D HIPAA Implementation Guide Data 
+DHS Information 
+LOOP 
+SEG 
+NAME 
+ID 
+ELEMENT NAME 
+REQ 
+VALUE 
+DESCRIPTION 
+PER 
+SUBMITTER EDI CONTACT 
+INFORMATION 
+Y 
+PER01 
+CONTACT FUNCTION 
+CODE 
+Y 
+IC 
+INFORMATION CONTACT 
+PER02 
+NAME 
+C1 
+MCO SUBMITTER CONTACT 
+PER03 
+COMMUNICATION 
+NUMBER QUALIFIER 
+Y 
+TE 
+TELEPHONE 
+PER04 
+COMMUNICATION 
+NUMBER 
+Y 
+MCO CONTACT PHONE NUMBER 
+1000B 
+RECEIVER NAME 
+Y 
+NM1 
+RECEIVER NAME 
+NM101 
+ENTITY IDENTIFIER 
+CODE 
+Y 
+40 
+RECEIVER 
+NM102 
+ENTITY TYPE QUALIFIER 
+Y 
+2 
+NON-PERSON ENTITY 
+NM103 
+NAME LAST OR 
+ORGANIZATION NAME 
+Y 
+MN DEPT OF HUMAN SERVICES 
+NM108 
+IDENTIFICATION CODE 
+QUALIFIER 
+Y 
+46 
+TRADING PARTNER ID 
+NM109 
+IDENTIFICATION CODE 
+Y 
+411674742 
+RECEIVER ID 
+2000A 
+BILLING/PAY-TO PROVIDER 
+HIERARCHICAL LEVEL 
+Y 
+HL 
+HIERARCHICAL LEVEL 
+Y 
+HL01 
+HIERARCHICAL ID 
+NUMBER 
+Y 
+1 THEN INCREMENT BY 1 
+HL03 
+HIERARCHICAL LEVEL 
+CODE 
+Y 
+20 
+INFORMATION SOURCE 
+HL04 
+HIERARCHICAL CHILD 
+CODE 
+Y 
+1 
+ADDITIONAL SUBORDINATE HL DATA 
+SEGMENT IN THIS HIERARCHICAL 
+STRUCTURE 
+PRV 
+BILLING PROVIDER SPECIALTY 
+INFORMATION 
+C1 
+PRV01 
+PROVIDER CODE 
+Y 
+BI 
+BILLING 
+PRV02 
+REFERENCE 
+IDENTIFICATION 
+QUALIFER 
+Y 
+PXC 
+HEALTH CARE PROVIDER TAXONOMY 
+CODE 
+PRV03 
+REFERENCE 
+IDENTIFICATION 
+Y 
+PROVIDER TAXONOMY CODE 
+2010AA 
+BILLING PROVIDER NAME 
+Y 
+NM1 
+BILLING PROVIDER NAME 
+Y 
+Minnesota Department of Human Services 
+67 
+
+
+=== PAGE 70 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+837D HIPAA Implementation Guide Data 
+DHS Information 
+LOOP 
+SEG 
+NAME 
+ID 
+ELEMENT NAME 
+REQ 
+VALUE 
+DESCRIPTION 
+REF 
+SUBSCRIBER SECONDARY 
+IDENTIFICATION 
+Y 
+REF01 
+REFERENCE 
+IDENTIFICATION 
+QUALIFIER 
+Y 
+Y4 
+AGENCY CLAIM NUMBER 
+REF02 
+REFERENCE 
+IDENTIFICATION 
+Y 
+MCOÆS OWN MEMBER ID 
+2010BB 
+PAYER NAME 
+Y 
+NM101 
+ENTITY IDENTIFIER 
+CODE 
+Y 
+PR 
+PAYER 
+NM102 
+ENTITY TYPE QUALIFIER 
+Y 
+2 
+NON-PERSON ENTITY 
+NM103 
+NAME LAST OR 
+ORGANIZATION NAME 
+Y 
+MN DEPT OF HUMAN SERVICES 
+NM108 
+IDENTIFICATION  CODE 
+QUALIFIER 
+Y 
+PI 
+PAYER ID 
+NM109 
+IDENTIFICATION CODE 
+Y 
+411674742 
+DHS PAYER ID 
+REF 
+BILLING PROVIDER 
+SECONDARY IDENTIFICATION 
+C1 
+REF01 
+REFERENCE 
+IDENTIFICATION 
+QUALIFIER 
+Y 
+G2 
+(REPLACES 2010AA PAY TO PROVIDER 
+UMPI) 
+PROVIDER COMMERCIAL NUMBER 
+REF02 
+REFERENCE 
+IDENTIFICATION 
+Y 
+BILLING PROVIDER SECONDARY 
+IDENTIFIER (DHS UMPI NUMBER) 
+2300 
+CLAIM INFORMATION 
+Y 
+CLM 
+CLAIM INFORMATION 
+Y 
+CLM01 
+CLAIM SUBMITTERÆS 
+IDENTIFIER 
+Y 
+MCOÆS OWN CLAIM NUMBER (ICN) 
+CLM02 
+MONETARY AMOUNT 
+Y 
+BILLED AMOUNT.  PER APPENDIX A IN 
+THE IMPLEMENTATION GUIDE, 
+DECIMAL DATA ELEMENTS IN DATA 
+ELEMENT 782 WILL BE LIMITED TO A 
+MAXIMUM LENGTH OF 10 
+CHARACTERS INCLUDING REPORTED 
+OR IMPLIED PLACES FOR CENTS. 
+CLM05 
+HEALTH CARE SERVICE 
+LOCATION 
+INFORMATION 
+Y 
+CLM05-1 
+FACILITY CODE VALUE 
+Y 
+PLACE OF SERVICE CODE 
+CLM05-2 
+FACILITY CODE 
+QUALIFIER 
+Y 
+B 
+PLACE OF SERVICE CODES FOR 
+PROFESSIONAL OR DENTAL 
+SERVICES. 
+Minnesota Department of Human Services 
+70 
+
+
+=== PAGE 75 ===
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+837D HIPAA Implementation Guide Data 
+DHS Information 
+LOOP 
+SEG 
+NAME 
+ID 
+ELEMENT NAME 
+REQ 
+VALUE 
+DESCRIPTION 
+PRV01 
+PROVIDER CODE 
+Y 
+PE 
+PERFORMING 
+PRV02 
+REFERENCE 
+IDENTIFICATION 
+QUALIFIER 
+Y 
+PXC 
+HEALTH CARE PROVIDER TAXONOMY 
+CODE 
+PRV03 
+PROVIDER TAXONOMY 
+CODE 
+Y 
+TAXONOMY CODE.  DEFAULT 
+TAXONOMY CODE = ô777A00000Zö 
+REF 
+RENDERING PROVIDER 
+SECONDARY IDENTIFICATION 
+C2 
+REF01 
+REFERENCE 
+IDENTIFICATION 
+QUALIFIER 
+Y 
+G2 
+PROVIDER COMMERCIAL NUMBER 
+REF02 
+REFERENCE 
+IDENTIFICATION 
+Y 
+RENDERING PROVIDER SECONDARY 
+IDENTIFIER (DHS UMPI NUMBER) 
+2310C 
+SERVICE FACILITY LOCATION 
+NAME 
+C1 
+REQUIRED WHEN THE LOCATION OF 
+HEALTH CARE SERVICE IS DIFFERENT 
+THAN THAT CARRIED IN LOOP 2010AA. 
+NM1 
+SERVICE FACILITY LOCATION 
+NAME 
+C1 
+NM101 
+ENTITY IDENTIFIER 
+CODE 
+Y 
+77 
+SERVICE LOCATION 
+NM102 
+ENTITY TYPE QUALIFIER 
+Y 
+2 
+NON-PERSON ENTITY 
+NM103 
+NAME LAST OR 
+ORGANIZATION NAME 
+Y 
+LABORATORY OR FACILITY NAME 
+NM108 
+IDENTIFICATION CODE 
+QUALIFIER 
+C1 
+XX 
+NPI 
+NM109 
+IDENTIFICATION CODE 
+C1 
+LABORATORY OR FACILITY PRIMARY 
+IDENTIFIER 
+N3 
+SERVICE FACILITY LOCATION 
+ADDRESS 
+Y 
+N301 
+ADDRESS INFORMATION 
+Y 
+LABORATORY OR FACILITY ADDRESS 
+LINE 
+N302 
+ADDRESS INFORMATION 
+C1 
+LABORATORY OR FACILITY ADDRESS 
+LINE 
+N4 
+SERVICE FACILITY LOCATION 
+CITY, STATE, ZIP CODE 
+Y 
+N401 
+CITY NAME 
+Y 
+LABORATORY OR FACILITY CITY NAME 
+N402 
+STATE OR PROVINCE 
+CODE 
+C1 
+LABORATORY OR FACILITY STATE OR 
+PROVINCE CODE 
+N403 
+POSTAL CODE 
+C1 
+LABORATORY OR FACILITY POSTAL 
+ZONE OR ZIP CODE 
+Minnesota Department of Human Services 
+75 
+
+

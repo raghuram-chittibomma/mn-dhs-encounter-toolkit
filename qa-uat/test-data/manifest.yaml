@@ -1,0 +1,90 @@
+# Test data manifest
+# Register every manufactured file. Update when adding inputs.
+# Seed-42 QA fixtures regenerated 2026-07-02 (current generator).
+
+fixtures:
+  - id: QA-CLEAN-MIXED-42
+    path: inputs/qa_clean_mixed_seed42.x12
+    manufactured_by: generate
+    scenarios:
+      - clean_professional_original
+      - clean_institutional_original
+    seed: 42
+    purpose: P1 clean batch for TC-QA-001, TC-UAT-001
+
+  - id: QA-ERR-UMPI-42
+    path: inputs/qa_err_missing_umpi_seed42.x12
+    manufactured_by: generate
+    scenarios:
+      - err_missing_umpi
+    seed: 42
+    purpose: Negative billing UMPI for TC-QA-022, TC-UAT-002
+
+  - id: QA-ERR-ENVELOPE-42
+    path: inputs/qa_err_bad_envelope_seed42.x12
+    manufactured_by: generate
+    scenarios:
+      - err_bad_envelope
+    seed: 42
+    purpose: Layer 1 negative TC-QA-011
+
+  - id: QA-VOID-42
+    path: inputs/qa_void_encounter_seed42.x12
+    manufactured_by: generate
+    scenarios:
+      - void_encounter
+    seed: 42
+    purpose: TC-QA-030, TC-UAT-006
+
+  - id: QA-TPL-42
+    path: inputs/qa_professional_tpl_seed42.x12
+    manufactured_by: generate
+    scenarios:
+      - professional_with_tpl
+    seed: 42
+    purpose: TC-QA-028, TC-UAT-007
+
+  - id: QA-CLEAN-837I-42
+    path: inputs/qa_clean_837i_seed42.x12
+    manufactured_by: generate
+    scenarios:
+      - clean_institutional_original
+    seed: 42
+    purpose: TC-QA-023
+
+  - id: QA-ERR-CHARGE-42
+    path: inputs/qa_err_charge_mismatch_seed42.x12
+    manufactured_by: generate
+    scenarios:
+      - err_charge_mismatch
+    seed: 42
+    purpose: TC-QA-036
+
+  - id: UAT-CLEAN-MIXED-100
+    path: inputs/uat_clean_mixed_seed100.x12
+    manufactured_by: generate
+    scenarios:
+      - clean_professional_original
+      - clean_institutional_original
+    seed: 100
+    purpose: TC-UAT-008 pre-submission gate
+
+  - id: UAT-999-UI-42
+    path: inputs/uat_999_from_ui_seed42.x12
+    manufactured_by: ui_generate_999
+    source: qa_clean_mixed_seed42.x12
+    purpose: TC-UAT-003
+
+  - id: UAT-835E-UI-42
+    path: inputs/uat_835e_from_ui_seed42.x12
+    manufactured_by: ui_generate_835e
+    source: qa_clean_mixed_seed42.x12
+    purpose: TC-UAT-004
+
+  - id: UAT-SCENARIO-LAB-99
+    path: inputs/uat_scenario_lab_seed99.x12
+    manufactured_by: ui_scenario_lab
+    scenarios:
+      - epsdt_teen_checkup
+    seed: 99
+    purpose: TC-UAT-005
