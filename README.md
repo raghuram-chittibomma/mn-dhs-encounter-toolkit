@@ -62,13 +62,17 @@ custom, dependency-free X12 engine.
 
 Captured after real UI actions (see [`docs/images/README.md`](docs/images/README.md) to regenerate).
 
-| EDI file — annotated error on upload | Validation layers — rules can be turned off |
+| EDI file — annotated error on upload | EDI file — hierarchical outline of that upload |
 |:---:|:---:|
-| ![EDI file](docs/images/edi_file_annotated_error.png) | ![Validation layers](docs/images/validation_layers_enabled_rules.png) |
+| ![EDI file](docs/images/edi_file_annotated_error.png) | ![EDI hierarchy](docs/images/edi_file_hierarchy.png) |
 
-| Scenario lab — batch generated | Generate 999 — preview after upload |
+| Validation layers — rules can be turned off | Scenario lab — batch generated |
 |:---:|:---:|
-| ![Scenario lab](docs/images/scenario_lab_batch_generated.png) | ![Generate 999](docs/images/generate_999_preview.png) |
+| ![Validation layers](docs/images/validation_layers_enabled_rules.png) | ![Scenario lab](docs/images/scenario_lab_batch_generated.png) |
+
+| Generate 999 — preview after upload |
+|:---:|
+| ![Generate 999](docs/images/generate_999_preview.png) |
 
 ### Quick start
 

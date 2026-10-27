@@ -48,6 +48,34 @@ def capture_edi_file(page) -> None:
     page.locator('[data-testid="stMain"] iframe').wait_for(timeout=15_000)
     page.wait_for_timeout(1500)
     _screenshot(page, "edi_file_annotated_error.png")
+    _capture_edi_hierarchy(page)
+
+
+def _capture_edi_hierarchy(page) -> None:
+    """Same upload, with every level on the error path opened through the finding."""
+    frame = page.frame_locator('[data-testid="stMain"] iframe')
+    frame.locator("details.billing").first.wait_for(timeout=15_000)
+    height = frame.locator("body").evaluate(
+        """() => {
+          document.querySelectorAll('details.loop').forEach((node) => { node.open = false; });
+          document.querySelectorAll('details.has-error').forEach((node) => { node.open = true; });
+          window.scrollTo(0, 0);
+          return Math.ceil(document.body.scrollHeight) + 24;
+        }"""
+    )
+    page.set_viewport_size({"width": 1280, "height": max(int(height) + 80, 900)})
+    iframe = page.locator('[data-testid="stMain"] iframe')
+    iframe.evaluate(
+        """(node, nextHeight) => {
+          node.style.height = nextHeight + 'px';
+          node.scrollIntoView({block: 'start'});
+        }""",
+        height,
+    )
+    page.wait_for_timeout(500)
+    iframe.screenshot(path=str(IMAGES / "edi_file_hierarchy.png"))
+    page.set_viewport_size({"width": 1440, "height": 900})
+    print(f"Wrote {(IMAGES / 'edi_file_hierarchy.png').relative_to(ROOT)}")
 
 
 def capture_validation_layers(page) -> None:
