@@ -5,7 +5,7 @@ from __future__ import annotations
 import streamlit as st
 import streamlit.components.v1 as components
 
-from mn_encounter_toolkit.web.edi_html import render_edi_html
+from mn_encounter_toolkit.web.edi_html import format_plain_edi, render_edi_html
 from mn_encounter_toolkit.web.enrich import EnrichedFinding
 from mn_encounter_toolkit.web.layer_reference import (
     LAYER_INFO,
@@ -299,7 +299,7 @@ def page_validate() -> None:
     with st.sidebar:
         st.subheader("Validation layers")
         if view_mode == "Plain text":
-            st.caption("Plain text shows the file and does not run validation.")
+            st.caption("Plain text shows one segment per line and does not run validation.")
         elif envelope_only:
             st.caption("835 and 999 use layer 1 only. Layers 2–4 apply to 837 encounters.")
         elif detected is not None and not detected.kinds:
@@ -330,14 +330,20 @@ def page_validate() -> None:
         st.caption("Guide version was not recognized. The file is shown without encounter validation.")
 
     if view_mode == "Plain text":
+        st.caption("One segment per line. Indentation follows the loop hierarchy. The download is the original file.")
         st.download_button(
-            "Download EDI file",
+            "Download original file",
             data=text,
             file_name=uploaded.name,
             mime="text/plain",
             key="edi_plain_download",
         )
-        st.code(text, language=None)
+        try:
+            plain = format_plain_edi(text)
+        except (ValueError, OSError) as exc:
+            st.error(str(exc))
+            plain = text
+        st.code(plain, language=None)
         return
 
     selected = tuple(number for number, enabled in layer_selection.items() if enabled)

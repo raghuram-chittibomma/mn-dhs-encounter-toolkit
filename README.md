@@ -264,8 +264,10 @@ that path. Open the `.html` file in a browser. The script does not call the netw
 
 The **EDI file** page does this for an uploaded 837, 835, or 999 (`.x12`,
 `.txt`, `.edi`, or `.dat`). 835 and 999 run layer 1 only. Plain text on that
-page shows the file without validation. Rules unchecked on **Validation
-layers** are omitted from this page and remembered on this machine.
+page does not validate. It shows one segment per line, including when the
+upload is a single line, and indents each line by its loop. Rules unchecked
+on **Validation layers** are omitted from the annotated view and remembered
+on this machine.
 
 ### `list-scenarios`
 

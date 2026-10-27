@@ -1039,6 +1039,55 @@ def _outline_blocks(blocks: list[LoopBlock]) -> list[Outline]:
     return roots
 
 
+def format_plain_edi(text: str) -> str:
+    """One segment per line, indented by the same hierarchy as the annotated view.
+
+    A file with no line breaks is split on the segment terminator first.
+    """
+    try:
+        separators = detect_separators(text)
+        segments = parse_segments(text, separators)
+    except ValueError:
+        return _plain_fallback(text)
+    preamble, groups, trailer = build_groups(segments)
+    lines: list[str] = []
+    lines.extend(_plain_segments(preamble, 0))
+    for group in groups:
+        lines.extend(_plain_segments(group.header, 1))
+        for transaction in group.transactions:
+            lines.extend(_plain_outline(_outline_blocks(transaction.blocks), 2))
+        lines.extend(_plain_segments(group.trailer, 1))
+    lines.extend(_plain_segments(trailer, 0))
+    if not lines:
+        return _plain_fallback(text)
+    return "\n".join(lines) + "\n"
+
+
+def _plain_segments(segments: list[ShownSegment], depth: int) -> list[str]:
+    indent = "  " * depth
+    return [f"{indent}{item.segment.raw.strip()}" for item in segments]
+
+
+def _plain_outline(nodes: list[Outline], depth: int) -> list[str]:
+    lines: list[str] = []
+    for node in nodes:
+        if node.role == "loop" and node.block is not None:
+            lines.extend(_plain_segments(node.block.segments, depth))
+        else:
+            lines.extend(_plain_outline(node.children, depth + 1))
+    return lines
+
+
+def _plain_fallback(text: str) -> str:
+    stripped = text.strip()
+    if not stripped:
+        return ""
+    if "~" in stripped:
+        parts = [part.strip() for part in stripped.split("~") if part.strip()]
+        return "\n".join(f"{part}~" for part in parts) + "\n"
+    return stripped + "\n"
+
+
 def _outline_counts(node: Outline) -> tuple[int, int]:
     errors = 0
     warnings = 0

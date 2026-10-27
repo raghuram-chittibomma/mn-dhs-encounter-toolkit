@@ -12,6 +12,27 @@ sys.modules["render_edi_html"] = render_edi_html
 _SPEC.loader.exec_module(render_edi_html)
 
 
+def test_plain_text_splits_one_line_files_and_indents_the_claim():
+    source = (ROOT / "examples" / "clean_batch.x12").read_text(encoding="utf-8")
+    one_line = "".join(line.strip() for line in source.splitlines())
+    assert "\n" not in one_line
+    pretty = render_edi_html.format_plain_edi(one_line)
+    lines = pretty.splitlines()
+    isa = lines[0]
+    gs = next(line for line in lines if line.strip().startswith("GS"))
+    transaction = next(line for line in lines if line.strip().startswith("ST*"))
+    claim = next(line for line in lines if "CLM*" in line)
+    assert isa.startswith("ISA")
+    assert not isa.startswith(" ")
+    assert gs.startswith("  ") and not gs.startswith("    ")
+    assert _indent(claim) > _indent(transaction)
+    assert pretty.count("~") == one_line.count("~")
+
+
+def _indent(line: str) -> int:
+    return len(line) - len(line.lstrip(" "))
+
+
 def test_clean_batch_html_names_loops_and_stays_offline():
     source = ROOT / "examples" / "clean_batch.x12"
     html = render_edi_html.render_html(source.read_text(encoding="utf-8"), filename=source.name)

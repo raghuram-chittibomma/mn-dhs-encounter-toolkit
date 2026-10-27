@@ -15,6 +15,11 @@ def render_edi_html(text: str, filename: str, findings: list[dict] | None = None
     return module.render_html(text, filename=filename, findings=findings)
 
 
+def format_plain_edi(text: str) -> str:
+    module = _renderer()
+    return module.format_plain_edi(text)
+
+
 def _renderer() -> ModuleType:
     global _MODULE
     if _MODULE is not None:
