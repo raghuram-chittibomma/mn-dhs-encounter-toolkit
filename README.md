@@ -41,7 +41,7 @@ syntax, and companion-guide checks that can run locally.
 
 | Capability | Speed / productivity benefit |
 |------------|------------------------------|
-| **Validate 837** (4 layers, 56 rules) | Sub-second feedback; JSON/CSV for CI |
+| **EDI file page** (837, 835, 999; `.x12` `.txt` `.edi` `.dat`) | Sub-second feedback, annotated outline, JSON/CSV |
 | **Generate scenarios** (20+, seeded) | Realistic batches in ~1 s; repeatable `err_*` fixtures |
 | **Preview 999 / 835E** | Skip waiting for DHS to see likely ack/remit shape |
 | **Streamlit UI** | QA testers validate and look up rules without CLI |
@@ -62,9 +62,9 @@ custom, dependency-free X12 engine.
 
 Captured after real UI actions (see [`docs/images/README.md`](docs/images/README.md) to regenerate).
 
-| Validate 837 — error finding on upload | Validation layers — UMPI search results |
+| EDI file — annotated error on upload | Validation layers — rules can be turned off |
 |:---:|:---:|
-| ![Validate 837](docs/images/validate_837_error_finding.png) | ![Validation layers](docs/images/validation_layers_umpi_search.png) |
+| ![EDI file](docs/images/edi_file_annotated_error.png) | ![Validation layers](docs/images/validation_layers_enabled_rules.png) |
 
 | Scenario lab — batch generated | Generate 999 — preview after upload |
 |:---:|:---:|
@@ -253,11 +253,15 @@ python scripts/render_edi_html.py --in batch.x12 --findings batch.json --out bat
 837, 835, or 999 file. Loops and segments are labeled with short hints.
 `--findings` accepts `mn-encounter validate --format json` and marks each
 error or warning on the segment, or on the nearest parent loop when the
-segment is missing. Previous and Next walk those markers. Open the `.html`
-file in a browser. The script does not call the network.
+segment is missing. Collapse all, Expand all, and one control per claim
+(and per billing provider, transaction, and loop) indent the file.
+A closed section that contains an error stays red. Previous and Next open
+that path. Open the `.html` file in a browser. The script does not call the network.
 
-The **EDI file** page does this for an uploaded 837, and runs layer 1 only
-for an 835 or 999. Plain text on that page shows the file without validation.
+The **EDI file** page does this for an uploaded 837, 835, or 999 (`.x12`,
+`.txt`, `.edi`, or `.dat`). 835 and 999 run layer 1 only. Plain text on that
+page shows the file without validation. Rules unchecked on **Validation
+layers** are omitted from this page and remembered on this machine.
 
 ### `list-scenarios`
 

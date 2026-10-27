@@ -18,7 +18,7 @@ Non-developer builds sample encounters from named scenarios.
 1. **Scenario lab** — select `epsdt_teen_checkup` or `atypical_provider`
 2. Set seed `99`
 3. Generate and download 837
-4. Validate in **Validate 837** page
+4. Validate on the **EDI file** page
 5. Save artifacts under `qa-uat/test-data/inputs/uat_scenario_lab_seed99.x12`
 
 ## Expected results

@@ -72,5 +72,4 @@ Named response scenarios: `accept_all`, `reject_missing_umpi`, `reject_bad_envel
 generate 837 → validate (L1–4) → gen999 / gen835e
 ```
 
-Web UI exposes: Validate 837, Validation layers catalog, Generate 999/835E,
-Scenario lab.
+Web UI exposes: EDI file (annotated outline or plain text; `.x12`, `.txt`, `.edi`, `.dat`), Validation layers catalog with per-rule on/off, Generate 999/835E, Scenario lab.

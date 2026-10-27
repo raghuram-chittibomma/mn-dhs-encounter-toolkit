@@ -96,10 +96,15 @@ mn-dhs-encounter-toolkit/
     web/
       enrich.py                              # Finding -> claim-level context for UI display
       validate_service.py                    # upload validation + JSON/CSV export
+      rule_config.py                         # local on/off list for validation rules (rule IDs only)
+      edi_html.py                            # bridge to scripts/render_edi_html.py
+      layer_reference.py                     # rule catalog shown on Validation layers
       response_service.py                    # 999/835E generation from uploaded 837 text
       generate_service.py                    # scenario-lab batch generation
       views.py                               # Streamlit page renderers
       entry.py                               # mn-encounter-ui launcher
+  scripts/
+    render_edi_html.py                       # stdlib HTML outline for 837/835/999
   ui/
     app.py                                   # Streamlit shell (sidebar navigation)
   tests/
@@ -219,9 +224,12 @@ out explicitly in each module's docstring.
 
 A Streamlit front end (`ui/app.py`, launched via `mn-encounter-ui`) wraps the
 same library functions as the CLI — it does not duplicate validator or response
-logic. Pages: **Validate 837**, **Generate 999**, **Generate 835E**, and
-**Scenario lab**. Uploads are processed in memory; the core package remains
-installable without Streamlit (`pip install -e .`).
+logic. Pages: **EDI file** (837, 835, or 999; annotated outline or plain text;
+`.x12`, `.txt`, `.edi`, `.dat`), **Validation layers** (catalog and per-rule
+on/off), **Generate 999**, **Generate 835E**, and **Scenario lab**. Uploaded
+files are processed in memory. The rule on/off list is saved on this machine
+and is not sent anywhere. The core package remains installable without
+Streamlit (`pip install -e .`).
 
 ## Build order (matches the spec's "working process")
 

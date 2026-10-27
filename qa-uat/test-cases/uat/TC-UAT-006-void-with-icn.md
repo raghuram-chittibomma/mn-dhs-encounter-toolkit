@@ -19,7 +19,7 @@ Analyst uploads a void-frequency encounter and confirms clean validation with or
 
 ## Steps
 
-1. **Validate 837** — upload `qa_void_encounter_seed42.x12`
+1. **EDI file** — upload `qa_void_encounter_seed42.x12`
 2. Confirm zero errors in summary metrics
 3. Review claim context for void frequency and original ICN reference
 

@@ -15,6 +15,7 @@ from mn_encounter_toolkit.validator.layer3_dhs_rules import LAYER3
 from mn_encounter_toolkit.validator.layer4_consistency import LAYER4
 from mn_encounter_toolkit.validator.run import validate_document
 from mn_encounter_toolkit.web.enrich import ClaimSummary, EnrichedFinding, enrich_findings, summarize_claims
+from mn_encounter_toolkit.web.rule_config import filter_findings
 
 ALL_LAYER_NUMBERS = (1, 2, 3, 4)
 _LAYERS_BY_NUMBER = {1: LAYER1, 2: LAYER2, 3: LAYER3, 4: LAYER4}
@@ -116,6 +117,7 @@ def validate_upload(
     *,
     filename: str = "upload.x12",
     layer_numbers: tuple[int, ...] = ALL_LAYER_NUMBERS,
+    suppressed_rule_ids: frozenset[str] = frozenset(),
 ) -> ValidationReport:
     try:
         document = parse_segments(text)
@@ -129,7 +131,7 @@ def validate_upload(
         )
 
     layers = layers_from_numbers(layer_numbers)
-    raw_findings = validate_document(document, layers=layers)
+    raw_findings = filter_findings(validate_document(document, layers=layers), suppressed_rule_ids)
     claims = tuple(summarize_claims(document))
     enriched = tuple(enrich_findings(document, raw_findings))
     return ValidationReport(

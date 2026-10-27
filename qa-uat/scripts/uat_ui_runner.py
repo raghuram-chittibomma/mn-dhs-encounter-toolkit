@@ -65,7 +65,7 @@ def _download_button(page, label: str, out_path: Path) -> bool:
 
 
 def run_uat_001(page) -> dict:
-    _select_page(page, "Validate 837")
+    _select_page(page, "EDI file")
     _upload_837(page, INPUTS / "qa_clean_mixed_seed42.x12")
     text = _page_text(page)
     errors = _metric_value(text, "Errors")
@@ -95,7 +95,7 @@ def run_uat_001(page) -> dict:
 
 
 def run_uat_002(page) -> dict:
-    _select_page(page, "Validate 837")
+    _select_page(page, "EDI file")
     _upload_837(page, INPUTS / "qa_err_missing_umpi_seed42.x12")
     text = _page_text(page)
     errors = _metric_value(text, "Errors")
@@ -170,7 +170,7 @@ def run_uat_005(page) -> dict:
     downloaded = _generate_then_download(page, "Generate 837 batch", "Download 837 file", out)
     validate_status = "not_run"
     if downloaded:
-        _select_page(page, "Validate 837")
+        _select_page(page, "EDI file")
         _upload_837(page, out)
         vtext = _page_text(page)
         validate_status = "pass" if _metric_value(vtext, "Errors") == 0 else "fail"
@@ -183,7 +183,7 @@ def run_uat_005(page) -> dict:
 
 
 def run_uat_006(page) -> dict:
-    _select_page(page, "Validate 837")
+    _select_page(page, "EDI file")
     _upload_837(page, INPUTS / "qa_void_encounter_seed42.x12")
     text = _page_text(page)
     errors = _metric_value(text, "Errors")
@@ -199,7 +199,7 @@ def run_uat_006(page) -> dict:
 
 
 def run_uat_007(page) -> dict:
-    _select_page(page, "Validate 837")
+    _select_page(page, "EDI file")
     _upload_837(page, INPUTS / "qa_professional_tpl_seed42.x12")
     text = _page_text(page)
     errors = _metric_value(text, "Errors")

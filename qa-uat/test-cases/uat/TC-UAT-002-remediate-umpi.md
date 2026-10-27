@@ -19,7 +19,7 @@ Analyst identifies billing UMPI violation from validation report and understands
 
 ## Steps
 
-1. **Validate 837** — upload `qa_err_missing_umpi_seed42.x12`
+1. **EDI file** — upload `qa_err_missing_umpi_seed42.x12`
 2. Locate finding describing missing billing provider UMPI / REF*G2
 3. Note companion guide citation in finding if shown
 4. Optional: **Validation layers** — reference only at execution; do not use to

@@ -20,7 +20,7 @@ Manufacture `QA-CLEAN-MIXED-42` (see TC-QA-001).
 ## Steps
 
 1. Start `mn-encounter-ui` → http://localhost:8501
-2. Open **Validate 837**
+2. Open **EDI file**
 3. Upload `qa_clean_mixed_seed42.x12`
 4. Review findings grouped by claim; confirm zero errors
 5. Export JSON report; save to `qa-uat/results/executions/TC-UAT-001_ui.json`

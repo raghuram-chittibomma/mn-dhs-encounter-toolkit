@@ -76,13 +76,13 @@ mn-encounter-ui
 
 | Page | Black-box use |
 |------|----------------|
-| Validate 837 | Upload manufactured `.x12`, review findings, export JSON/CSV |
-| Validation layers | Browse rule catalog (reference only at execution) |
+| EDI file | Upload manufactured `.x12`, `.txt`, `.edi`, or `.dat`. 837 runs the selected layers; 835 and 999 run layer 1. Review findings, the annotated outline, and JSON/CSV. Plain text skips validation. |
+| Validation layers | Browse the rule catalog. Uncheck a rule to suppress it on the EDI file page. That choice is saved on the machine. |
 | Generate 999 | Upload 837 → download 999 |
 | Generate 835E | Upload 837 → download 835E |
 | Scenario lab | Build sample 837 from scenario name + seed |
 
-Privacy caption: local processing; files in memory only.
+Privacy caption: uploaded files stay in memory. The rule on/off list is the only setting written to disk.
 
 ## Manufacturing data without generate
 

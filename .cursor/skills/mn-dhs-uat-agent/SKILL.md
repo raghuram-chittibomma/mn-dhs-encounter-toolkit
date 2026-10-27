@@ -76,8 +76,8 @@ mn-encounter-ui   # http://localhost:8501
 
 | Page | UAT focus |
 |------|-----------|
-| Validate 837 | Upload, review findings, export JSON/CSV |
-| Validation layers | Rule lookup for analyst training (reference at execution) |
+| EDI file | Upload, review findings and the annotated outline, export JSON/CSV |
+| Validation layers | Rule lookup; uncheck a rule to suppress it on the EDI file page |
 | Generate 999 / 835E | Preview responses before DHS |
 | Scenario lab | Demo/training without CLI |
 

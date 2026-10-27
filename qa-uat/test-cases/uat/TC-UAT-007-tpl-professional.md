@@ -19,7 +19,7 @@ Analyst validates a professional encounter with third-party liability (COB) loop
 
 ## Steps
 
-1. **Validate 837** — upload `qa_professional_tpl_seed42.x12`
+1. **EDI file** — upload `qa_professional_tpl_seed42.x12`
 2. Confirm zero errors
 3. Review claim for COB / other-subscriber context
 

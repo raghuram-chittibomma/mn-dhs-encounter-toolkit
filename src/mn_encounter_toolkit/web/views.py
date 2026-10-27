@@ -11,8 +11,10 @@ from mn_encounter_toolkit.web.layer_reference import (
     LAYER_INFO,
     LAYER_SUMMARIES,
     VALIDATION_LAYERS_DOC,
+    LayerInfo,
     find_rules,
 )
+from mn_encounter_toolkit.web.rule_config import load_suppressed_rule_ids, save_suppressed_rule_ids
 from mn_encounter_toolkit.web.validate_service import (
     ALL_LAYER_NUMBERS,
     ValidationReport,
@@ -22,6 +24,9 @@ from mn_encounter_toolkit.web.validate_service import (
     report_to_json,
     validate_upload,
 )
+
+
+_UPLOAD_TYPES = ["x12", "txt", "edi", "dat"]
 
 
 def render_finding(item: EnrichedFinding) -> None:
@@ -140,12 +145,42 @@ def _severity_label(severity: str) -> str:
     }.get(severity, severity)
 
 
+def _suppressed_count_label(count: int) -> str:
+    noun = "rule" if count == 1 else "rules"
+    return f"{count} {noun} suppressed"
+
+
+def _editor_rows(edited) -> list[dict]:
+    if hasattr(edited, "to_dict"):
+        return edited.to_dict("records")
+    return list(edited)
+
+
+def _apply_layer_editor(layer: LayerInfo, suppressed: set[str], edited) -> set[str]:
+    layer_ids = {rule.rule_id for rule in layer.rules}
+    turned_off = {row["Rule ID"] for row in _editor_rows(edited) if not row["Enabled"]}
+    return (suppressed - layer_ids) | (turned_off & layer_ids)
+
+
 def page_validation_layers() -> None:
     st.header("Validation layers reference")
     st.caption(
         "What each layer checks when you validate an 837 file. "
-        "Use this page to look up rule IDs from validation findings."
+        "Uncheck Enabled to suppress that rule on the EDI file page. "
+        "This list is saved on this machine and does not include uploaded files."
     )
+
+    suppressed = set(load_suppressed_rule_ids())
+    if st.button("Enable all rules"):
+        if suppressed:
+            for layer in LAYER_INFO:
+                st.session_state.pop(f"rule_editor_{layer.number}", None)
+            save_suppressed_rule_ids(set())
+            st.rerun()
+    if suppressed:
+        st.warning(f"{_suppressed_count_label(len(suppressed))}. The EDI file page skips these findings.")
+    else:
+        st.caption("All rules are enabled.")
 
     st.info(
         "**999 deterministic** responses use **Layers 1 and 2 only** (envelope + syntax). "
@@ -157,6 +192,7 @@ def page_validation_layers() -> None:
             "Layer": layer.number,
             "Title": layer.title,
             "Rules": len(layer.rules),
+            "Suppressed": sum(1 for rule in layer.rules if rule.rule_id in suppressed),
             "Authority": layer.authority,
         }
         for layer in LAYER_INFO
@@ -198,9 +234,10 @@ def page_validation_layers() -> None:
             st.write(layer.scope)
             st.caption(f"**Authority:** {layer.authority}")
             st.caption(f"**Code module:** `{layer.module_path}`")
-            st.dataframe(
+            edited = st.data_editor(
                 [
                     {
+                        "Enabled": rule.rule_id not in suppressed,
                         "Rule ID": rule.rule_id,
                         "Severity": _severity_label(rule.severity),
                         "What it checks": rule.description,
@@ -208,9 +245,15 @@ def page_validation_layers() -> None:
                     }
                     for rule in layer.rules
                 ],
-                use_container_width=True,
+                disabled=["Rule ID", "Severity", "What it checks", "Notes"],
                 hide_index=True,
+                use_container_width=True,
+                key=f"rule_editor_{layer.number}",
             )
+            updated = _apply_layer_editor(layer, suppressed, edited)
+            if updated != suppressed:
+                save_suppressed_rule_ids(updated)
+                st.rerun()
 
     with st.expander("Severity and exit codes"):
         st.markdown(
@@ -239,9 +282,15 @@ def _layer_checkbox(number: int, *, checked: bool, disabled: bool, key: str) -> 
 def page_validate() -> None:
     st.header("EDI file")
     st.caption("Upload an 837, 835, or 999 file. Validation and the readable view follow the transaction type.")
+    suppressed_rule_ids = load_suppressed_rule_ids()
+    if suppressed_rule_ids:
+        st.caption(
+            f"{_suppressed_count_label(len(suppressed_rule_ids))}. "
+            "Change this on Validation layers."
+        )
     view_mode = st.radio("View", ["Annotated", "Plain text"], horizontal=True, key="edi_view_mode")
 
-    uploaded = st.file_uploader("EDI file (.x12)", type=["x12", "txt", "edi"], key="edi_upload")
+    uploaded = st.file_uploader("EDI file (.x12, .txt, .edi, .dat)", type=_UPLOAD_TYPES, key="edi_upload")
     text = uploaded.read().decode("utf-8", errors="replace") if uploaded is not None else None
     detected = detect_transactions(text) if text is not None else None
     envelope_only = detected is not None and detected.runs_envelope_only
@@ -300,7 +349,12 @@ def page_validate() -> None:
         if not layer_numbers:
             st.error("Select at least one validation layer.")
             return
-        report = validate_upload(text, filename=uploaded.name, layer_numbers=layer_numbers)
+        report = validate_upload(
+            text,
+            filename=uploaded.name,
+            layer_numbers=layer_numbers,
+            suppressed_rule_ids=suppressed_rule_ids,
+        )
         if report.parse_error:
             st.error(f"Could not parse file: {report.parse_error}")
             return
@@ -374,7 +428,7 @@ def page_gen999() -> None:
     st.header("Generate 999")
     st.caption("Upload an 837 file to produce a 999 Implementation Acknowledgment.")
 
-    uploaded = st.file_uploader("837 source file", type=["x12", "txt", "edi"], key="999_upload")
+    uploaded = st.file_uploader("837 source file (.x12, .txt, .edi, .dat)", type=_UPLOAD_TYPES, key="999_upload")
     mode = st.radio("Mode", ["deterministic", "simulation"], horizontal=True, key="999_mode")
     sender_id = st.text_input("999 sender ID (DHS payer)", value="411674742", key="999_sender")
     seed = 0
@@ -436,7 +490,7 @@ def page_gen835e() -> None:
     st.header("Generate 835E")
     st.caption("Upload an 837 file to produce an 835E encounter remittance file.")
 
-    uploaded = st.file_uploader("837 source file", type=["x12", "txt", "edi"], key="835_upload")
+    uploaded = st.file_uploader("837 source file (.x12, .txt, .edi, .dat)", type=_UPLOAD_TYPES, key="835_upload")
     mode = st.radio("Mode", ["deterministic", "simulation"], horizontal=True, key="835_mode")
     payment_method = st.selectbox("Payment method (BPR04)", ["NON", "ACH", "CHK", "FWT"], key="835_payment")
     seed = 0
@@ -539,6 +593,6 @@ def page_scenario_lab() -> None:
         mime="application/octet-stream",
         key="lab_download",
     )
-    st.caption("Tip: open the **Validate 837** page and upload this file to review findings.")
+    st.caption("Tip: open the **EDI file** page and upload this file to review findings.")
 
 

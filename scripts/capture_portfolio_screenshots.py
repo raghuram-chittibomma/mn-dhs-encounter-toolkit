@@ -7,6 +7,7 @@ Then: python scripts/capture_portfolio_screenshots.py
 
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
@@ -16,7 +17,7 @@ from playwright.sync_api import sync_playwright
 ROOT = Path(__file__).resolve().parents[1]
 IMAGES = ROOT / "docs" / "images"
 EXAMPLES = ROOT / "examples"
-BASE_URL = "http://localhost:8501"
+BASE_URL = os.environ.get("EDI_UI_URL", "http://localhost:8501")
 
 
 def _goto_page(page, name: str) -> None:
@@ -39,27 +40,31 @@ def _screenshot(page, filename: str) -> None:
     print(f"Wrote {out.relative_to(ROOT)}")
 
 
-def capture_validate_837(page) -> None:
-    _goto_page(page, "Validate 837")
+def capture_edi_file(page) -> None:
+    _goto_page(page, "EDI file")
     _upload_main_file(page, EXAMPLES / "err_missing_umpi.x12")
-    page.get_by_text("L3-BILLING-UMPI-REQUIRED", exact=False).wait_for(state="attached", timeout=15_000)
-    page.get_by_text("error(s) found", exact=False).wait_for(timeout=5_000)
-    page.get_by_text("Findings").scroll_into_view_if_needed()
-    _screenshot(page, "validate_837_error_finding.png")
+    page.get_by_text("L3-BILLING-UMPI-REQUIRED", exact=False).first.wait_for(state="attached", timeout=20_000)
+    page.get_by_text("Annotated view").scroll_into_view_if_needed()
+    page.locator('[data-testid="stMain"] iframe').wait_for(timeout=15_000)
+    page.wait_for_timeout(1500)
+    _screenshot(page, "edi_file_annotated_error.png")
 
 
 def capture_validation_layers(page) -> None:
     _goto_page(page, "Validation layers")
+    page.get_by_role("button", name="Enable all rules").wait_for(timeout=15_000)
     page.get_by_role("tab", name="Layer 3").click()
     page.wait_for_timeout(800)
-    search = page.get_by_placeholder("e.g. UMPI, L3-BILLING, charge, ISA")
-    search.click()
-    page.keyboard.type("UMPI", delay=60)
-    page.keyboard.press("Enter")
-    page.wait_for_timeout(2500)
-    page.get_by_text("L3-REFERRING-UMPI-REQUIRED").first.wait_for(state="attached", timeout=15_000)
-    page.locator('[data-testid="stMain"]').get_by_text("Search rules").scroll_into_view_if_needed()
-    _screenshot(page, "validation_layers_umpi_search.png")
+    page.get_by_text("L3-BILLING-UMPI-REQUIRED").first.wait_for(state="attached", timeout=15_000)
+    page.locator('[data-testid="stMain"]').evaluate(
+        """(el) => {
+          const node = [...el.querySelectorAll('*')].find((item) => item.textContent === 'Rules by layer');
+          if (node) node.scrollIntoView({block: 'start'});
+        }"""
+    )
+    page.mouse.wheel(0, 420)
+    page.wait_for_timeout(600)
+    _screenshot(page, "validation_layers_enabled_rules.png")
 
 
 def capture_scenario_lab(page) -> None:
@@ -90,7 +95,7 @@ def capture_generate_999(page) -> None:
 def main() -> int:
     IMAGES.mkdir(parents=True, exist_ok=True)
     steps = [
-        capture_validate_837,
+        capture_edi_file,
         capture_validation_layers,
         capture_scenario_lab,
         capture_generate_999,

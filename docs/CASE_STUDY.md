@@ -40,7 +40,7 @@ A Python toolkit that covers the MCO encounter **dev/QA loop** end to end:
 1. **Generate** synthetic 837P/837I batches (20+ scenarios, including intentional `err_*` fixtures)
 2. **Validate** against four independent layers (56 rules), with DHS companion-guide citations on Layer 3
 3. **Preview** 999 and 835E responses (deterministic or simulation)
-4. **Explore** rules in a browser UI (validate, layer catalog, scenario lab)
+4. **Explore** an uploaded 837, 835, or 999 in the browser: annotated outline, rule on/off switches, scenario lab
 
 ```
 Scenario lab / CLI generate  →  Validate (L1–L4)  →  gen999 / gen835e
@@ -104,7 +104,7 @@ Details: [`ARCHITECTURE.md`](ARCHITECTURE.md)
 | **Generator** | Scenario registry, MN refdata pools, pre-write consistency checks |
 | **Responses** | 999 (re-validates L1–L2), 835E (echoes MCO-reported adjudication) |
 | **CLI** | `generate`, `validate`, `gen999`, `gen835e`, `list-scenarios` |
-| **Web UI** | Validate, validation layers reference, 999/835E, scenario lab |
+| **Web UI** | EDI file page (annotated outline, plain text, `.dat` uploads), validation layers with per-rule on/off, 999/835E, scenario lab |
 | **Quality** | 158 automated tests; two peer-review passes documented |
 | **Docs** | Spec, architecture, rule catalog, QA vs DHS scope, known limitations |
 
