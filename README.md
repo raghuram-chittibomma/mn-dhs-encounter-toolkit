@@ -173,7 +173,7 @@ Opens `http://localhost:8501` with five pages:
 
 | Page | Purpose |
 |------|---------|
-| **Validate 837** | Upload and validate with claim-grouped findings, filters, JSON/CSV export |
+| **EDI file** | Upload an 837, 835, or 999. 837 runs layers 1–4; 835 and 999 run layer 1. Annotated view marks findings; Plain text shows the file only |
 | **Validation layers** | Searchable catalog of all Layer 1–4 rules (for QA reference) |
 | **Generate 999** | Upload 837 → download 999 (deterministic or simulation) |
 | **Generate 835E** | Upload 837 → download 835E (deterministic or simulation) |
@@ -241,7 +241,23 @@ mn-encounter gen835e --in batch.x12 --out batch_835e.x12
 # Simulation mode: randomized (seeded) outcomes instead of the real findings
 mn-encounter gen999 --in batch.x12 --out sim_999.x12 --mode simulation --seed 7
 mn-encounter gen835e --in batch.x12 --out sim_835e.x12 --mode simulation --seed 7
+
+# Readable HTML for an 837, 835, or 999 (stdlib only; no package import)
+python scripts/render_edi_html.py --in batch.x12 --out batch.html
+python scripts/render_edi_html.py --in batch.x12 --findings batch.json --out batch.html
 ```
+
+### Readable HTML
+
+`scripts/render_edi_html.py` writes a self-contained HTML page for an X12
+837, 835, or 999 file. Loops and segments are labeled with short hints.
+`--findings` accepts `mn-encounter validate --format json` and marks each
+error or warning on the segment, or on the nearest parent loop when the
+segment is missing. Previous and Next walk those markers. Open the `.html`
+file in a browser. The script does not call the network.
+
+The **EDI file** page does this for an uploaded 837, and runs layer 1 only
+for an 835 or 999. Plain text on that page shows the file without validation.
 
 ### `list-scenarios`
 

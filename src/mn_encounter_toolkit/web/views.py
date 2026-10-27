@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import streamlit as st
+import streamlit.components.v1 as components
 
+from mn_encounter_toolkit.web.edi_html import render_edi_html
 from mn_encounter_toolkit.web.enrich import EnrichedFinding
 from mn_encounter_toolkit.web.layer_reference import (
     LAYER_INFO,
@@ -14,6 +16,8 @@ from mn_encounter_toolkit.web.layer_reference import (
 from mn_encounter_toolkit.web.validate_service import (
     ALL_LAYER_NUMBERS,
     ValidationReport,
+    detect_transactions,
+    layers_for_upload,
     report_to_csv,
     report_to_json,
     validate_upload,
@@ -223,39 +227,115 @@ Parse failures return exit code `2`.
     st.caption(f"Repository copy: `{VALIDATION_LAYERS_DOC}`")
 
 
+def _layer_checkbox(number: int, *, checked: bool, disabled: bool, key: str) -> bool:
+    return st.checkbox(
+        f"Layer {number} — {LAYER_SUMMARIES[number]['title']}",
+        value=checked,
+        disabled=disabled,
+        key=key,
+    )
+
+
 def page_validate() -> None:
-    st.header("Validate 837")
-    st.caption("Upload an 837P/837I file to run compliance validation.")
+    st.header("EDI file")
+    st.caption("Upload an 837, 835, or 999 file. Validation and the readable view follow the transaction type.")
+    view_mode = st.radio("View", ["Annotated", "Plain text"], horizontal=True, key="edi_view_mode")
+
+    uploaded = st.file_uploader("EDI file (.x12)", type=["x12", "txt", "edi"], key="edi_upload")
+    text = uploaded.read().decode("utf-8", errors="replace") if uploaded is not None else None
+    detected = detect_transactions(text) if text is not None else None
+    envelope_only = detected is not None and detected.runs_envelope_only
+    encounter = detected is not None and detected.runs_encounter_rules
 
     with st.sidebar:
         st.subheader("Validation layers")
-        layer_selection = {
-            number: st.checkbox(
-                f"Layer {number} — {LAYER_SUMMARIES[number]['title']}",
-                value=True,
-                key=f"val_layer_{number}",
-            )
-            for number in ALL_LAYER_NUMBERS
-        }
+        if view_mode == "Plain text":
+            st.caption("Plain text shows the file and does not run validation.")
+        elif envelope_only:
+            st.caption("835 and 999 use layer 1 only. Layers 2–4 apply to 837 encounters.")
+        elif detected is not None and not detected.kinds:
+            st.caption("Guide version was not recognized. Encounter rules are not run.")
+        layer_selection: dict[int, bool] = {}
+        for number in ALL_LAYER_NUMBERS:
+            if envelope_only:
+                layer_selection[number] = _layer_checkbox(
+                    number, checked=number == 1, disabled=True, key=f"edi_layer_fixed_{number}"
+                )
+            elif detected is not None and not detected.kinds:
+                layer_selection[number] = _layer_checkbox(
+                    number, checked=False, disabled=True, key=f"edi_layer_unknown_{number}"
+                )
+            else:
+                layer_selection[number] = _layer_checkbox(
+                    number, checked=True, disabled=view_mode == "Plain text", key=f"edi_layer_{number}"
+                )
         render_layer_reference_sidebar()
 
-    uploaded = st.file_uploader("837 file (.x12)", type=["x12", "txt", "edi"], key="validate_upload")
-    if uploaded is None:
-        st.info("Upload a file to begin validation.")
+    if text is None or uploaded is None:
+        st.info("Upload a file to validate and view it.")
         return
 
-    selected_layers = tuple(number for number, enabled in layer_selection.items() if enabled)
-    if not selected_layers:
-        st.error("Select at least one validation layer.")
+    if detected is not None and detected.kinds:
+        st.caption(f"Detected {detected.label}.")
+    else:
+        st.caption("Guide version was not recognized. The file is shown without encounter validation.")
+
+    if view_mode == "Plain text":
+        st.download_button(
+            "Download EDI file",
+            data=text,
+            file_name=uploaded.name,
+            mime="text/plain",
+            key="edi_plain_download",
+        )
+        st.code(text, language=None)
         return
 
-    text = uploaded.read().decode("utf-8", errors="replace")
-    report = validate_upload(text, filename=uploaded.name, layer_numbers=selected_layers)
+    selected = tuple(number for number, enabled in layer_selection.items() if enabled)
+    layer_numbers = layers_for_upload(detected, selected) if detected is not None else None
+    findings = None
+    if layer_numbers is None:
+        st.info("Encounter validation was not run for this file.")
+    else:
+        if not layer_numbers:
+            st.error("Select at least one validation layer.")
+            return
+        report = validate_upload(text, filename=uploaded.name, layer_numbers=layer_numbers)
+        if report.parse_error:
+            st.error(f"Could not parse file: {report.parse_error}")
+            return
+        _render_validation_summary(report, uploaded.name)
+        findings = [
+            {
+                "severity": item.finding.severity,
+                "rule_id": item.finding.rule_id,
+                "message": item.finding.message,
+                "segment_id": item.finding.segment_id,
+                "line_number": item.finding.line_number,
+            }
+            for item in report.findings
+            if item.finding.severity in {"error", "warning"}
+        ]
 
-    if report.parse_error:
-        st.error(f"Could not parse file: {report.parse_error}")
+    try:
+        page = render_edi_html(text, filename=uploaded.name, findings=findings)
+    except (ValueError, OSError) as exc:
+        st.error(str(exc))
         return
 
+    st.subheader("Annotated view")
+    st.caption("Previous and Next in the view walk each error and warning marker.")
+    st.download_button(
+        "Download HTML",
+        data=page,
+        file_name=f"{uploaded.name}.html",
+        mime="text/html",
+        key="edi_html_download",
+    )
+    components.html(page, height=900, scrolling=True)
+
+
+def _render_validation_summary(report: ValidationReport, uploaded_name: str) -> None:
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Claims in file", len(report.claims))
     col2.metric("Errors", report.error_count)
@@ -287,7 +367,7 @@ def page_validate() -> None:
         )
 
     st.subheader("Findings")
-    render_validation_results(report, uploaded.name)
+    render_validation_results(report, uploaded_name)
 
 
 def page_gen999() -> None:
@@ -460,3 +540,5 @@ def page_scenario_lab() -> None:
         key="lab_download",
     )
     st.caption("Tip: open the **Validate 837** page and upload this file to review findings.")
+
+

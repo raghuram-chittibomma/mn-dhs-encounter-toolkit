@@ -19,6 +19,70 @@ from mn_encounter_toolkit.web.enrich import ClaimSummary, EnrichedFinding, enric
 ALL_LAYER_NUMBERS = (1, 2, 3, 4)
 _LAYERS_BY_NUMBER = {1: LAYER1, 2: LAYER2, 3: LAYER3, 4: LAYER4}
 
+_GUIDE_KIND = {
+    "005010X222A1": "837P",
+    "005010X223A2": "837I",
+    "005010X221A1": "835",
+    "005010X231": "999",
+    "005010X231A1": "999",
+}
+_ST01_KIND = {"837": "837", "835": "835", "999": "999"}
+_ENCOUNTER_KINDS = {"837", "837P", "837I"}
+_RESPONSE_KINDS = {"835", "999"}
+
+
+@dataclass(frozen=True)
+class DetectedTransactions:
+    """Transaction types found in one interchange, in first-seen order."""
+
+    kinds: tuple[str, ...]
+
+    @property
+    def label(self) -> str:
+        if not self.kinds:
+            return "Unrecognized transaction"
+        return ", ".join(self.kinds)
+
+    @property
+    def runs_encounter_rules(self) -> bool:
+        return any(kind in _ENCOUNTER_KINDS for kind in self.kinds)
+
+    @property
+    def runs_envelope_only(self) -> bool:
+        return not self.runs_encounter_rules and any(kind in _RESPONSE_KINDS for kind in self.kinds)
+
+
+def detect_transactions(text: str) -> DetectedTransactions:
+    """Read GS08 and ST01/ST03. A parse failure is an unrecognized file."""
+    try:
+        document = parse_segments(text)
+    except ValueError:
+        return DetectedTransactions(())
+    found: list[str] = []
+
+    def add(kind: str) -> None:
+        if kind and kind not in found:
+            found.append(kind)
+
+    for gs in document.find("GS"):
+        add(_GUIDE_KIND.get(gs.el_str(8), ""))
+    for st in document.find("ST"):
+        guide_kind = _GUIDE_KIND.get(st.el_str(3), "")
+        if guide_kind:
+            add(guide_kind)
+        else:
+            add(_ST01_KIND.get(st.el_str(1), ""))
+    return DetectedTransactions(tuple(found))
+
+
+def layers_for_upload(detected: DetectedTransactions, selected: tuple[int, ...]) -> tuple[int, ...] | None:
+    """Layers to run for this file. None means do not run the 837 rule set."""
+    if detected.runs_encounter_rules:
+        return selected
+    if detected.runs_envelope_only:
+        return (1,)
+    return None
+
 
 @dataclass(frozen=True)
 class ValidationReport:

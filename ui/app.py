@@ -25,7 +25,7 @@ st.set_page_config(
 )
 
 PAGES = {
-    "Validate 837": page_validate,
+    "EDI file": page_validate,
     "Validation layers": page_validation_layers,
     "Generate 999": page_gen999,
     "Generate 835E": page_gen835e,
